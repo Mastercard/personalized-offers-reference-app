@@ -1,0 +1,2074 @@
+openapi: 3.0.1
+info:
+  title: Personalized Card Linked Offers
+  description: This API provides content for financial institutions participating in
+    Mastercard Personalized Offers to use in online and mobile banking
+    applications for cardholders.
+  contact:
+    name: Mastercard Developers API Support
+    url: ""
+    email: apisupport@mastercard.com
+  version: "1.4"
+servers:
+  - url: https://api.mastercard.com/plo
+paths:
+  /v1/redeemedoffers:
+    get:
+      tags:
+        - Redeemed Offers
+      summary: Returns Redeemed Offers
+      description: This resource returns offers that have been fulfilled by the user.
+      operationId: getRedeemedOfferDetails
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: ItemsPerPage
+          in: query
+          description: Maximum count of entities to return in one segment.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 25
+          example: 1
+        - name: PageNumber
+          in: query
+          description: Segment count to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+          example: 1
+        - name: Lang
+          in: query
+          description: When utilized with a multi-lingual implementation, may be the tongue
+            and country of the user in ISO 639-1, underscore, ISO 3166-1 alpha-2
+          required: false
+          schema:
+            type: string
+          example: en_US
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperDetailedRedeemedOfferLis\
+                  tResponse_RedeemedOffers"
+  /v2/activatestatementcreditoffer:
+    post:
+      tags:
+        - Statement Credit Activations
+      summary: Makes Statement Credit Offer Redeemable
+      description: This resource is used to make a statement credit offer available for
+        redemption.
+      operationId: activateStatementCreditOffer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivateSCOfferInput_StatementCreditOffer\
+                Activation"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperStatementCreditOfferDeta\
+                  ilsResponse_StatementCreditOfferActivation"
+  /v2/userfeedback:
+    post:
+      tags:
+        - User Feedback
+      summary: Creates/Updates User-Offer Feedback
+      description: This resource allows a user to provide a thumbs-up or a thumbs-down
+        rating of the specified offer. Offer matches that are disliked will be
+        suppressed from the results of future calls to Matched Offers.
+      operationId: sendUserFeedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserFeedbackInput"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperUserFeedbackOutputRespon\
+                  se"
+  /v1/statementcreditactivationdetail:
+    get:
+      tags:
+        - Statement Credit Activations
+      summary: Returns Information About Redeemable Postpaid Credit Offer
+      description: This resource returns extended information about the specified activated
+        postpaid credit offer.
+      operationId: getStatementCreditActivationDetail
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: ActivationId
+          in: query
+          description: Distinct identifier for the offer being available for redemption by
+            the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          required: true
+          schema:
+            type: string
+          example: 6
+        - name: Lang
+          in: query
+          description: When utilized with a multi-lingual implementation, may be the tongue
+            and country of the user in ISO 639-1, underscore, ISO 3166-1 alpha-2
+          required: false
+          schema:
+            type: string
+          example: en_US
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperStatementCreditOfferDeta\
+                  ilsResponse_StatementCreditOfferActivationDetail"
+  /v1/userfeedback:
+    get:
+      tags:
+        - User Feedback
+      summary: Returns User-Offer Feedback
+      description: This resource returns user feedback with offer ids based on the search
+        criteria
+      operationId: getUserFeedback
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+        - name: offer_id
+          in: query
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          required: false
+          schema:
+            type: string
+          example: 1ab31063-5336-4fbf-93e4-b43617fe6712
+        - name: feedback
+          in: query
+          description: "Filter by user response to the offer. 0: disliked offers. 1: liked
+            offers. 0,1: disliked and liked offers."
+          required: false
+          schema:
+            type: string
+          example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperUserFeedbackOutputListRe\
+                  sponse"
+  /v1/matchedoffers:
+    get:
+      tags:
+        - Matched Offers
+      summary: Returns Assigned/Activated Offers
+      description: This resource returns offers that are available to the user and conform
+        to the search criteria (if specified).
+      operationId: matchedOffers
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: MerchantName
+          in: query
+          description: Fuzzy term to search retailers with offers for the user. In general,
+            searching of Matched Offers is not advised as users generally have a
+            modest selection of highly relevant promotions.
+          required: false
+          schema:
+            type: string
+          example: Example.com
+        - name: Category
+          in: query
+          description: Filter by the type of retailer.
+          required: false
+          schema:
+            type: string
+          example: DEPARTMENTSTORE
+        - name: OfferType
+          in: query
+          description: "The kind of deal. POSTPAIDCREDIT: Statement Credit Offer, which is
+            a discount that is linked to the user and utilized to make the
+            purchase."
+          required: false
+          schema:
+            type: string
+          example: POSTPAIDCREDIT
+        - name: Latitude
+          in: query
+          description: Disregard, reserved for future use.
+          required: false
+          schema:
+            type: number
+            format: double
+        - name: Longitude
+          in: query
+          description: Disregard, reserved for future use.
+          required: false
+          schema:
+            type: number
+            format: double
+        - name: Radius
+          in: query
+          description: Disregard, reserved for future use.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: PageNumber
+          in: query
+          description: Segment count to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+          example: 1
+        - name: ItemsPerPage
+          in: query
+          description: Maximum count of entities to return in one segment.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 25
+          example: 1
+        - name: Lang
+          in: query
+          description: When utilized with a multi-lingual implementation, may be the tongue
+            and country of the user in ISO 639-1, underscore, ISO 3166-1 alpha-2
+          required: false
+          schema:
+            type: string
+          example: en_US
+        - name: UserFeedback
+          in: query
+          description: "Filter by user response to the offer. 0: disliked offers. 1: liked
+            offers. 0,1: disliked and liked offers."
+          required: false
+          schema:
+            type: string
+          example: 1
+        - name: PresentmentDate
+          in: query
+          description: Presentment day to the offer. Accept Yesterday, Today and Tomorrow
+            as ISO date input.
+          required: false
+          schema:
+            type: string
+            format: date-time
+          example: 2020-02-20
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperMatchedOfferDetailsRespo\
+                  nse_MatchedOffers"
+  /v1/usersavings:
+    get:
+      tags:
+        - User Savings
+      summary: Returns Savings for the User
+      description: This resource returns the accumulated and potential savings for a
+        Personalized Offers user.
+      operationId: getUserSavings
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperUserSavingsResponse"
+  /v1/usertoken:
+    get:
+      tags:
+        - User Token
+      summary: Returns User Session Token
+      description: This resource creates the user session. It must be called prior to any
+        other API calls for the specified user. The Token value does not expire.
+      operationId: getUserToken
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: SrId
+          in: query
+          description: Disregard, only for Mastercard-internal use.
+          required: false
+          schema:
+            type: string
+        - name: AuthInfo
+          in: query
+          description: AES 128-bit encrypted concatenation of "User ID as specified in
+            enrollment:FI ID:current Unix time". AES key, AES initialization
+            vector, and FI ID are provided by Mastercard during formal
+            implementation project.
+          required: true
+          schema:
+            type: string
+          example: 64a3dacab3e67ef08667f341aec8eeaf94c535cac1dcd1cf56caad998641ab171f7570dad08d55246a7cf3f81695016542ab0267045dfdd05e687ad5b0f62737
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperUserTokenOutputResponse"
+  /v1/offerdetails:
+    get:
+      tags:
+        - Offer Details
+      summary: Returns Information on an Offer
+      description: This resource returns extended information for the requested offer,
+        typically used to display a detail view.
+      operationId: getOfferDetails
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: OfferId
+          in: query
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          required: true
+          schema:
+            type: string
+          example: a65428a3-8565-402c-8dee-8434c5e388d3
+        - name: Lang
+          in: query
+          description: When utilized with a multi-lingual implementation, may be the tongue
+            and country of the user in ISO 639-1, underscore, ISO 3166-1
+            alpha-2.
+          required: false
+          schema:
+            type: string
+          example: en_US
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWrapperDetailedOffersResponse_D\
+                  etailedOffers"
+components:
+  schemas:
+    AddressWrapper_DetailedOffers:
+      type: object
+      properties:
+        Address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address_DetailedOffers"
+    Address_DetailedOffers:
+      type: object
+      properties:
+        Street:
+          type: string
+          description: Disregard, reserved for future use.
+        Street2:
+          type: string
+        City:
+          type: string
+        Country:
+          type: string
+        CountryDisplay:
+          type: string
+        State:
+          type: string
+        PostalCode:
+          type: string
+        Latitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Longitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Name:
+          type: string
+        Distance:
+          type: string
+        Phone:
+          type: string
+        InternationalPhone:
+          type: string
+        Email:
+          type: string
+        Website:
+          type: string
+        Primary:
+          type: boolean
+        Language:
+          type: string
+        WorkingHours:
+          type: string
+        Street3:
+          type: string
+    Country_DetailedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Country name
+          example: United States
+        State:
+          $ref: "#/components/schemas/State_DetailedOffers"
+    DetailPostpaidCreditOffer_DetailedOffers:
+      type: object
+      properties:
+        CashBack:
+          type: string
+          description: Value of POSTPAIDCREDIT deal redemption.
+          example: "10.2"
+        StatementCreditType:
+          type: string
+          description: Calculation kind of the redemption value. SPEND_CASH/VISIT_CASH -
+            fixed value. SPEND_PERCENTAGE/VISIT_PERCENTAGE - share value.
+          example: SPEND_CASH
+        VisitThreshold:
+          type: string
+          description: The number of purchases required to qualify for redemption.
+          example: "1"
+        MinTransactionAmountToRedeem:
+          type: string
+          description: The smallest purchase amount that will qualify for redemption.
+          example: "30.0"
+        MaxCashback:
+          type: string
+          description: The most cash back which a user can earn for the offer.
+          example: "99.99"
+        PointsValue:
+          type: string
+          description: Points value
+          example: "10.4"
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made to
+            qualify for the offer.
+          example: USD
+    DetailedOffer_DetailedOffers:
+      type: object
+      properties:
+        geos:
+          type: array
+          writeOnly: true
+          items:
+            $ref: "#/components/schemas/Geo_DetailedOffers"
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
+        OfferType:
+          type: string
+          description: "The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
+            Statement Credit Offer, which is a discount that is linked to the
+            user and utilized to make the purchase."
+          example: POSTPAIDCREDIT
+        RedemptionType:
+          type: string
+          description: "Where a purchase may be made to qualify for the offer: INSTORE,
+            ONLINE or ONLINE-INSTORE (either)."
+          example: ONLINE-INSTORE
+        OfferUrl:
+          type: string
+          description: Disregard, deprecated.
+        ProductName:
+          type: string
+        OfferSource:
+          type: string
+          description: Platform that made the offer available, not intended for end-user
+            display.
+          example: Mastercard
+        Language:
+          type: string
+          description: Tongue of offer display text.
+          example: English
+        TagTier:
+          type: string
+        Category:
+          type: string
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made to
+            qualify for the offer.
+          example: USD
+        BuyText:
+          type: string
+        RedemptionPhone:
+          type: string
+        TagCategory:
+          type: string
+        Tag:
+          type: string
+        LinkoutUrl:
+          type: string
+          description: Deprecated, disregard.
+        OfferMedia:
+          $ref: "#/components/schemas/OfferMedia_DetailedOffers"
+        OfferDisplay:
+          $ref: "#/components/schemas/OfferDisplay_DetailedOffers"
+        Merchant:
+          $ref: "#/components/schemas/Merchant_DetailedOffers"
+        MerchantImageURL:
+          type: string
+          description: Square picture of the retailer logo.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        DetailPostpaidCreditOffer:
+          $ref: "#/components/schemas/DetailPostpaidCreditOffer_DetailedOffers"
+        RedemptionMode:
+          type: string
+          description: "Type of credit made upon redemption of the offer: CASH, POINTS or
+            EITHER"
+          example: CASH
+        PointsConversionRate:
+          type: string
+          description: Conversion rate between cash and points values for the offer.
+          example: "0.025"
+        MinTotalSpend:
+          type: string
+          description: Minimum cumulative spend required to redeem the offer.
+          example: "100.0"
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to a purchase of a min. of $30
+            online or in store charged to your card by the expiration date.
+            Offer is limited to two (2) redemptions per cardholder during the
+            promotion period.
+        PointsType:
+          type: string
+          description: Redemption currency if not cash.
+          example: Example Bank Miles
+        Headline:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline in a
+            list view.
+          example: On your next purchase of $25 or more at Example.com online or at a
+            store, receive 20% back posted to the card associated with this
+            account.
+        ShortDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline in
+            a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at a
+            store, receive $10.00 back posted to the card associated with this
+            account.
+        City:
+          type: string
+        State:
+          type: string
+        Region:
+          type: string
+        LongDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline in
+            a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at a
+            store, receive $10.00 back posted to the card associated with this
+            account.
+        EventStartDate:
+          type: string
+          description: First day that redemption can be made by any user, may not apply to
+            the specified user.
+          format: date
+          example: 2020-03-31
+        EventEndDate:
+          type: string
+          description: Last day that redemption may be made.
+          format: date
+          example: 2020-09-06
+        MaxUserRedemptions:
+          type: string
+          description: The number of times that the cardholder may take advantage of this
+            offer.
+          example: "1"
+        OfferCountry:
+          type: string
+          description: Nation of Points of Service (PoS) in which the redeeming transaction
+            must be made to qualify for the offer.
+          example: USA
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: 2020-08-06
+    DetailedOffersResponse_DetailedOffers:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status_DetailedOffers"
+        OfferDetails:
+          $ref: "#/components/schemas/DetailedOffer_DetailedOffers"
+    Geo_DetailedOffers:
+      type: object
+      properties:
+        Region:
+          $ref: "#/components/schemas/Region_DetailedOffers"
+    Merchant_DetailedOffers:
+      type: object
+      properties:
+        Addresses:
+          $ref: "#/components/schemas/AddressWrapper_DetailedOffers"
+        Name:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended for
+            end-user display.
+          example: DEPARTMENTSTORE
+        MerchantDistance:
+          type: string
+          description: Disregard, reserved for future use.
+          example: "0.0"
+        WebsiteUrl:
+          type: string
+          description: The internet address of the retailer.
+          example: http://www.example.com/
+        FacebookUrl:
+          type: string
+        TwitterUrl:
+          type: string
+        StoreLocatorUrl:
+          type: string
+          description: Web page where retailer outlets can be found.
+          example: http://www.example.com/locations/
+        MerchantCustomerCare:
+          type: string
+          description: Disregard, reserved for future use.
+    OfferDisplay_DetailedOffers:
+      type: object
+      properties:
+        Terms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended for
+            end-user display.
+          example: DEPARTMENTSTORE
+        DetailedTerms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+    OfferImage_DetailedOffers:
+      type: object
+      properties:
+        AltText:
+          type: string
+          description: Description of the image, which may be used for accessibility.
+          example: Example.com
+        Description:
+          type: string
+          description: Verbal details of the image, not for end user display.
+          example: The logo for Example.com
+        ImageUrl:
+          type: string
+          description: Merchant or offer picture.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+    OfferMedia_DetailedOffers:
+      type: object
+      properties:
+        OfferImages:
+          type: array
+          items:
+            $ref: "#/components/schemas/OfferImage_DetailedOffers"
+    Region_DetailedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Region name
+          example: North America
+        Country:
+          $ref: "#/components/schemas/Country_DetailedOffers"
+    ResponseWrapperDetailedOffersResponse_DetailedOffers:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/DetailedOffersResponse_DetailedOffers"
+    State_DetailedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: State name
+          example: MO
+        City:
+          type: string
+          description: City name
+          example: New York
+    Status_DetailedOffers:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    ResponseWrapperUserTokenOutputResponse:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/UserTokenOutputResponse"
+    Status:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    UserTokenOutput:
+      type: object
+      properties:
+        Token:
+          type: string
+          description: Session identifier that is passed for subsequent API calls.
+          example: mh3WonUm5xmE
+    UserTokenOutputResponse:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status"
+        UserToken:
+          $ref: "#/components/schemas/UserTokenOutput"
+    AddressWrapper_RedeemedOffers:
+      type: object
+      properties:
+        Address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address_RedeemedOffers"
+    Address_RedeemedOffers:
+      type: object
+      properties:
+        Street:
+          type: string
+          description: Disregard, reserved for future use.
+        Street2:
+          type: string
+        City:
+          type: string
+        Country:
+          type: string
+        CountryDisplay:
+          type: string
+        State:
+          type: string
+        PostalCode:
+          type: string
+        Latitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Longitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Name:
+          type: string
+        Distance:
+          type: string
+        Phone:
+          type: string
+        InternationalPhone:
+          type: string
+        Email:
+          type: string
+        Website:
+          type: string
+        Primary:
+          type: boolean
+        Language:
+          type: string
+        WorkingHours:
+          type: string
+        Street3:
+          type: string
+    Country_RedeemedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Country name
+          example: United States
+        State:
+          $ref: "#/components/schemas/State_RedeemedOffers"
+    DetailPostpaidCreditOffer_RedeemedOffers:
+      type: object
+      properties:
+        CashBack:
+          type: string
+          description: Value of POSTPAIDCREDIT deal redemption.
+          example: "10.2"
+        StatementCreditType:
+          type: string
+          description: Calculation kind of the redemption value. SPEND_CASH/VISIT_CASH -
+            fixed value. SPEND_PERCENTAGE/VISIT_PERCENTAGE - share value.
+          example: SPEND_CASH
+        VisitThreshold:
+          type: string
+          description: The number of purchases required to qualify for redemption.
+          example: "1"
+        MinTransactionAmountToRedeem:
+          type: string
+          description: The smallest purchase amount that will qualify for redemption.
+          example: "30.0"
+        MaxCashback:
+          type: string
+          description: The most cash back which a user can earn for the offer.
+          example: "99.99"
+        PointsValue:
+          type: string
+          description: Points value
+          example: "10.4"
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made to
+            qualify for the offer.
+          example: USD
+    DetailedRedeemedOfferListResponse_RedeemedOffers:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status_RedeemedOffers"
+        NumberOfPages:
+          type: string
+          description: Total count of returned segments.
+          example: "5"
+        ItemsPerPage:
+          type: string
+          description: Maximum count of entities to return in one segment.
+          example: "2"
+        CurrentPage:
+          type: string
+          description: Returned segment count.
+          example: "2"
+        Items:
+          $ref: "#/components/schemas/RedeemedOfferWrapper_RedeemedOffers"
+        TotalCount:
+          type: string
+          description: Overall number of returned entities.
+          example: "2"
+    DetailedRedeemedOffer_RedeemedOffers:
+      type: object
+      properties:
+        geos:
+          type: array
+          writeOnly: true
+          items:
+            $ref: "#/components/schemas/Geo_RedeemedOffers"
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
+        OfferType:
+          type: string
+          description: "The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
+            Statement Credit Offer, which is a discount that is linked to the
+            user and utilized to make the purchase."
+          example: POSTPAIDCREDIT
+        RedemptionType:
+          type: string
+          description: "Where a purchase may be made to qualify for the offer: INSTORE,
+            ONLINE or ONLINE-INSTORE (either)."
+          example: ONLINE-INSTORE
+        OfferUrl:
+          type: string
+          description: Disregard, deprecated.
+        ProductName:
+          type: string
+        OfferSource:
+          type: string
+          description: Platform that made the offer available, not intended for end-user
+            display.
+          example: Mastercard
+        Language:
+          type: string
+          description: Tongue of offer display text.
+          example: English
+        TagTier:
+          type: string
+        Category:
+          type: string
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made to
+            qualify for the offer.
+          example: USD
+        BuyText:
+          type: string
+        RedemptionPhone:
+          type: string
+        TagCategory:
+          type: string
+        Tag:
+          type: string
+        LinkoutUrl:
+          type: string
+          description: Deprecated, disregard.
+        OfferMedia:
+          $ref: "#/components/schemas/OfferMedia_RedeemedOffers"
+        OfferDisplay:
+          $ref: "#/components/schemas/OfferDisplay_RedeemedOffers"
+        Merchant:
+          $ref: "#/components/schemas/Merchant_RedeemedOffers"
+        MerchantImageURL:
+          type: string
+          description: Square picture of the retailer logo.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        DetailPostpaidCreditOffer:
+          $ref: "#/components/schemas/DetailPostpaidCreditOffer_RedeemedOffers"
+        RedemptionMode:
+          type: string
+          description: "Type of credit made upon redemption of the offer: CASH, POINTS or
+            EITHER"
+          example: CASH
+        PointsConversionRate:
+          type: string
+          description: Conversion rate between cash and points values for the offer.
+          example: "0.025"
+        MinTotalSpend:
+          type: string
+          description: Minimum cumulative spend required to redeem the offer.
+          example: "100.0"
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to a purchase of a min. of $30
+            online or in store charged to your card by the expiration date.
+            Offer is limited to two (2) redemptions per cardholder during the
+            promotion period.
+        Headline:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline in a
+            list view.
+          example: On your next purchase of $25 or more at Example.com online or at a
+            store, receive 20% back posted to the card associated with this
+            account.
+        ShortDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline in
+            a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at a
+            store, receive $10.00 back posted to the card associated with this
+            account.
+        City:
+          type: string
+        State:
+          type: string
+        Region:
+          type: string
+        LongDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline in
+            a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at a
+            store, receive $10.00 back posted to the card associated with this
+            account.
+        EventStartDate:
+          type: string
+          description: First day that redemption can be made by any user, may not apply to
+            the specified user.
+          format: date
+          example: 2020-03-31
+        EventEndDate:
+          type: string
+          description: Last day that redemption may be made.
+          format: date
+          example: 2020-09-06
+        MaxUserRedemptions:
+          type: string
+          description: The number of times that the cardholder may take advantage of this
+            offer.
+          example: "1"
+        OfferCountry:
+          type: string
+          description: Nation of Points of Service (PoS) in which the redeeming transaction
+            must be made to qualify for the offer.
+          example: USA
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: 2020-08-06
+        ScActivation:
+          $ref: "#/components/schemas/StatementCreditOfferDetails_RedeemedOffers"
+        Transactions:
+          $ref: "#/components/schemas/RedeemedTransactionWrapper_RedeemedOffers"
+    Geo_RedeemedOffers:
+      type: object
+      properties:
+        Region:
+          $ref: "#/components/schemas/Region_RedeemedOffers"
+    Merchant_RedeemedOffers:
+      type: object
+      properties:
+        Addresses:
+          $ref: "#/components/schemas/AddressWrapper_RedeemedOffers"
+        Name:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended for
+            end-user display.
+          example: DEPARTMENTSTORE
+        MerchantDistance:
+          type: string
+          description: Disregard, reserved for future use.
+          example: "0.0"
+        WebsiteUrl:
+          type: string
+          description: The internet address of the retailer.
+          example: http://www.example.com/
+        FacebookUrl:
+          type: string
+        TwitterUrl:
+          type: string
+        StoreLocatorUrl:
+          type: string
+          description: Web page where retailer outlets can be found.
+          example: http://www.example.com/locations/
+        MerchantCustomerCare:
+          type: string
+          description: Disregard, reserved for future use.
+    OfferDisplay_RedeemedOffers:
+      type: object
+      properties:
+        Terms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended for
+            end-user display.
+          example: DEPARTMENTSTORE
+        DetailedTerms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+    OfferImage_RedeemedOffers:
+      type: object
+      properties:
+        AltText:
+          type: string
+          description: Description of the image, which may be used for accessibility.
+          example: Example.com
+        Description:
+          type: string
+          description: Verbal details of the image, not for end user display.
+          example: The logo for Example.com
+        ImageUrl:
+          type: string
+          description: Merchant or offer picture.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+    OfferMedia_RedeemedOffers:
+      type: object
+      properties:
+        OfferImages:
+          type: array
+          items:
+            $ref: "#/components/schemas/OfferImage_RedeemedOffers"
+    RedeemedOfferWrapper_RedeemedOffers:
+      type: object
+      properties:
+        RedeemedOffer:
+          type: array
+          items:
+            $ref: "#/components/schemas/DetailedRedeemedOffer_RedeemedOffers"
+    RedeemedTransactionWrapper_RedeemedOffers:
+      type: object
+      properties:
+        Transaction:
+          type: array
+          items:
+            $ref: "#/components/schemas/RedeemedTransaction_RedeemedOffers"
+    RedeemedTransaction_RedeemedOffers:
+      type: object
+      properties:
+        CashbackEarned:
+          type: string
+          description: Cashback Earned
+          example: "5"
+        PointsEarned:
+          type: string
+          description: Points Earned
+          example: "5"
+        TransactionAmount:
+          type: string
+          description: Transaction Amount
+          example: "200"
+        RedemptionDate:
+          type: string
+          description: Redemption Date
+          example: 09/05/2019
+        InstallmentPayment:
+          type: string
+          description: Installment Payment
+          example: "true"
+    Region_RedeemedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Region name
+          example: North America
+        Country:
+          $ref: "#/components/schemas/Country_RedeemedOffers"
+    ResponseWrapperDetailedRedeemedOfferListResponse_RedeemedOffers:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/DetailedRedeemedOfferListResponse_RedeemedOff\
+            ers"
+    State_RedeemedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: State name
+          example: MO
+        City:
+          type: string
+          description: City name
+          example: New York
+    StatementCreditOfferDetails_RedeemedOffers:
+      type: object
+      properties:
+        ActivationId:
+          type: string
+          description: Distinct identifier for the offer being available for redemption by
+            the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          example: TRU_1000136
+        RedemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-10-29
+        RedemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-11-12
+    Status_RedeemedOffers:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    ResponseWrapperUserSavingsResponse:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/UserSavingsResponse"
+    StatementCreditOffersSavings:
+      type: object
+      properties:
+        NumRedeemed:
+          type: string
+          description: Count of deals redeemed.
+          example: "1"
+        EarnedCashback:
+          type: string
+          description: Value of redemptions.
+          example: "21.0"
+        NumAvailable:
+          type: string
+          description: Count of deals that are ready for activation or redemption.
+          example: "10"
+        PotentialSavings:
+          type: string
+          description: Minimum value of unredeemed deals.
+          example: "195.0"
+        EarnedPoints:
+          type: string
+          description: Value of redemptions.
+          example: "5"
+        PotentialPoints:
+          type: string
+          description: Minimum value of unredeemed deals.
+          example: "4"
+    UserSavings:
+      type: object
+      properties:
+        StatementCreditOffersSavings:
+          $ref: "#/components/schemas/StatementCreditOffersSavings"
+        TotalAmountSaved:
+          type: string
+          description: Combined value of redeemed deals.
+          example: "40.0"
+        TotalOffersUsed:
+          type: string
+          description: Combined count of redeemed deals.
+          example: "5"
+        TotalEarnedPoints:
+          type: string
+          description: Combined value of redeemed deals.
+          example: "10"
+    UserSavingsResponse:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status"
+        UserSavings:
+          $ref: "#/components/schemas/UserSavings"
+    ResponseWrapperUserFeedbackOutputListResponse:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/UserFeedbackOutputListResponse"
+    UserFeedbackOutput:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
+        Feedback:
+          type: string
+          description: "User response to the offer. 0: disliked offer. 1: liked offer."
+          example: "1"
+    UserFeedbackOutputListResponse:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status"
+        NumberOfPages:
+          type: string
+          description: Total count of returned segments.
+          example: "5"
+        ItemsPerPage:
+          type: string
+          description: Maximum count of entities to return in one segment.
+          example: "2"
+        CurrentPage:
+          type: string
+          description: Returned segment count.
+          example: "2"
+        Items:
+          $ref: "#/components/schemas/UserFeedbackWrapper"
+        TotalCount:
+          type: string
+          description: Overall number of returned entities.
+          example: "1"
+    UserFeedbackWrapper:
+      type: object
+      properties:
+        UserFeedback:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserFeedbackOutput"
+    AddressWrapper_MatchedOffers:
+      type: object
+      properties:
+        Address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address_MatchedOffers"
+    Address_MatchedOffers:
+      type: object
+      properties:
+        Street:
+          type: string
+          description: Disregard, reserved for future use.
+        Street2:
+          type: string
+        City:
+          type: string
+        Country:
+          type: string
+        CountryDisplay:
+          type: string
+        State:
+          type: string
+        PostalCode:
+          type: string
+        Latitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Longitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Name:
+          type: string
+        Distance:
+          type: string
+        Phone:
+          type: string
+        InternationalPhone:
+          type: string
+        Email:
+          type: string
+        Website:
+          type: string
+        Primary:
+          type: boolean
+        Language:
+          type: string
+        WorkingHours:
+          type: string
+        Street3:
+          type: string
+    Country_MatchedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Country name
+          example: United States
+        State:
+          $ref: "#/components/schemas/State_MatchedOffers"
+    Geo_MatchedOffers:
+      type: object
+      properties:
+        Region:
+          $ref: "#/components/schemas/Region_MatchedOffers"
+    MatchedOfferDetailsResponse_MatchedOffers:
+      type: object
+      properties:
+        TotalCount:
+          type: string
+          description: Overall number of returned entities.
+          example: "2"
+        CurrentPage:
+          type: string
+          description: Returned segment count.
+          example: "2"
+        NumberOfPages:
+          type: string
+          description: Total count of returned segments.
+          example: "5"
+        ItemsPerPage:
+          type: string
+          description: Maximum count of entities to return in one segment.
+          example: "2"
+        Status:
+          $ref: "#/components/schemas/Status_MatchedOffers"
+        Items:
+          $ref: "#/components/schemas/MatchedOfferWrapper_MatchedOffers"
+    MatchedOfferDetails_MatchedOffers:
+      type: object
+      properties:
+        geos:
+          type: array
+          writeOnly: true
+          items:
+            $ref: "#/components/schemas/Geo_MatchedOffers"
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
+        OfferType:
+          type: string
+          description: "The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
+            Statement Credit Offer, which is a discount that is linked to the
+            user and utilized to make the purchase."
+          example: POSTPAIDCREDIT
+        ProductName:
+          type: string
+        OfferSource:
+          type: string
+          description: Platform that made the offer available, not intended for end-user
+            display.
+          example: Mastercard
+        Language:
+          type: string
+          description: Tongue of offer display text.
+          example: English
+        TagTier:
+          type: string
+        Category:
+          type: string
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made to
+            qualify for the offer.
+          example: USD
+        BuyText:
+          type: string
+        RedemptionPhone:
+          type: string
+        TagCategory:
+          type: string
+        Tag:
+          type: string
+        Merchant:
+          $ref: "#/components/schemas/Merchant_MatchedOffers"
+        MerchantImageURL:
+          type: string
+          description: Square picture of the retailer logo.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        RedemptionMode:
+          type: string
+          description: "Type of credit made upon redemption of the offer: CASH, POINTS or
+            EITHER"
+          example: CASH
+        PointsConversionRate:
+          type: string
+          description: Conversion rate between cash and points values for the offer.
+          example: "0.025"
+        MinTotalSpend:
+          type: string
+          description: Minimum cumulative spend required to redeem the offer.
+          example: "100.0"
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to a purchase of a min. of $30
+            online or in store charged to your card by the expiration date.
+            Offer is limited to two (2) redemptions per cardholder during the
+            promotion period.
+        PointsType:
+          type: string
+          description: Redemption currency if not cash.
+          example: Example Bank Miles
+        Headline:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline in a
+            list view.
+          example: On your next purchase of $25 or more at Example.com online or at a
+            store, receive 20% back posted to the card associated with this
+            account.
+        ShortDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline in
+            a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at a
+            store, receive $10.00 back posted to the card associated with this
+            account.
+        City:
+          type: string
+        State:
+          type: string
+        Region:
+          type: string
+        EventStartDate:
+          type: string
+          description: First day that redemption can be made by any user, may not apply to
+            the specified user.
+          format: date
+          example: 2020-03-31
+        EventEndDate:
+          type: string
+          description: Last day that redemption may be made.
+          format: date
+          example: 2020-09-06
+        MaxUserRedemptions:
+          type: string
+          description: The number of times that the cardholder may take advantage of this
+            offer.
+          example: "1"
+        OfferCountry:
+          type: string
+          description: Nation of Points of Service (PoS) in which the redeeming transaction
+            must be made to qualify for the offer.
+          example: USA
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: 2020-08-06
+        ScActivation:
+          $ref: "#/components/schemas/StatementCreditOfferDetails_MatchedOffers"
+        Price:
+          type: string
+          description: Disregard, deprecated.
+          example: "9.99"
+        Discount:
+          type: string
+          description: "The kind of deal. POSTPAIDCREDIT: Statement Credit Offer, which is
+            a discount that is automatically applied to the card linked to the
+            user and utilized to make the purchase."
+          example: "10.2"
+        DiscountType:
+          type: string
+          description: "The kind of markdown represented by the offer. ABSOLUTE: fixed
+            amount. PERCENTAGE: share of purchase."
+          example: ABSOLUTE
+        ActiveSc:
+          type: string
+          description: "ACTIVATED_STATEMENT_CREDIT: ready for redemption by the user.
+            AVAILABLE: requires call to Activate Statement Credit Offer to make
+            ready for redemption."
+          example: AVAILABLE
+        UserFeedback:
+          $ref: "#/components/schemas/UserFeedbackOutput_MatchedOffers"
+    MatchedOfferWrapper_MatchedOffers:
+      type: object
+      properties:
+        MatchedOffer:
+          type: array
+          items:
+            $ref: "#/components/schemas/MatchedOfferDetails_MatchedOffers"
+    Merchant_MatchedOffers:
+      type: object
+      properties:
+        Addresses:
+          $ref: "#/components/schemas/AddressWrapper_MatchedOffers"
+        Name:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended for
+            end-user display.
+          example: DEPARTMENTSTORE
+        MerchantDistance:
+          type: string
+          description: Disregard, reserved for future use.
+          example: "0.0"
+        WebsiteUrl:
+          type: string
+          description: The internet address of the retailer.
+          example: http://www.example.com/
+        FacebookUrl:
+          type: string
+        TwitterUrl:
+          type: string
+        StoreLocatorUrl:
+          type: string
+          description: Web page where retailer outlets can be found.
+          example: http://www.example.com/locations/
+        MerchantCustomerCare:
+          type: string
+          description: Disregard, reserved for future use.
+    Region_MatchedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Region name
+          example: North America
+        Country:
+          $ref: "#/components/schemas/Country_MatchedOffers"
+    ResponseWrapperMatchedOfferDetailsResponse_MatchedOffers:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/MatchedOfferDetailsResponse_MatchedOffers"
+    State_MatchedOffers:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: State name
+          example: MO
+        City:
+          type: string
+          description: City name
+          example: New York
+    StatementCreditOfferDetails_MatchedOffers:
+      type: object
+      properties:
+        ActivationId:
+          type: string
+          description: Distinct identifier for the offer being available for redemption by
+            the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          example: TRU_1000136
+        RedemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-10-29
+        RedemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-11-12
+    Status_MatchedOffers:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    UserFeedbackOutput_MatchedOffers:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
+        Feedback:
+          type: string
+          description: "User response to the offer. 0: disliked offer. 1: liked offer."
+          example: "1"
+    ResponseWrapperStatementCreditOfferDetailsResponse_StatementCreditOfferActivationDetail:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/StatementCreditOfferDetailsResponse_Statement\
+            CreditOfferActivationDetail"
+    StatementCreditOfferDetailsResponse_StatementCreditOfferActivationDetail:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status_StatementCreditOfferActivationDetail"
+        ScActivation:
+          $ref: "#/components/schemas/StatementCreditOfferDetails_StatementCreditOf\
+            ferActivationDetail"
+    StatementCreditOfferDetails_StatementCreditOfferActivationDetail:
+      type: object
+      properties:
+        ActivationId:
+          type: string
+          description: Distinct identifier for the offer being available for redemption by
+            the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          example: TRU_1000136
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-stat-emen-tcreditOffer
+        Headline:
+          type: string
+          description: Brief details about the deal.
+          example: Shop at Example.com and get 20% back on purchase of $25 or more
+        Status:
+          type: string
+          description: "Disposition of the offer for the user: ACTIVATED."
+          example: ACTIVATED
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: 2020-10-15
+        RedemptionDate:
+          type: string
+          description: Day on which a purchase fulfilled the offer.
+          format: date
+          example: 2020-10-12
+        RedemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-10-29
+        RedemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-11-12
+        MerchantLogo:
+          type: string
+          description: Square retailer brand image.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        RedemptionMode:
+          type: string
+          description: "Type of credit made upon redemption of the offer: CASH or POINTS."
+          example: CASH
+        PointsEarned:
+          type: string
+          description: Value earned upon fulfillment of offer conditions, not applicable to
+            cash activations.
+          example: "1.3"
+        ShortDescription:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline in a
+            list view.
+          example: On your next purchase of $25 or more at Example.com online or at a
+            store, receive 20% back posted to the card associated with this
+            account.
+        Merchant:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        CashBack:
+          type: string
+          description: Value earned upon fulfillment of offer conditions, not applicable to
+            points activations.
+          example: "10"
+        TotalSpend:
+          type: string
+          description: Cumulative amount of purchases user made towards the offer.
+          example: "1.99"
+        TotalVisits:
+          type: string
+          description: Cumulative count of purchases user made towards the offer.
+          example: "1"
+        RemainingSpend:
+          type: string
+          description: Purchase amount still required to redeem the offer.
+          example: "30.0"
+        RemainingVisits:
+          type: string
+          description: Purchase count still required to redeem the offer.
+          example: "5"
+        DaysRemaining:
+          type: string
+          description: Disregard, deprecated.
+        Terms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+    Status_StatementCreditOfferActivationDetail:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    UserFeedbackInput:
+      required:
+        - FId
+        - Feedback
+        - OfferId
+        - UserToken
+      type: object
+      properties:
+        FId:
+          type: string
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          example: "999999"
+        UserToken:
+          type: string
+          description: Session identifier as returned by the UserToken resource.
+          example: 16097dd31900002
+        SrId:
+          type: string
+          description: Disregard, only for Mastercard-internal use.
+        AuthInfo:
+          type: string
+          description: Disregard, only for Mastercard-internal use.
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: a65428a3-8565-402c-8dee-8434c5e388d3
+        Feedback:
+          type: integer
+          description: "User response to the offer. 0: dislike offer. 1: like offer."
+          format: int32
+          example: 1
+    ResponseWrapperUserFeedbackOutputResponse:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/UserFeedbackOutputResponse"
+    UserFeedbackOutputResponse:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status"
+        UserFeedback:
+          $ref: "#/components/schemas/UserFeedbackOutput"
+    ActivateSCOfferInput_StatementCreditOfferActivation:
+      required:
+        - FId
+        - OfferId
+        - UserToken
+      type: object
+      properties:
+        FId:
+          type: string
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during
+            implementation.
+          example: "999999"
+        UserToken:
+          type: string
+          description: Session identifier as returned by the UserToken resource.
+          example: 16097dd31900002
+        SrId:
+          type: string
+          description: Disregard, only for Mastercard-internal use.
+        AuthInfo:
+          type: string
+          description: Disregard, only for Mastercard-internal use.
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: a65428a3-8565-402c-8dee-8434c5e388d3
+        RedemptionMode:
+          type: string
+          description: Disregard, reserved for future use.
+        Lang:
+          type: string
+          description: When utilized with a multi-lingual implementation, may be the tongue
+            and country of the user in ISO 639-1, underscore, ISO 3166-1
+            alpha-2.
+          example: en_AU
+        PresentmentDate:
+          type: string
+          description: Presentment day to the offer. Accept Yesterday, Today and Tomorrow
+            as ISO date input.
+          format: date
+          example: 2020-02-20
+    ResponseWrapperStatementCreditOfferDetailsResponse_StatementCreditOfferActivation:
+      type: object
+      properties:
+        Response:
+          $ref: "#/components/schemas/StatementCreditOfferDetailsResponse_Statement\
+            CreditOfferActivation"
+    StatementCreditOfferDetailsResponse_StatementCreditOfferActivation:
+      type: object
+      properties:
+        Status:
+          $ref: "#/components/schemas/Status_StatementCreditOfferActivation"
+        ScActivation:
+          $ref: "#/components/schemas/StatementCreditOfferDetails_StatementCreditOf\
+            ferActivation"
+    StatementCreditOfferDetails_StatementCreditOfferActivation:
+      type: object
+      properties:
+        ActivationId:
+          type: string
+          description: Distinct identifier for the offer being available for redemption by
+            the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          example: TRU_1000136
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-stat-emen-tcreditOffer
+        Headline:
+          type: string
+          description: Brief details about the deal.
+          example: Shop at Example.com and get 20% back on purchase of $25 or more
+        Status:
+          type: string
+          description: "Disposition of the offer for the user: ACTIVATED."
+          example: ACTIVATED
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: 2020-10-15
+        RedemptionDate:
+          type: string
+          description: Day on which a purchase fulfilled the offer.
+          format: date
+          example: 2020-10-12
+        RedemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-10-29
+        RedemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: 2020-11-12
+        MerchantLogo:
+          type: string
+          description: Square retailer brand image.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        RedemptionMode:
+          type: string
+          description: "Type of credit made upon redemption of the offer: CASH or POINTS."
+          example: CASH
+        PointsEarned:
+          type: string
+          description: Value earned upon fulfillment of offer conditions, not applicable to
+            cash activations.
+          example: "1.3"
+        ShortDescription:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline in a
+            list view.
+          example: On your next purchase of $25 or more at Example.com online or at a
+            store, receive 20% back posted to the card associated with this
+            account.
+        Merchant:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        CashBack:
+          type: string
+          description: Value earned upon fulfillment of offer conditions, not applicable to
+            points activations.
+          example: "10"
+        TotalSpend:
+          type: string
+          description: Cumulative amount of purchases user made towards the offer.
+          example: "1.99"
+        TotalVisits:
+          type: string
+          description: Cumulative count of purchases user made towards the offer.
+          example: "1"
+        RemainingSpend:
+          type: string
+          description: Purchase amount still required to redeem the offer.
+          example: "30.0"
+        RemainingVisits:
+          type: string
+          description: Purchase count still required to redeem the offer.
+          example: "5"
+        DaysRemaining:
+          type: string
+          description: Disregard, deprecated.
+        Terms:
+          type: string
+          description: Conditions required for successful redemption of the offer.
+          example: Offer is non-transferable and applies to one purchase of a min. of
+            $30 online or in store charged to your card by the expiration date.
+    Status_StatementCreditOfferActivation:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: "600"
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
