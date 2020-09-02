@@ -1,5 +1,21 @@
 # Change Log
 
+## Version 1.0.1
+
+Released: September 1, 2020
+
+Changes:
+
+* Add Maven Wrapper
+
+## Version 1.0.0
+
+Released: August 25, 2020
+
+Changes:
+
+* Initial Public Release
+
 ## Version 1.0.0-beta4
 
 Released: August 21, 2020
