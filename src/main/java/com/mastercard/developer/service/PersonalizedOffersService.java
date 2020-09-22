@@ -1,19 +1,21 @@
 package com.mastercard.developer.service;
 
-import static java.util.Objects.requireNonNull;
-
 import com.mastercard.ApiException;
+import com.mastercard.api.BulkActivationsApi;
+import com.mastercard.api.AdjustmentsApi;
 import com.mastercard.api.MatchedOffersApi;
 import com.mastercard.api.OfferDetailsApi;
+import com.mastercard.api.OffersApi;
 import com.mastercard.api.RedeemedOffersApi;
 import com.mastercard.api.StatementCreditActivationsApi;
 import com.mastercard.api.UserFeedbackApi;
 import com.mastercard.api.UserSavingsApi;
 import com.mastercard.api.UserTokenApi;
 import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
-import com.mastercard.api.model.DetailedOffersResponseDetailedOffers;
-import com.mastercard.api.model.DetailedRedeemedOfferListResponseRedeemedOffers;
-import com.mastercard.api.model.MatchedOfferDetailsResponseMatchedOffers;
+import com.mastercard.api.model.AdjustmentResponse;
+import com.mastercard.api.model.BrowseOffersResponse;
+import com.mastercard.api.model.BulkActivationApiRequest;
+import com.mastercard.api.model.BulkActivationRequestResponse;
 import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
 import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
 import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
@@ -23,17 +25,13 @@ import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputListResponse;
 import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputResponse;
 import com.mastercard.api.model.ResponseWrapperUserSavingsResponse;
 import com.mastercard.api.model.ResponseWrapperUserTokenOutputResponse;
-import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivation;
-import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
 import com.mastercard.api.model.UserFeedbackInput;
-import com.mastercard.api.model.UserFeedbackOutputListResponse;
-import com.mastercard.api.model.UserFeedbackOutputResponse;
-import com.mastercard.api.model.UserSavingsResponse;
-import com.mastercard.api.model.UserTokenOutputResponse;
 import com.mastercard.developer.service.domain.GenericOffersCriterion;
 import com.mastercard.developer.service.domain.MatchedOffersCriterion;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import static java.util.Objects.requireNonNull;
 
 @Service
 public class PersonalizedOffersService {
@@ -52,6 +50,9 @@ public class PersonalizedOffersService {
   private final UserFeedbackApi userFeedbackApi;
   private final UserSavingsApi userSavingsApi;
   private final UserTokenApi userTokenApi;
+  private final OffersApi offersApi;
+  private final BulkActivationsApi bulkActivationsApi;
+  private final AdjustmentsApi adjustmentsApi;
 
   public PersonalizedOffersService(
       @Value("${mastercard.api.auth.token}") final String authInfo,
@@ -61,7 +62,10 @@ public class PersonalizedOffersService {
       final RedeemedOffersApi redeemedOffersApi,
       final StatementCreditActivationsApi statementCreditActivationsApi,
       final UserFeedbackApi userFeedbackApi,
-      final UserSavingsApi userSavingsApi) {
+      final UserSavingsApi userSavingsApi,
+      final OffersApi offersApi,
+      final BulkActivationsApi bulkActivationsApi,
+      final AdjustmentsApi adjustmentsApi) {
     this.authInfo = authInfo;
     this.userTokenApi = userTokenApi;
     this.matchedOffersApi = matchedOffersApi;
@@ -70,32 +74,31 @@ public class PersonalizedOffersService {
     this.redeemedOffersApi = redeemedOffersApi;
     this.userFeedbackApi = userFeedbackApi;
     this.userSavingsApi = userSavingsApi;
+    this.offersApi = offersApi;
+    this.bulkActivationsApi = bulkActivationsApi;
+    this.adjustmentsApi = adjustmentsApi;
   }
 
-  public DetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(final String fid)
-      throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+  public ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(
+      final String fid) throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getRedeemedOffers(
         GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
   }
 
-  public StatementCreditOfferDetailsResponseStatementCreditOfferActivation
-  activateStatementCreditOffer(
-      final ActivateSCOfferInputStatementCreditOfferActivation statementCreditOfferActivation)
-      throws ApiException {
-    final ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation
-        response =
-        statementCreditActivationsApi.activateStatementCreditOffer(
-            statementCreditOfferActivation);
-
-    return response.getResponse();
+  public ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation
+      activateStatementCreditOffer(
+          final ActivateSCOfferInputStatementCreditOfferActivation statementCreditOfferActivation)
+          throws ApiException {
+    return statementCreditActivationsApi.activateStatementCreditOffer(
+        statementCreditOfferActivation);
   }
 
-  public StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
-  getStatementCreditActivationDetail(final String fid, final String activationId)
-      throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+  public ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
+      getStatementCreditActivationDetail(final String fid, final String activationId)
+          throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getStatementCreditActivationDetail(
         GenericOffersCriterion.builder()
@@ -105,52 +108,48 @@ public class PersonalizedOffersService {
             .build());
   }
 
-  public UserFeedbackOutputResponse sendUserFeedback(UserFeedbackInput userFeedback)
+  public ResponseWrapperUserFeedbackOutputResponse sendUserFeedback(UserFeedbackInput userFeedback)
       throws ApiException {
     requireNonNull(userFeedback.getFid(), FID_IS_REQUIRED);
     requireNonNull(userFeedback.getUserToken(), USER_TOKEN_IS_REQUIRED);
     requireNonNull(userFeedback.getOfferId(), OFFER_ID_IS_REQUIRED);
     requireNonNull(userFeedback.getFeedback(), FEEDBACK_IS_REQUIRED);
 
-    final ResponseWrapperUserFeedbackOutputResponse response =
-        userFeedbackApi.sendUserFeedback(userFeedback);
-    return response.getResponse();
+    return userFeedbackApi.sendUserFeedback(userFeedback);
   }
 
-  public UserFeedbackOutputListResponse getUserFeedback(String fid) throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+  public ResponseWrapperUserFeedbackOutputListResponse getUserFeedback(String fid)
+      throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getUserFeedback(
         GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
   }
 
-  public MatchedOfferDetailsResponseMatchedOffers getMatchedOffers(final String fid)
+  public ResponseWrapperMatchedOfferDetailsResponseMatchedOffers getMatchedOffers(final String fid)
       throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getMatchedOffers(
         MatchedOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
   }
 
-  public UserSavingsResponse getUserSavings(String fid) throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+  public ResponseWrapperUserSavingsResponse getUserSavings(String fid) throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getUserSavings(
         GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
   }
 
-  public UserTokenOutputResponse getUserToken(String fid) throws ApiException {
+  public ResponseWrapperUserTokenOutputResponse getUserToken(String fid) throws ApiException {
     requireNonNull(fid, FID_IS_REQUIRED);
 
-    final ResponseWrapperUserTokenOutputResponse response =
-        userTokenApi.getUserToken(fid, authInfo, null);
-
-    return response.getResponse();
+    return userTokenApi.getUserToken(fid, authInfo, null);
   }
 
-  public DetailedOffersResponseDetailedOffers getOfferDetails(String fid, String offerId)
-      throws ApiException {
-    UserTokenOutputResponse userToken = getUserToken(fid);
+  public ResponseWrapperDetailedOffersResponseDetailedOffers getOfferDetails(
+      String fid, String offerId) throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
 
     return getOfferDetails(
         GenericOffersCriterion.builder()
@@ -160,102 +159,141 @@ public class PersonalizedOffersService {
             .build());
   }
 
-  private DetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(
+  public BrowseOffersResponse getOffers(String fid) throws ApiException {
+    ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
+
+    return getOffers(
+        GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
+  }
+
+  public BulkActivationRequestResponse sendBulkActivations(BulkActivationApiRequest bulkActivation)
+      throws ApiException {
+    return bulkActivationsApi.processBulkActivationRequest(bulkActivation);
+  }
+
+  public AdjustmentResponse getAdjustments(String fid, Integer offset, Integer limit,
+                                           String startDate, String endDate, String dateFilter) throws ApiException {
+    final ResponseWrapperUserTokenOutputResponse userToken = getUserToken(fid);
+
+    return getAdjustments(
+        GenericOffersCriterion.builder().fid(fid).offset(offset).limit(limit).
+            startDate(startDate).endDate(endDate).dateFilter(dateFilter).userToken(getToken(userToken)).build());
+  }
+
+  private AdjustmentResponse getAdjustments(GenericOffersCriterion adjustmentsCriterion)
+      throws ApiException {
+    requireNonNull(adjustmentsCriterion.getFid(), FID_IS_REQUIRED);
+    requireNonNull(adjustmentsCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
+
+    return adjustmentsApi.getAdjustments(
+        adjustmentsCriterion.getFid(),
+        adjustmentsCriterion.getOffset(),
+        adjustmentsCriterion.getLimit(),
+        adjustmentsCriterion.getStartDate(),
+        adjustmentsCriterion.getEndDate(),
+        adjustmentsCriterion.getDateFilter());
+  }
+
+  private ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(
       final GenericOffersCriterion redeemOffersCriterion) throws ApiException {
     requireNonNull(redeemOffersCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(redeemOffersCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
 
-    final ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers response =
-        redeemedOffersApi.getRedeemedOfferDetails(
-            redeemOffersCriterion.getFid(),
-            redeemOffersCriterion.getUserToken(),
-            redeemOffersCriterion.getItemsPerPage(),
-            redeemOffersCriterion.getPageNumber(),
-            redeemOffersCriterion.getLang());
-    return response.getResponse();
+    return redeemedOffersApi.getRedeemedOfferDetails(
+        redeemOffersCriterion.getFid(),
+        redeemOffersCriterion.getUserToken(),
+        redeemOffersCriterion.getItemsPerPage(),
+        redeemOffersCriterion.getPageNumber(),
+        redeemOffersCriterion.getLang());
   }
 
-  private StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
-  getStatementCreditActivationDetail(GenericOffersCriterion statementCreditActivationCriterion)
-      throws ApiException {
+  private ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
+      getStatementCreditActivationDetail(GenericOffersCriterion statementCreditActivationCriterion)
+          throws ApiException {
     requireNonNull(statementCreditActivationCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(statementCreditActivationCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
     requireNonNull(statementCreditActivationCriterion.getActivationId(), ACTIVATION_ID_IS_REQUIRED);
 
-    final ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
-        response =
-        statementCreditActivationsApi.getStatementCreditActivationDetail(
-            statementCreditActivationCriterion.getFid(),
-            statementCreditActivationCriterion.getActivationId(),
-            statementCreditActivationCriterion.getUserToken(),
-            statementCreditActivationCriterion.getLang());
-    return response.getResponse();
+    return statementCreditActivationsApi.getStatementCreditActivationDetail(
+        statementCreditActivationCriterion.getFid(),
+        statementCreditActivationCriterion.getActivationId(),
+        statementCreditActivationCriterion.getUserToken(),
+        statementCreditActivationCriterion.getLang());
   }
 
-  private UserFeedbackOutputListResponse getUserFeedback(
+  private ResponseWrapperUserFeedbackOutputListResponse getUserFeedback(
       GenericOffersCriterion userFeedbackCriterion) throws ApiException {
     requireNonNull(userFeedbackCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(userFeedbackCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
 
-    final ResponseWrapperUserFeedbackOutputListResponse response =
-        userFeedbackApi.getUserFeedback(
-            userFeedbackCriterion.getFid(),
-            userFeedbackCriterion.getUserToken(),
-            userFeedbackCriterion.getOfferId(),
-            userFeedbackCriterion.getFeedback());
-    return response.getResponse();
+    return userFeedbackApi.getUserFeedback(
+        userFeedbackCriterion.getFid(),
+        userFeedbackCriterion.getUserToken(),
+        userFeedbackCriterion.getOfferId(),
+        userFeedbackCriterion.getFeedback());
   }
 
-  private MatchedOfferDetailsResponseMatchedOffers getMatchedOffers(
+  private ResponseWrapperMatchedOfferDetailsResponseMatchedOffers getMatchedOffers(
       final MatchedOffersCriterion matchedOffersCriterion) throws ApiException {
     requireNonNull(matchedOffersCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(matchedOffersCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
 
-    final ResponseWrapperMatchedOfferDetailsResponseMatchedOffers response =
-        matchedOffersApi.matchedOffers(
-            matchedOffersCriterion.getFid(),
-            matchedOffersCriterion.getUserToken(),
-            matchedOffersCriterion.getMerchantName(),
-            matchedOffersCriterion.getCategory(),
-            matchedOffersCriterion.getOfferType(),
-            matchedOffersCriterion.getLatitude(),
-            matchedOffersCriterion.getLongitude(),
-            matchedOffersCriterion.getRadius(),
-            matchedOffersCriterion.getPageNumber(),
-            matchedOffersCriterion.getItemsPerPage(),
-            matchedOffersCriterion.getLang(),
-            matchedOffersCriterion.getUserFeedback(),
-            matchedOffersCriterion.getPresentmentDate());
-    return response.getResponse();
+    return matchedOffersApi.matchedOffers(
+        matchedOffersCriterion.getFid(),
+        matchedOffersCriterion.getUserToken(),
+        matchedOffersCriterion.getMerchantName(),
+        matchedOffersCriterion.getCategory(),
+        matchedOffersCriterion.getOfferType(),
+        matchedOffersCriterion.getLatitude(),
+        matchedOffersCriterion.getLongitude(),
+        matchedOffersCriterion.getRadius(),
+        matchedOffersCriterion.getPageNumber(),
+        matchedOffersCriterion.getItemsPerPage(),
+        matchedOffersCriterion.getLang(),
+        matchedOffersCriterion.getUserFeedback(),
+        matchedOffersCriterion.getPresentmentDate());
   }
 
-  private UserSavingsResponse getUserSavings(GenericOffersCriterion userSavingsCriterion)
-      throws ApiException {
+  private ResponseWrapperUserSavingsResponse getUserSavings(
+      GenericOffersCriterion userSavingsCriterion) throws ApiException {
     requireNonNull(userSavingsCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(userSavingsCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
 
-    final ResponseWrapperUserSavingsResponse response =
-        userSavingsApi.getUserSavings(
-            userSavingsCriterion.getFid(), userSavingsCriterion.getUserToken());
-    return response.getResponse();
+    return userSavingsApi.getUserSavings(
+        userSavingsCriterion.getFid(), userSavingsCriterion.getUserToken());
   }
 
-  private String getToken(UserTokenOutputResponse userToken) {
-    return requireNonNull(userToken.getUserToken()).getToken();
+  private String getToken(ResponseWrapperUserTokenOutputResponse userToken) {
+    return requireNonNull(requireNonNull(userToken.getResponse()).getUserToken()).getToken();
   }
 
-  private DetailedOffersResponseDetailedOffers getOfferDetails(
+  private ResponseWrapperDetailedOffersResponseDetailedOffers getOfferDetails(
       GenericOffersCriterion offerDetailsCriterion) throws ApiException {
     requireNonNull(offerDetailsCriterion.getFid(), FID_IS_REQUIRED);
     requireNonNull(offerDetailsCriterion.getOfferId(), OFFER_ID_IS_REQUIRED);
     requireNonNull(offerDetailsCriterion.getUserToken(), USER_TOKEN_IS_REQUIRED);
 
-    final ResponseWrapperDetailedOffersResponseDetailedOffers response =
-        offerDetailsApi.getOfferDetails(
-            offerDetailsCriterion.getFid(),
-            offerDetailsCriterion.getOfferId(),
-            offerDetailsCriterion.getUserToken(),
-            offerDetailsCriterion.getLang());
-    return response.getResponse();
+    return offerDetailsApi.getOfferDetails(
+        offerDetailsCriterion.getFid(),
+        offerDetailsCriterion.getOfferId(),
+        offerDetailsCriterion.getUserToken(),
+        offerDetailsCriterion.getLang());
+  }
+
+  private BrowseOffersResponse getOffers(GenericOffersCriterion offersCriterion)
+      throws ApiException {
+    requireNonNull(offersCriterion.getFid(), FID_IS_REQUIRED);
+
+    return offersApi.browseOffers(
+        offersCriterion.getFid(),
+        offersCriterion.getIssuerIca(),
+        offersCriterion.getBankProductCode(),
+        offersCriterion.getOfferType(),
+        offersCriterion.getCategory(),
+        offersCriterion.getOfferCountry(),
+        offersCriterion.getLanguages(),
+        offersCriterion.getOffset(),
+        offersCriterion.getLimit(),
+        offersCriterion.getSort());
   }
 }

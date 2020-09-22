@@ -1,6 +1,5 @@
 package com.mastercard.developer.service.domain;
 
-import java.time.OffsetDateTime;
 import lombok.Builder;
 import lombok.Value;
 
@@ -20,5 +19,5 @@ public class MatchedOffersCriterion {
   Integer itemsPerPage;
   String lang;
   String userFeedback;
-  OffsetDateTime presentmentDate;
+  String presentmentDate;
 }

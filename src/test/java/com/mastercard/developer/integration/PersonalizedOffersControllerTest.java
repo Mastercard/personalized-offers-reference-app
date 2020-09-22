@@ -1,14 +1,8 @@
 package com.mastercard.developer.integration;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.google.gson.Gson;
 import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
+import com.mastercard.api.model.BulkActivationApiRequest;
 import com.mastercard.api.model.UserFeedbackInput;
 import com.mastercard.developer.controller.PersonalizedOffersController;
 import com.mastercard.developer.integration.data.PersonalizedOffersData;
@@ -26,6 +20,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(
@@ -36,8 +37,7 @@ class PersonalizedOffersControllerTest {
   private final Gson gson;
   private final MockMvc mockMvc;
 
-  @MockBean
-  PersonalizedOffersService referenceApplicationGateway;
+  @MockBean PersonalizedOffersService referenceApplicationGateway;
 
   @Autowired
   PersonalizedOffersControllerTest(final Gson gson, final MockMvc mockMvc) {
@@ -58,11 +58,11 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.numberOfPages", is("1")))
-        .andExpect(jsonPath("$.itemsPerPage", is("25")))
-        .andExpect(jsonPath("$.totalCount", is("1")));
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.response.numberOfPages", is("1")))
+        .andExpect(jsonPath("$.response.itemsPerPage", is("25")))
+        .andExpect(jsonPath("$.response.totalCount", is("1")));
   }
 
   @Test
@@ -84,33 +84,39 @@ class PersonalizedOffersControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(inputStatementCreditOfferActivation)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(
-            jsonPath("$.scActivation.activationId", is(PersonalizedOffersData.ACTIVATION_ID)))
-        .andExpect(jsonPath("$.scActivation.status", is(PersonalizedOffersData.STATUS)))
-        .andExpect(jsonPath("$.scActivation.offerId", is(PersonalizedOffersData.OFFER_ID)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
         .andExpect(
             jsonPath(
-                "$.scActivation.activationDate",
-                is(PersonalizedOffersData.ACTIVATION_DATE.toString())))
+                "$.response.scActivation.activationId", is(PersonalizedOffersData.ACTIVATION_ID)))
+        .andExpect(jsonPath("$.response.scActivation.status", is(PersonalizedOffersData.STATUS)))
+        .andExpect(jsonPath("$.response.scActivation.offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
             jsonPath(
-                "$.scActivation.redemptionDate",
-                is(PersonalizedOffersData.REDEMPTION_DATE.toString())))
+                "$.response.scActivation.activationDate",
+                is(PersonalizedOffersData.ACTIVATION_DATE)))
         .andExpect(
             jsonPath(
-                "$.scActivation.redemptionEndDate", is(PersonalizedOffersData.END_DATE.toString())))
+                "$.response.scActivation.redemptionDate",
+                is(PersonalizedOffersData.REDEMPTION_DATE)))
         .andExpect(
             jsonPath(
-                "$.scActivation.redemptionStartDate",
-                is(PersonalizedOffersData.START_DATE.toString())))
+                "$.response.scActivation.redemptionEndDate", is(PersonalizedOffersData.END_DATE)))
         .andExpect(
-            jsonPath("$.scActivation.redemptionMode", is(PersonalizedOffersData.REDEMPTION_MODE)))
+            jsonPath(
+                "$.response.scActivation.redemptionStartDate",
+                is(PersonalizedOffersData.START_DATE)))
         .andExpect(
-            jsonPath("$.scActivation.pointsEarned", is(PersonalizedOffersData.POINTS_EARNED)))
-        .andExpect(jsonPath("$.scActivation.merchant", is(PersonalizedOffersData.MERCHANT)))
-        .andExpect(jsonPath("$.scActivation.cashBack", is(PersonalizedOffersData.CASH_BACK)));
+            jsonPath(
+                "$.response.scActivation.redemptionMode",
+                is(PersonalizedOffersData.REDEMPTION_MODE)))
+        .andExpect(
+            jsonPath(
+                "$.response.scActivation.pointsEarned", is(PersonalizedOffersData.POINTS_EARNED)))
+        .andExpect(
+            jsonPath("$.response.scActivation.merchant", is(PersonalizedOffersData.MERCHANT)))
+        .andExpect(
+            jsonPath("$.response.scActivation.cashBack", is(PersonalizedOffersData.CASH_BACK)));
   }
 
   @Test
@@ -127,30 +133,36 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(
-            jsonPath("$.scActivation.activationId", is(PersonalizedOffersData.ACTIVATION_ID)))
-        .andExpect(jsonPath("$.scActivation.status", is(PersonalizedOffersData.STATUS)))
-        .andExpect(jsonPath("$.scActivation.offerId", is(PersonalizedOffersData.OFFER_ID)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
         .andExpect(
             jsonPath(
-                "$.scActivation.activationDate",
-                is(PersonalizedOffersData.ACTIVATION_DATE.toString())))
+                "$.response.scActivation.activationId", is(PersonalizedOffersData.ACTIVATION_ID)))
+        .andExpect(jsonPath("$.response.scActivation.status", is(PersonalizedOffersData.STATUS)))
+        .andExpect(jsonPath("$.response.scActivation.offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
             jsonPath(
-                "$.scActivation.redemptionDate",
-                is(PersonalizedOffersData.REDEMPTION_DATE.toString())))
+                "$.response.scActivation.activationDate",
+                is(PersonalizedOffersData.ACTIVATION_DATE)))
         .andExpect(
             jsonPath(
-                "$.scActivation.redemptionStartDate",
-                is(PersonalizedOffersData.START_DATE.toString())))
+                "$.response.scActivation.redemptionDate",
+                is(PersonalizedOffersData.REDEMPTION_DATE)))
         .andExpect(
-            jsonPath("$.scActivation.redemptionMode", is(PersonalizedOffersData.REDEMPTION_MODE)))
+            jsonPath(
+                "$.response.scActivation.redemptionStartDate",
+                is(PersonalizedOffersData.START_DATE)))
         .andExpect(
-            jsonPath("$.scActivation.pointsEarned", is(PersonalizedOffersData.POINTS_EARNED)))
-        .andExpect(jsonPath("$.scActivation.merchant", is(PersonalizedOffersData.MERCHANT)))
-        .andExpect(jsonPath("$.scActivation.cashBack", is(PersonalizedOffersData.CASH_BACK)));
+            jsonPath(
+                "$.response.scActivation.redemptionMode",
+                is(PersonalizedOffersData.REDEMPTION_MODE)))
+        .andExpect(
+            jsonPath(
+                "$.response.scActivation.pointsEarned", is(PersonalizedOffersData.POINTS_EARNED)))
+        .andExpect(
+            jsonPath("$.response.scActivation.merchant", is(PersonalizedOffersData.MERCHANT)))
+        .andExpect(
+            jsonPath("$.response.scActivation.cashBack", is(PersonalizedOffersData.CASH_BACK)));
   }
 
   @Test
@@ -172,12 +184,13 @@ class PersonalizedOffersControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(userFeedbackInput)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.userFeedback.offerId", is(PersonalizedOffersData.OFFER_ID)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.response.userFeedback.offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
             jsonPath(
-                "$.userFeedback.feedback", is(String.valueOf(PersonalizedOffersData.FEEDBACK))));
+                "$.response.userFeedback.feedback",
+                is(String.valueOf(PersonalizedOffersData.FEEDBACK))));
   }
 
   @Test
@@ -193,22 +206,25 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.items.userFeedback[0].offerId", is(PersonalizedOffersData.OFFER_ID)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
         .andExpect(
             jsonPath(
-                "$.items.userFeedback[0].feedback",
-                is(String.valueOf(PersonalizedOffersData.FEEDBACK))))
-        .andExpect(
-            jsonPath("$.items.userFeedback[1].offerId", is(PersonalizedOffersData.OFFER_ID2)))
+                "$.response.items.userFeedback[0].offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
             jsonPath(
-                "$.items.userFeedback[1].feedback",
+                "$.response.items.userFeedback[0].feedback",
                 is(String.valueOf(PersonalizedOffersData.FEEDBACK))))
-        .andExpect(jsonPath("$.currentPage", is(PersonalizedOffersData.FIRST)))
-        .andExpect(jsonPath("$.itemsPerPage", is(PersonalizedOffersData.ITEMS_PER_PAGE)))
-        .andExpect(jsonPath("$.totalCount", is(PersonalizedOffersData.TOTAL_COUNT)));
+        .andExpect(
+            jsonPath(
+                "$.response.items.userFeedback[1].offerId", is(PersonalizedOffersData.OFFER_ID2)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.userFeedback[1].feedback",
+                is(String.valueOf(PersonalizedOffersData.FEEDBACK))))
+        .andExpect(jsonPath("$.response.currentPage", is(PersonalizedOffersData.FIRST)))
+        .andExpect(jsonPath("$.response.itemsPerPage", is(PersonalizedOffersData.ITEMS_PER_PAGE)))
+        .andExpect(jsonPath("$.response.totalCount", is(PersonalizedOffersData.TOTAL_COUNT)));
   }
 
   @Test
@@ -224,67 +240,81 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.totalCount", is(PersonalizedOffersData.ONE)))
-        .andExpect(jsonPath("$.currentPage", is(PersonalizedOffersData.FIRST)))
-        .andExpect(jsonPath("$.numberOfPages", is(PersonalizedOffersData.ONE)))
-        .andExpect(jsonPath("$.itemsPerPage", is(PersonalizedOffersData.ITEMS_PER_PAGE)))
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.items.matchedOffer[0].offerId", is(PersonalizedOffersData.OFFER_ID)))
-        .andExpect(
-            jsonPath("$.items.matchedOffer[0].offerType", is(PersonalizedOffersData.OFFER_TYPE)))
+        .andExpect(jsonPath("$.response.totalCount", is(PersonalizedOffersData.ONE)))
+        .andExpect(jsonPath("$.response.currentPage", is(PersonalizedOffersData.FIRST)))
+        .andExpect(jsonPath("$.response.numberOfPages", is(PersonalizedOffersData.ONE)))
+        .andExpect(jsonPath("$.response.itemsPerPage", is(PersonalizedOffersData.ITEMS_PER_PAGE)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].offerSource", is(PersonalizedOffersData.OFFER_SOURCE)))
-        .andExpect(
-            jsonPath("$.items.matchedOffer[0].language", is(PersonalizedOffersData.LANGUAGE)))
+                "$.response.items.matchedOffer[0].offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].currencyCode", is(PersonalizedOffersData.CURRENCY_CODE)))
-        .andExpect(
-            jsonPath("$.items.matchedOffer[0].merchant.name", is(PersonalizedOffersData.MERCHANT)))
+                "$.response.items.matchedOffer[0].offerType",
+                is(PersonalizedOffersData.OFFER_TYPE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].redemptionMode",
+                "$.response.items.matchedOffer[0].offerSource",
+                is(PersonalizedOffersData.OFFER_SOURCE)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].language", is(PersonalizedOffersData.LANGUAGE)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].currencyCode",
+                is(PersonalizedOffersData.CURRENCY_CODE)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].merchant.name",
+                is(PersonalizedOffersData.MERCHANT)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].redemptionMode",
                 is(PersonalizedOffersData.REDEMPTION_MODE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].eventStartDate",
-                is(String.valueOf(PersonalizedOffersData.START_DATE))))
+                "$.response.items.matchedOffer[0].eventStartDate",
+                is(PersonalizedOffersData.START_DATE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].eventEndDate",
-                is(String.valueOf(PersonalizedOffersData.END_DATE))))
+                "$.response.items.matchedOffer[0].eventEndDate",
+                is(PersonalizedOffersData.END_DATE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].offerCountry", is(PersonalizedOffersData.OFFER_COUNTRY)))
+                "$.response.items.matchedOffer[0].offerCountry",
+                is(PersonalizedOffersData.OFFER_COUNTRY)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].activationDate",
-                is(String.valueOf(PersonalizedOffersData.ACTIVATION_DATE))))
+                "$.response.items.matchedOffer[0].activationDate",
+                is(PersonalizedOffersData.ACTIVATION_DATE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].scActivation.activationId",
+                "$.response.items.matchedOffer[0].scActivation.activationId",
                 is(PersonalizedOffersData.ACTIVATION_ID)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].scActivation.redemptionStartDate",
-                is(String.valueOf(PersonalizedOffersData.START_DATE))))
+                "$.response.items.matchedOffer[0].scActivation.redemptionStartDate",
+                is(PersonalizedOffersData.START_DATE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].scActivation.redemptionEndDate",
-                is(String.valueOf(PersonalizedOffersData.END_DATE))))
-        .andExpect(jsonPath("$.items.matchedOffer[0].price", is(PersonalizedOffersData.PRICE)))
+                "$.response.items.matchedOffer[0].scActivation.redemptionEndDate",
+                is(PersonalizedOffersData.END_DATE)))
         .andExpect(
-            jsonPath("$.items.matchedOffer[0].discount", is(PersonalizedOffersData.DISCOUNT)))
-        .andExpect(
-            jsonPath(
-                "$.items.matchedOffer[0].discountType", is(PersonalizedOffersData.DISCOUNT_TYPE)))
-        .andExpect(
-            jsonPath("$.items.matchedOffer[0].activeSc", is(PersonalizedOffersData.ACTIVE_SC)))
+            jsonPath("$.response.items.matchedOffer[0].price", is(PersonalizedOffersData.PRICE)))
         .andExpect(
             jsonPath(
-                "$.items.matchedOffer[0].userFeedback.feedback",
+                "$.response.items.matchedOffer[0].discount", is(PersonalizedOffersData.DISCOUNT)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].discountType",
+                is(PersonalizedOffersData.DISCOUNT_TYPE)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].activeSc", is(PersonalizedOffersData.ACTIVE_SC)))
+        .andExpect(
+            jsonPath(
+                "$.response.items.matchedOffer[0].userFeedback.feedback",
                 is(String.valueOf(PersonalizedOffersData.FEEDBACK))));
   }
 
@@ -301,37 +331,41 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.numRedeemed",
+                "$.response.userSavings.statementCreditOffersSavings.numRedeemed",
                 is(PersonalizedOffersData.ONE)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.earnedCashback",
+                "$.response.userSavings.statementCreditOffersSavings.earnedCashback",
                 is(PersonalizedOffersData.CASH_BACK)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.numAvailable",
+                "$.response.userSavings.statementCreditOffersSavings.numAvailable",
                 is(PersonalizedOffersData.ONE)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.potentialSavings",
+                "$.response.userSavings.statementCreditOffersSavings.potentialSavings",
                 is(PersonalizedOffersData.ONE)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.earnedPoints",
+                "$.response.userSavings.statementCreditOffersSavings.earnedPoints",
                 is(PersonalizedOffersData.POINTS_EARNED)))
         .andExpect(
             jsonPath(
-                "$.userSavings.statementCreditOffersSavings.potentialPoints",
+                "$.response.userSavings.statementCreditOffersSavings.potentialPoints",
                 is(PersonalizedOffersData.POINTS_EARNED)))
         .andExpect(
-            jsonPath("$.userSavings.totalAmountSaved", is(PersonalizedOffersData.CASH_AMOUNT)))
-        .andExpect(jsonPath("$.userSavings.totalOffersUsed", is(PersonalizedOffersData.ONE)))
+            jsonPath(
+                "$.response.userSavings.totalAmountSaved", is(PersonalizedOffersData.CASH_AMOUNT)))
         .andExpect(
-            jsonPath("$.userSavings.totalEarnedPoints", is(PersonalizedOffersData.POINTS_EARNED)));
+            jsonPath("$.response.userSavings.totalOffersUsed", is(PersonalizedOffersData.ONE)))
+        .andExpect(
+            jsonPath(
+                "$.response.userSavings.totalEarnedPoints",
+                is(PersonalizedOffersData.POINTS_EARNED)));
   }
 
   @Test
@@ -347,9 +381,9 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.userToken.token", is(PersonalizedOffersData.USER_TOKEN)));
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.response.userToken.token", is(PersonalizedOffersData.USER_TOKEN)));
   }
 
   @Test
@@ -366,46 +400,265 @@ class PersonalizedOffersControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status.code", is(PersonalizedOffersData.STATUS_CODE)))
-        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
-        .andExpect(jsonPath("$.offerDetails.offerId", is(PersonalizedOffersData.OFFER_ID)))
-        .andExpect(jsonPath("$.offerDetails.offerType", is(PersonalizedOffersData.OFFER_TYPE)))
+        .andExpect(jsonPath("$.response.status.code", is(PersonalizedOffersData.STATUS_CODE)))
+        .andExpect(jsonPath("$.response.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.response.offerDetails.offerId", is(PersonalizedOffersData.OFFER_ID)))
         .andExpect(
-            jsonPath("$.offerDetails.redemptionType", is(PersonalizedOffersData.REDEMPTION_TYPE)))
-        .andExpect(jsonPath("$.offerDetails.offerSource", is(PersonalizedOffersData.OFFER_SOURCE)))
-        .andExpect(jsonPath("$.offerDetails.language", is(PersonalizedOffersData.LANGUAGE)))
-        .andExpect(jsonPath("$.offerDetails.merchant.name", is(PersonalizedOffersData.MERCHANT)))
+            jsonPath("$.response.offerDetails.offerType", is(PersonalizedOffersData.OFFER_TYPE)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.detailPostpaidCreditOffer.cashBack",
+                "$.response.offerDetails.redemptionType",
+                is(PersonalizedOffersData.REDEMPTION_TYPE)))
+        .andExpect(
+            jsonPath(
+                "$.response.offerDetails.offerSource", is(PersonalizedOffersData.OFFER_SOURCE)))
+        .andExpect(
+            jsonPath("$.response.offerDetails.language", is(PersonalizedOffersData.LANGUAGE)))
+        .andExpect(
+            jsonPath("$.response.offerDetails.merchant.name", is(PersonalizedOffersData.MERCHANT)))
+        .andExpect(
+            jsonPath(
+                "$.response.offerDetails.detailPostpaidCreditOffer.cashBack",
                 is(PersonalizedOffersData.CASH_BACK)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.detailPostpaidCreditOffer.statementCreditType",
+                "$.response.offerDetails.detailPostpaidCreditOffer.statementCreditType",
                 is(PersonalizedOffersData.STATEMENT_CREDIT_TYPE)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.detailPostpaidCreditOffer.visitThreshold",
+                "$.response.offerDetails.detailPostpaidCreditOffer.visitThreshold",
                 is(PersonalizedOffersData.ONE)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.detailPostpaidCreditOffer.minTransactionAmountToRedeem",
+                "$.response.offerDetails.detailPostpaidCreditOffer.minTransactionAmountToRedeem",
                 is(PersonalizedOffersData.CASH_AMOUNT)))
         .andExpect(
-            jsonPath("$.offerDetails.redemptionMode", is(PersonalizedOffersData.REDEMPTION_MODE)))
+            jsonPath(
+                "$.response.offerDetails.redemptionMode",
+                is(PersonalizedOffersData.REDEMPTION_MODE)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.eventStartDate",
-                is(String.valueOf(PersonalizedOffersData.START_DATE))))
+                "$.response.offerDetails.eventStartDate", is(PersonalizedOffersData.START_DATE)))
+        .andExpect(
+            jsonPath("$.response.offerDetails.eventEndDate", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(
+            jsonPath("$.response.offerDetails.maxUserRedemptions", is(PersonalizedOffersData.ONE)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.eventEndDate", is(String.valueOf(PersonalizedOffersData.END_DATE))))
-        .andExpect(jsonPath("$.offerDetails.maxUserRedemptions", is(PersonalizedOffersData.ONE)))
-        .andExpect(
-            jsonPath("$.offerDetails.offerCountry", is(PersonalizedOffersData.OFFER_COUNTRY)))
+                "$.response.offerDetails.offerCountry", is(PersonalizedOffersData.OFFER_COUNTRY)))
         .andExpect(
             jsonPath(
-                "$.offerDetails.activationDate",
-                is(String.valueOf(PersonalizedOffersData.ACTIVATION_DATE))));
+                "$.response.offerDetails.activationDate",
+                is(PersonalizedOffersData.ACTIVATION_DATE)));
+  }
+
+  @Test
+  @DisplayName("GET /offers")
+  void offers() throws Exception {
+    when(referenceApplicationGateway.getOffers(anyString()))
+        .thenReturn(PersonalizedOffersData.getOffers());
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get("/offers")
+                .param("f_id", PersonalizedOffersData.FID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.offset", is(PersonalizedOffersData.FIVE)))
+        .andExpect(jsonPath("$.limit", is(PersonalizedOffersData.FIVE)))
+        .andExpect(jsonPath("$.total", is(PersonalizedOffersData.FIVE)))
+        .andExpect(
+            jsonPath("$.status.code", is(Integer.valueOf(PersonalizedOffersData.STATUS_CODE))))
+        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+        .andExpect(jsonPath("$.count", is(PersonalizedOffersData.FIVE)))
+        .andExpect(jsonPath("offers[0].id", is(PersonalizedOffersData.ONE)))
+        .andExpect(jsonPath("offers[0].type", is(PersonalizedOffersData.OFFER_TYPE)))
+        .andExpect(
+            jsonPath("offers[0].redemptionChannel", is(PersonalizedOffersData.REDEMPTION_CHANNEL)))
+        .andExpect(jsonPath("offers[0].source", is(PersonalizedOffersData.OFFER_SOURCE)))
+        .andExpect(jsonPath("offers[0].category", is(PersonalizedOffersData.OFFER_CATEGORY)))
+        .andExpect(jsonPath("offers[0].currency", is(PersonalizedOffersData.CURRENCY_CODE)))
+        .andExpect(jsonPath("offers[0].merchant.name", is(PersonalizedOffersData.MERCHANT)))
+        .andExpect(jsonPath("offers[0].eventStartDate", is(PersonalizedOffersData.START_DATE)))
+        .andExpect(jsonPath("offers[0].eventEndDate", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(jsonPath("offers[0].redemptionMaxPerUser", is(PersonalizedOffersData.FIVE)))
+        .andExpect(jsonPath("offers[0].offerCountry", is(PersonalizedOffersData.OFFER_COUNTRY)))
+        .andExpect(jsonPath("offers[0].matchStartDate", is(PersonalizedOffersData.START_DATE)))
+        .andExpect(jsonPath("offers[0].eventEndDate", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(jsonPath("offers[0].activationType", is(PersonalizedOffersData.ACTIVATION_TYPE)))
+        .andExpect(jsonPath("offers[0].assignmentOnEnrollment", is(false)))
+        .andExpect(jsonPath("offers[0].goal", is(PersonalizedOffersData.GOAL)))
+        .andExpect(jsonPath("offers[0].lastModified", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(jsonPath("offers[0].matchMaxPerUser", is(PersonalizedOffersData.FIVE)))
+        .andExpect(jsonPath("offers[0].presentmentEndDate", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(jsonPath("offers[0].status", is(PersonalizedOffersData.STATUS)))
+        .andExpect(jsonPath("offers[0].test", is(false)))
+        .andExpect(jsonPath("offers[0].redemptionGracePeriodDays", is(PersonalizedOffersData.FIVE)))
+        .andExpect(
+            jsonPath(
+                "offers[0].redemptionSpendMinPerTxn",
+                is(PersonalizedOffersData.TRANSACTION_AMOUNT.doubleValue())))
+        .andExpect(jsonPath("offers[0].redemptionVisitThreshold", is(PersonalizedOffersData.FIVE)))
+        .andExpect(
+            jsonPath(
+                "offers[0].redemptionStatementCreditType",
+                is(PersonalizedOffersData.STATEMENT_CREDIT_TYPE)));
+  }
+
+  @Test
+  @DisplayName("POST /bulk-activations")
+  void sendBulkActivations() throws Exception {
+    BulkActivationApiRequest bulkActivationApiRequest = new BulkActivationApiRequest();
+    bulkActivationApiRequest.setfId(PersonalizedOffersData.FID);
+    bulkActivationApiRequest.setActivationDate(PersonalizedOffersData.ACTIVATION_DATE);
+    bulkActivationApiRequest.setUserId(PersonalizedOffersData.USER_ID);
+
+    when(referenceApplicationGateway.sendBulkActivations(any(BulkActivationApiRequest.class)))
+        .thenReturn(PersonalizedOffersData.sendBulkActivations());
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/bulk-activations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(bulkActivationApiRequest)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("bulkActivationRequests[0].userId", is(PersonalizedOffersData.USER_ID)))
+        .andExpect(
+            jsonPath("bulkActivationRequests[0].uuid", is(PersonalizedOffersData.UU_ID.toString())))
+        .andExpect(
+            jsonPath("bulkActivationRequests[0].created", is(PersonalizedOffersData.START_DATE)))
+        .andExpect(
+            jsonPath("bulkActivationRequests[0].lastUpdated", is(PersonalizedOffersData.END_DATE)))
+        .andExpect(jsonPath("bulkActivationRequests[0].status", is(PersonalizedOffersData.STATUS)))
+        .andExpect(
+            jsonPath(
+                "bulkActivationRequests[0].activationDate",
+                is(PersonalizedOffersData.ACTIVATION_DATE)))
+        .andExpect(jsonPath("bulkActivationRequests[0].fId", is(PersonalizedOffersData.FID)))
+        .andExpect(jsonPath("bulkActivationRequests[0].fId", is(PersonalizedOffersData.FID)))
+        .andExpect(jsonPath("status.code", is(Integer.valueOf(PersonalizedOffersData.STATUS_CODE))))
+        .andExpect(jsonPath("status.message", is(PersonalizedOffersData.STATUS_MESSAGE)));
+  }
+
+  @Test
+  @DisplayName("GET /adjustments")
+  void adjustments() throws Exception {
+    when(referenceApplicationGateway.getAdjustments(any(), any(), any(),
+        any(), any(), any())).thenReturn(PersonalizedOffersData.getAdjustments());
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get("/adjustments")
+                .param("f_id", PersonalizedOffersData.FID)
+                .param("offset", String.valueOf(PersonalizedOffersData.OFFSET))
+                .param("limit", String.valueOf(PersonalizedOffersData.LIMIT))
+                .param("start_date", PersonalizedOffersData.START_DATE)
+                .param("end_date", PersonalizedOffersData.END_DATE)
+                .param("date_filter", PersonalizedOffersData.DATE_FILTER)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.offset", is(PersonalizedOffersData.OFFSET)))
+        .andExpect(jsonPath("$.limit", is(PersonalizedOffersData.LIMIT)))
+        .andExpect(jsonPath("$.total", is(PersonalizedOffersData.TOTAL)))
+        .andExpect(jsonPath("$.count", is(PersonalizedOffersData.COUNT)))
+        .andExpect(jsonPath("$.reponseLastModified",
+            is(PersonalizedOffersData.LAST_MODIFIED)))
+        .andExpect(jsonPath("$.status.code", is(Integer.valueOf(PersonalizedOffersData.STATUS_CODE))))
+        .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
+
+        .andExpect(jsonPath("$.adjustments[0].id", is(PersonalizedOffersData.ID)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentId",
+            is(PersonalizedOffersData.ADJUSTMENT_ID)))
+        .andExpect(jsonPath("$.adjustments[0].activationId",
+            is(PersonalizedOffersData.ADJUSTMENT_ACTIVATION_ID)))
+        .andExpect(jsonPath("$.adjustments[0].activatedDateTime",
+            is(PersonalizedOffersData.ACTIVATED_DATE_TIME)))
+        .andExpect(jsonPath("$.adjustments[0].transactionClassifier",
+            is(PersonalizedOffersData.TRANSACTION_CLASSIFIER)))
+        .andExpect(jsonPath("$.adjustments[0].offerId", is(PersonalizedOffersData.OFFER_ID)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentMode",
+            is(PersonalizedOffersData.ADJUSTMENT_MODE)))
+        .andExpect(jsonPath("$.adjustments[0].transactionBankAccountNumber",
+            is(PersonalizedOffersData.TRANSACTION_BANK_ACCOUNT_NUMBER)))
+        .andExpect(jsonPath("$.adjustments[0].transactionAmount",
+            is(PersonalizedOffersData.TRANSACTION_AMOUNT.doubleValue())))
+        .andExpect(jsonPath("$.adjustments[0].transactionDate",
+            is(PersonalizedOffersData.TRANSACTION_DATE)))
+        .andExpect(jsonPath("$.adjustments[0].transactionTime",
+            is(PersonalizedOffersData.TRANSACTION_TIME)))
+        .andExpect(jsonPath("$.adjustments[0].transactionDescription",
+            is(PersonalizedOffersData.TRANSACTION_DESCRIPTION)))
+        .andExpect(jsonPath("$.adjustments[0].transactionSequenceNumber",
+            is(PersonalizedOffersData.TRANSACTION_SEQUENCE_NUMBER)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentCashValue",
+            is(PersonalizedOffersData.ADJUSTMENT_CASH_VALUE.doubleValue())))
+        .andExpect(jsonPath("$.adjustments[0].redemptionDateTime",
+            is(PersonalizedOffersData.REDEMPTION_DATETIME)))
+        .andExpect(jsonPath("$.adjustments[0].status",
+            is(PersonalizedOffersData.STATUS)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentPointsValue",
+            is(PersonalizedOffersData.ADJUSTMENT_POINTS_VALUE.doubleValue())))
+        .andExpect(jsonPath("$.adjustments[0].transactionMerchantId",
+            is(PersonalizedOffersData.TRANSACTION_MERCHANT_ID)))
+        .andExpect(jsonPath("$.adjustments[0].transactionChannel",
+            is(PersonalizedOffersData.TRANSACTION_CHANNEL)))
+        .andExpect(jsonPath("$.adjustments[0].offerType",
+            is(PersonalizedOffersData.OFFER_TYPE)))
+        .andExpect(jsonPath("$.adjustments[0].transactionAccountISUID",
+            is(PersonalizedOffersData.TRANSACTION_ACCOUNT_ISU_ID)))
+        .andExpect(jsonPath("$.adjustments[0].transactionBankProductCode",
+            is(PersonalizedOffersData.TRANSACTION_BANK_PRODUCT_CODE)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentBankAccountNumber",
+            is(PersonalizedOffersData.ADJUSTMENT_BANK_ACCOUNT_NUMBER)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentBankProductCode",
+            is(PersonalizedOffersData.ADJUSTMENT_BANK_PRODUCT_CODE)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentAccountISUID",
+            is(PersonalizedOffersData.ADJUSTMENT_ACCOUNT_ISU_ID)))
+        .andExpect(jsonPath("$.adjustments[0].transactionCountry",
+            is(PersonalizedOffersData.TRANSACTION_COUNTRY)))
+        .andExpect(jsonPath("$.adjustments[0].transactionCurrency",
+            is(PersonalizedOffersData.TRANSACTION_CURRENCY)))
+        .andExpect(jsonPath("$.adjustments[0].transactionBankAccountNumberAlias",
+            is(PersonalizedOffersData.TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS)))
+        .andExpect(jsonPath("$.adjustments[0].transactionInstallmentPayment",
+            is(PersonalizedOffersData.TRANSACTION_INSTALLMENT_PAYMENT)))
+        .andExpect(jsonPath("$.adjustments[0].transactionIssuerCountry",
+            is(PersonalizedOffersData.TRANSACTION_ISSUER_COUNTRY)))
+        .andExpect(jsonPath("$.adjustments[0].created",
+            is(PersonalizedOffersData.CREATED)))
+        .andExpect(jsonPath("$.adjustments[0].lastModified",
+            is(PersonalizedOffersData.LAST_MODIFIED)))
+        .andExpect(jsonPath("$.adjustments[0].bankCustomerNumber",
+            is(PersonalizedOffersData.BANK_CUSTOMER_NUMBER)))
+        .andExpect(jsonPath("$.adjustments[0].transactionAuthorizationCode",
+            is(PersonalizedOffersData.TRANSACTION_AUTHORIZATION_CODE)))
+        .andExpect(jsonPath("$.adjustments[0].transactionDesciptionOriginal",
+            is(PersonalizedOffersData.TRANSACTION_DESCRIPTION_ORIGINAL)))
+        .andExpect(jsonPath("$.adjustments[0].errorDescription",
+            is(PersonalizedOffersData.ERROR_DESCRIPTION)))
+        .andExpect(jsonPath("$.adjustments[0].transactionCity",
+            is(PersonalizedOffersData.TRANSACTION_CITY)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentReversal",
+            is(PersonalizedOffersData.ADJUSTMENT_REVERSAL)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentValueSign",
+            is(PersonalizedOffersData.ADJUSTMENT_VALUE_SIGN)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentMerchantCategoryCode",
+            is(PersonalizedOffersData.ADJUSTMENT_MERCHANT_CATEGORY_CODE)))
+        .andExpect(jsonPath("$.adjustments[0].pointsConversionRate",
+            is(PersonalizedOffersData.POINTS_CONVERSION_RATE.doubleValue())))
+        .andExpect(jsonPath("$.adjustments[0].transactionClassifierDisplayName",
+            is(PersonalizedOffersData.TRANSACTION_CLASSIFIER_DISPLAY_NAME)))
+        .andExpect(jsonPath("$.adjustments[0].campaignId",
+            is(PersonalizedOffersData.CAMPAIGN_ID)))
+        .andExpect(jsonPath("$.adjustments[0].transactionIssuerICA",
+            is(PersonalizedOffersData.TRANSACTION_ISSUER_ICA)))
+        .andExpect(jsonPath("$.adjustments[0].adjustmentPointsType",
+            is(PersonalizedOffersData.ADJUSTMENT_POINTS_TYPE)))
+        .andExpect(jsonPath("$.adjustments[0].type",
+            is(PersonalizedOffersData.TYPE)));
+
   }
 }
