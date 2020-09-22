@@ -29,7 +29,7 @@ This code showcases reference implementation of Personalized Offers APIs. Please
 - [Lombok](https://projectlombok.org/)
 - [Mockito](https://site.mockito.org/)
 - [OpenAPI Generator](https://openapi.tools/)
-- [Apache Maven](https://maven.apache.org/index.html)
+- [Apache Maven](https://maven.apache.org/)
 
 ### Requirements <a name="requirements"></a>
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or above.
@@ -141,6 +141,18 @@ For more information on how this client generator works please consult the offic
 > Case 7: [Retrieve Offer Details]()
   - Issuer or Partner can retrieve extended information for the requested offer, typically returns a detailed 
   information of an offer.
+  
+> Case 8: [Retrieve All Offers]()
+  - Issuer or Partner can get a list of all offers regardless of cardholder. Issuer or Partner can retrieve 
+  extended information for the requested offers.
+  
+> Case 9: [Bulk Activations]()
+  - Issuer or Partner can create a request to activate *Always On* offers and enable those offers for use.
+  
+> Case 10: [Adjustments]()  
+  - The Adjustments/Redemption API provides detailed information on the redemptions that has satisfied specific offer 
+  criteria in order to be eligible to receive cash back or points offered by merchant in collaboration with the issuer
+   and Mastercard.
     
 ## API Reference <a name="api-reference"></a>
 

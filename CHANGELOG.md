@@ -1,5 +1,21 @@
 # Change Log
 
+## Version 1.2.0
+
+Released: September 21, 2020
+
+Changes:
+
+* Introduce Offers API and Bulk Activations API
+
+## Version 1.1.0
+
+Released: September 21, 2020
+
+Changes:
+
+* Introduce Adjustments API
+
 ## Version 1.0.1
 
 Released: September 1, 2020
