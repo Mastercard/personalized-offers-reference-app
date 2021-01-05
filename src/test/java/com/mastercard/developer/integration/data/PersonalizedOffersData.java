@@ -1,11 +1,10 @@
 package com.mastercard.developer.integration.data;
 
 import com.mastercard.api.model.BrowseOffersResponse;
-import com.mastercard.api.model.BulkActivationRequestDetails;
-import com.mastercard.api.model.BulkActivationRequestResponse;
-import com.mastercard.api.model.BulkActivationStatus;
 import com.mastercard.api.model.AdjustmentResponse;
 import com.mastercard.api.model.Adjustments;
+import com.mastercard.api.model.AccessTokenRequest;
+import com.mastercard.api.model.AccessTokenResponse;
 import com.mastercard.api.model.DetailPostpaidCreditOfferDetailedOffers;
 import com.mastercard.api.model.DetailedOfferDetailedOffers;
 import com.mastercard.api.model.DetailedOffersResponseDetailedOffers;
@@ -90,6 +89,8 @@ public class PersonalizedOffersData {
   public static final String ADJUSTMENT_MODE = "CASH";
   public static final String ADJUSTMENT_POINTS_TYPE = "AdjustmentPointsType";
   public static final String ADJUSTMENT_VALUE_SIGN = "AdjustmentValueSign";
+  public static final String ACCESS_TOKEN =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiIwM2E2ZTY5OC0xZjZhLTRmNTctYjk3NC1kNTMyMzhiZDI3ZGUiLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDgyMjk4Mjc4MDV9.cE9VdkNSemFmOU9aclJRRHpRWktLaUVEVTROYXRzcDlOdzJzN084elM3QT0";
   public static final String BANK_CUSTOMER_NUMBER = "BankCustomerNumber";
   public static final String CASH_AMOUNT = "25";
   public static final String CASH_BACK = "10";
@@ -148,6 +149,7 @@ public class PersonalizedOffersData {
   public static final String TYPE = "Type";
   public static final String USER_ID = "Test-User-Id";
   public static final String USER_TOKEN = "Test-User-Token";
+  public static final String UTC_OFFSET = "-04:30";
 
   public static final UUID UU_ID = UUID.randomUUID();
 
@@ -502,30 +504,6 @@ public class PersonalizedOffersData {
     return browseOffersResponse;
   }
 
-  public static BulkActivationRequestResponse sendBulkActivations() {
-    BulkActivationRequestResponse bulkActivationRequestResponse =
-        new BulkActivationRequestResponse();
-
-    BulkActivationRequestDetails bulkActivationRequestDetails = new BulkActivationRequestDetails();
-    bulkActivationRequestDetails.userId(USER_ID);
-    bulkActivationRequestDetails.uuid(UU_ID);
-    bulkActivationRequestDetails.created(START_DATE);
-    bulkActivationRequestDetails.lastUpdated(END_DATE);
-    bulkActivationRequestDetails.status(STATUS);
-    bulkActivationRequestDetails.activationDate(ACTIVATION_DATE);
-    bulkActivationRequestDetails.fId(FID);
-
-    bulkActivationRequestResponse.setBulkActivationRequests(
-        Collections.singletonList(bulkActivationRequestDetails));
-
-    BulkActivationStatus status = new BulkActivationStatus();
-    status.code(Integer.valueOf(STATUS_CODE));
-    status.message(STATUS_MESSAGE);
-    bulkActivationRequestResponse.setStatus(status);
-
-    return bulkActivationRequestResponse;
-  }
-
   public static AdjustmentResponse getAdjustments() {
     final AdjustmentResponse adjustmentResponse =
         new AdjustmentResponse();
@@ -534,7 +512,7 @@ public class PersonalizedOffersData {
     adjustmentResponse.setLimit(LIMIT);
     adjustmentResponse.setTotal(TOTAL);
     adjustmentResponse.setCount(COUNT);
-    adjustmentResponse.setReponseLastModified(LAST_MODIFIED);
+    adjustmentResponse.setResponseLastModified(LAST_MODIFIED);
 
     final StatusInfo status = new StatusInfo();
     status.setCode(Integer.valueOf(STATUS_CODE));
@@ -577,7 +555,7 @@ public class PersonalizedOffersData {
     adjustments.setLastModified(LAST_MODIFIED);
     adjustments.setBankCustomerNumber(BANK_CUSTOMER_NUMBER);
     adjustments.setTransactionAuthorizationCode(TRANSACTION_AUTHORIZATION_CODE);
-    adjustments.setTransactionDesciptionOriginal(TRANSACTION_DESCRIPTION_ORIGINAL);
+    adjustments.setTransactionDescriptionOriginal(TRANSACTION_DESCRIPTION_ORIGINAL);
     adjustments.setErrorDescription(ERROR_DESCRIPTION);
     adjustments.setTransactionCity(TRANSACTION_CITY);
     adjustments.setAdjustmentReversal(ADJUSTMENT_REVERSAL);
@@ -592,5 +570,19 @@ public class PersonalizedOffersData {
 
     adjustmentResponse.setAdjustments(Collections.singletonList(adjustments));
     return adjustmentResponse;
+  }
+
+  public static AccessTokenRequest getAccessTokenRequest() {
+    AccessTokenRequest accessTokenRequest = new AccessTokenRequest();
+    accessTokenRequest.setFiId(FID);
+    accessTokenRequest.setUserId(USER_ID);
+    accessTokenRequest.setUtcOffset(UTC_OFFSET);
+    return accessTokenRequest;
+  }
+
+  public static AccessTokenResponse getAccessTokenResponse() {
+    AccessTokenResponse accessTokenResponse = new AccessTokenResponse();
+    accessTokenResponse.setAccessToken(ACCESS_TOKEN);
+    return accessTokenResponse;
   }
 }
