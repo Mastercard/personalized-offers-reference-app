@@ -146,13 +146,13 @@ For more information on how this client generator works please consult the offic
   - Issuer or Partner can get a list of all offers regardless of cardholder. Issuer or Partner can retrieve 
   extended information for the requested offers.
   
-> Case 9: [Bulk Activations]()
-  - Issuer or Partner can create a request to activate *Always On* offers and enable those offers for use.
-  
-> Case 10: [Adjustments]()  
+> Case 9: [Adjustments]()  
   - The Adjustments/Redemption API provides detailed information on the redemptions that has satisfied specific offer 
   criteria in order to be eligible to receive cash back or points offered by merchant in collaboration with the issuer
    and Mastercard.
+   
+> Case 10: [Access Tokens]()  
+  - The Access Tokens API responsible for generating access tokens. It must be called prior to any other user centered API calls.
     
 ## API Reference <a name="api-reference"></a>
 

@@ -3,9 +3,9 @@ package com.mastercard.developer.controller;
 import com.mastercard.ApiException;
 import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
 import com.mastercard.api.model.AdjustmentResponse;
+import com.mastercard.api.model.AccessTokenRequest;
+import com.mastercard.api.model.AccessTokenResponse;
 import com.mastercard.api.model.BrowseOffersResponse;
-import com.mastercard.api.model.BulkActivationApiRequest;
-import com.mastercard.api.model.BulkActivationRequestResponse;
 import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
 import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
 import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
@@ -105,12 +105,6 @@ public class PersonalizedOffersController {
     return ResponseEntity.ok(referenceApplicationGateway.getOffers(fId));
   }
 
-  @PostMapping("/bulk-activations")
-  public ResponseEntity<BulkActivationRequestResponse> sendBulkActivations(
-      @RequestBody final BulkActivationApiRequest bulkActivation) throws ApiException {
-    return ResponseEntity.ok(referenceApplicationGateway.sendBulkActivations(bulkActivation));
-  }
-
   @GetMapping("/adjustments")
   public ResponseEntity<AdjustmentResponse> adjustmentDetails(
       @RequestParam(name = "f_id") final String fId,
@@ -123,5 +117,11 @@ public class PersonalizedOffersController {
     return ResponseEntity.ok(
         referenceApplicationGateway.getAdjustments(
             fId, offset, limit, startDate, endDate, dateFilter));
+  }
+
+  @PostMapping("/access-tokens")
+  public AccessTokenResponse createAccessToken(@RequestBody AccessTokenRequest accessToken)
+      throws ApiException {
+    return referenceApplicationGateway.getToken(accessToken);
   }
 }

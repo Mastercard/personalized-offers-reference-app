@@ -2,7 +2,6 @@ package com.mastercard.developer.integration;
 
 import com.google.gson.Gson;
 import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
-import com.mastercard.api.model.BulkActivationApiRequest;
 import com.mastercard.api.model.UserFeedbackInput;
 import com.mastercard.developer.controller.PersonalizedOffersController;
 import com.mastercard.developer.integration.data.PersonalizedOffersData;
@@ -507,42 +506,6 @@ class PersonalizedOffersControllerTest {
   }
 
   @Test
-  @DisplayName("POST /bulk-activations")
-  void sendBulkActivations() throws Exception {
-    BulkActivationApiRequest bulkActivationApiRequest = new BulkActivationApiRequest();
-    bulkActivationApiRequest.setfId(PersonalizedOffersData.FID);
-    bulkActivationApiRequest.setActivationDate(PersonalizedOffersData.ACTIVATION_DATE);
-    bulkActivationApiRequest.setUserId(PersonalizedOffersData.USER_ID);
-
-    when(referenceApplicationGateway.sendBulkActivations(any(BulkActivationApiRequest.class)))
-        .thenReturn(PersonalizedOffersData.sendBulkActivations());
-
-    mockMvc
-        .perform(
-            MockMvcRequestBuilders.post("/bulk-activations")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(bulkActivationApiRequest)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("bulkActivationRequests[0].userId", is(PersonalizedOffersData.USER_ID)))
-        .andExpect(
-            jsonPath("bulkActivationRequests[0].uuid", is(PersonalizedOffersData.UU_ID.toString())))
-        .andExpect(
-            jsonPath("bulkActivationRequests[0].created", is(PersonalizedOffersData.START_DATE)))
-        .andExpect(
-            jsonPath("bulkActivationRequests[0].lastUpdated", is(PersonalizedOffersData.END_DATE)))
-        .andExpect(jsonPath("bulkActivationRequests[0].status", is(PersonalizedOffersData.STATUS)))
-        .andExpect(
-            jsonPath(
-                "bulkActivationRequests[0].activationDate",
-                is(PersonalizedOffersData.ACTIVATION_DATE)))
-        .andExpect(jsonPath("bulkActivationRequests[0].fId", is(PersonalizedOffersData.FID)))
-        .andExpect(jsonPath("bulkActivationRequests[0].fId", is(PersonalizedOffersData.FID)))
-        .andExpect(jsonPath("status.code", is(Integer.valueOf(PersonalizedOffersData.STATUS_CODE))))
-        .andExpect(jsonPath("status.message", is(PersonalizedOffersData.STATUS_MESSAGE)));
-  }
-
-  @Test
   @DisplayName("GET /adjustments")
   void adjustments() throws Exception {
     when(referenceApplicationGateway.getAdjustments(any(), any(), any(),
@@ -564,7 +527,7 @@ class PersonalizedOffersControllerTest {
         .andExpect(jsonPath("$.limit", is(PersonalizedOffersData.LIMIT)))
         .andExpect(jsonPath("$.total", is(PersonalizedOffersData.TOTAL)))
         .andExpect(jsonPath("$.count", is(PersonalizedOffersData.COUNT)))
-        .andExpect(jsonPath("$.reponseLastModified",
+        .andExpect(jsonPath("$.responseLastModified",
             is(PersonalizedOffersData.LAST_MODIFIED)))
         .andExpect(jsonPath("$.status.code", is(Integer.valueOf(PersonalizedOffersData.STATUS_CODE))))
         .andExpect(jsonPath("$.status.message", is(PersonalizedOffersData.STATUS_MESSAGE)))
@@ -635,7 +598,7 @@ class PersonalizedOffersControllerTest {
             is(PersonalizedOffersData.BANK_CUSTOMER_NUMBER)))
         .andExpect(jsonPath("$.adjustments[0].transactionAuthorizationCode",
             is(PersonalizedOffersData.TRANSACTION_AUTHORIZATION_CODE)))
-        .andExpect(jsonPath("$.adjustments[0].transactionDesciptionOriginal",
+        .andExpect(jsonPath("$.adjustments[0].transactionDescriptionOriginal",
             is(PersonalizedOffersData.TRANSACTION_DESCRIPTION_ORIGINAL)))
         .andExpect(jsonPath("$.adjustments[0].errorDescription",
             is(PersonalizedOffersData.ERROR_DESCRIPTION)))
@@ -660,5 +623,21 @@ class PersonalizedOffersControllerTest {
         .andExpect(jsonPath("$.adjustments[0].type",
             is(PersonalizedOffersData.TYPE)));
 
+  }
+
+  @Test
+  @DisplayName("POST /access-tokens")
+  void accessTokens() throws Exception {
+    when(referenceApplicationGateway.getToken(any()))
+        .thenReturn(PersonalizedOffersData.getAccessTokenResponse());
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/access-tokens")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(PersonalizedOffersData.getAccessTokenRequest())))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.accessToken", is(PersonalizedOffersData.ACCESS_TOKEN)));
   }
 }
