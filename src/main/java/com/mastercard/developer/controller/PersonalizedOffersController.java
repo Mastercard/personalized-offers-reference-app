@@ -1,28 +1,10 @@
 package com.mastercard.developer.controller;
 
 import com.mastercard.ApiException;
-import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
-import com.mastercard.api.model.AdjustmentResponse;
-import com.mastercard.api.model.AccessTokenRequest;
-import com.mastercard.api.model.AccessTokenResponse;
-import com.mastercard.api.model.BrowseOffersResponse;
-import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
-import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
-import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
-import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation;
-import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
-import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputListResponse;
-import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputResponse;
-import com.mastercard.api.model.ResponseWrapperUserSavingsResponse;
-import com.mastercard.api.model.ResponseWrapperUserTokenOutputResponse;
-import com.mastercard.api.model.UserFeedbackInput;
+import com.mastercard.api.model.*;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PersonalizedOffersController {
@@ -119,9 +101,32 @@ public class PersonalizedOffersController {
             fId, offset, limit, startDate, endDate, dateFilter));
   }
 
-  @PostMapping("/access-tokens")
+  @PostMapping("/user-presentment/access-tokens")
   public AccessTokenResponse createAccessToken(@RequestBody AccessTokenRequest accessToken)
       throws ApiException {
     return referenceApplicationGateway.getToken(accessToken);
   }
+
+  @GetMapping("/user-presentment/offers")
+  public UserOffersResponse getOffers (
+      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false) final String language,
+      @RequestParam(value = "offer_type", required = false) final String offerType,
+      @RequestParam(value = "category", required = false) final String category,
+      @RequestParam(value = "offer_country", required = false) final String offerCountry,
+      @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
+      @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
+      @RequestParam(value = "sort", required = false) final String sort,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken
+  ) throws ApiException {
+    return referenceApplicationGateway.getOffers(language, offerType, category, offerCountry, offset, limit, sort, xAuthToken);
+  }
+
+  @GetMapping("/user-presentment/offers/{offer_id}")
+  public UserOfferDetailsResponse getOfferDetails (
+      @PathVariable(value = "offer_id") final String offerId,
+      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false) final String language,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.getOfferDetails(offerId, language, xAuthToken);
+  }
+
 }
