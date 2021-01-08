@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 2.2.0
+
+Released: January 8, 2021
+
+Changes:
+
+* Introduce User Presentment Offer API
+* Introduce User Presentment Offer Details API
+
 ## Version 2.1.0
 
 Released: December 17, 2020

@@ -1,16 +1,7 @@
 package com.mastercard.developer.configuration;
 
 import com.mastercard.ApiClient;
-import com.mastercard.api.AdjustmentsApi;
-import com.mastercard.api.MatchedOffersApi;
-import com.mastercard.api.OfferDetailsApi;
-import com.mastercard.api.OffersApi;
-import com.mastercard.api.RedeemedOffersApi;
-import com.mastercard.api.StatementCreditActivationsApi;
-import com.mastercard.api.TokensApi;
-import com.mastercard.api.UserFeedbackApi;
-import com.mastercard.api.UserSavingsApi;
-import com.mastercard.api.UserTokenApi;
+import com.mastercard.api.*;
 import com.mastercard.developer.interceptors.OkHttpOAuth1Interceptor;
 import com.mastercard.developer.utils.AuthenticationUtils;
 import okhttp3.OkHttpClient;
@@ -86,6 +77,11 @@ public class ApiClientConfiguration {
   @Bean
   public TokensApi tokensApi(final ApiClient apiClient) {
     return new TokensApi(apiClient);
+  }
+
+  @Bean
+  public OfferApi offerApi(final ApiClient apiClient) {
+    return new OfferApi(apiClient);
   }
 
   @Bean
