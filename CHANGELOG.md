@@ -1,5 +1,30 @@
 # Change Log
 
+## Version 2.2.0
+
+Released: January 8, 2021
+
+Changes:
+
+* Introduce User Presentment Offer API
+* Introduce User Presentment Offer Details API
+
+## Version 2.1.0
+
+Released: December 17, 2020
+
+Changes:
+
+* Introduce Access Tokens API
+
+## Version 2.0.0
+
+Released: December 10, 2020
+
+Changes:
+
+* Remove Bulk Activations API
+
 ## Version 1.2.0
 
 Released: September 21, 2020

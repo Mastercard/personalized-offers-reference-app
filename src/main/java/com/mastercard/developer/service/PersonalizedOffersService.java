@@ -1,31 +1,8 @@
 package com.mastercard.developer.service;
 
 import com.mastercard.ApiException;
-import com.mastercard.api.BulkActivationsApi;
-import com.mastercard.api.AdjustmentsApi;
-import com.mastercard.api.MatchedOffersApi;
-import com.mastercard.api.OfferDetailsApi;
-import com.mastercard.api.OffersApi;
-import com.mastercard.api.RedeemedOffersApi;
-import com.mastercard.api.StatementCreditActivationsApi;
-import com.mastercard.api.UserFeedbackApi;
-import com.mastercard.api.UserSavingsApi;
-import com.mastercard.api.UserTokenApi;
-import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
-import com.mastercard.api.model.AdjustmentResponse;
-import com.mastercard.api.model.BrowseOffersResponse;
-import com.mastercard.api.model.BulkActivationApiRequest;
-import com.mastercard.api.model.BulkActivationRequestResponse;
-import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
-import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
-import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
-import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation;
-import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
-import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputListResponse;
-import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputResponse;
-import com.mastercard.api.model.ResponseWrapperUserSavingsResponse;
-import com.mastercard.api.model.ResponseWrapperUserTokenOutputResponse;
-import com.mastercard.api.model.UserFeedbackInput;
+import com.mastercard.api.*;
+import com.mastercard.api.model.*;
 import com.mastercard.developer.service.domain.GenericOffersCriterion;
 import com.mastercard.developer.service.domain.MatchedOffersCriterion;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +14,13 @@ import static java.util.Objects.requireNonNull;
 public class PersonalizedOffersService {
 
   private static final String ACTIVATION_ID_IS_REQUIRED = "Activation ID is required.";
+  private static final String AUTH_TOKEN_IS_REQUIRED = "Auth Token is required.";
   private static final String FEEDBACK_IS_REQUIRED = "Feedback is required.";
   private static final String FID_IS_REQUIRED = "F_ID is required.";
   private static final String OFFER_ID_IS_REQUIRED = "Offer ID is required.";
   private static final String USER_TOKEN_IS_REQUIRED = "User Token is required.";
+  private static final String USER_ID_IS_REQUIRED = "User Id is required.";
+  private static final String UTC_OFFSET_IS_REQUIRED = "UtcOffset is required.";
 
   private final MatchedOffersApi matchedOffersApi;
   private final OfferDetailsApi offerDetailsApi;
@@ -51,8 +31,9 @@ public class PersonalizedOffersService {
   private final UserSavingsApi userSavingsApi;
   private final UserTokenApi userTokenApi;
   private final OffersApi offersApi;
-  private final BulkActivationsApi bulkActivationsApi;
   private final AdjustmentsApi adjustmentsApi;
+  private final TokensApi tokensApi;
+  private final OfferApi offerApi;
 
   public PersonalizedOffersService(
       @Value("${mastercard.api.auth.token}") final String authInfo,
@@ -64,8 +45,9 @@ public class PersonalizedOffersService {
       final UserFeedbackApi userFeedbackApi,
       final UserSavingsApi userSavingsApi,
       final OffersApi offersApi,
-      final BulkActivationsApi bulkActivationsApi,
-      final AdjustmentsApi adjustmentsApi) {
+      final AdjustmentsApi adjustmentsApi,
+      final TokensApi tokensApi,
+      final OfferApi offerApi) {
     this.authInfo = authInfo;
     this.userTokenApi = userTokenApi;
     this.matchedOffersApi = matchedOffersApi;
@@ -75,8 +57,9 @@ public class PersonalizedOffersService {
     this.userFeedbackApi = userFeedbackApi;
     this.userSavingsApi = userSavingsApi;
     this.offersApi = offersApi;
-    this.bulkActivationsApi = bulkActivationsApi;
     this.adjustmentsApi = adjustmentsApi;
+    this.tokensApi = tokensApi;
+    this.offerApi = offerApi;
   }
 
   public ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(
@@ -164,11 +147,6 @@ public class PersonalizedOffersService {
 
     return getOffers(
         GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
-  }
-
-  public BulkActivationRequestResponse sendBulkActivations(BulkActivationApiRequest bulkActivation)
-      throws ApiException {
-    return bulkActivationsApi.processBulkActivationRequest(bulkActivation);
   }
 
   public AdjustmentResponse getAdjustments(String fid, Integer offset, Integer limit,
@@ -296,4 +274,26 @@ public class PersonalizedOffersService {
         offersCriterion.getLimit(),
         offersCriterion.getSort());
   }
+
+  public AccessTokenResponse getToken(AccessTokenRequest accessToken) throws ApiException {
+    requireNonNull(accessToken.getFiId(), FID_IS_REQUIRED);
+    requireNonNull(accessToken.getUserId(), USER_ID_IS_REQUIRED);
+    requireNonNull(accessToken.getUtcOffset(), UTC_OFFSET_IS_REQUIRED);
+
+    return tokensApi.createAccessToken(accessToken);
+  }
+
+  public UserOffersResponse getOffers(String acceptLanguage, String offerType, String category, String offerCountry, Integer offset, Integer limit, String sort, String xAuthToken) throws ApiException {
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+
+    return offersApi.getOffers(acceptLanguage, offerType, category, offerCountry, offset, limit, sort, xAuthToken);
+  }
+
+  public UserOfferDetailsResponse getOfferDetails(String offerId, String acceptLanguage, String xAuthToken) throws ApiException {
+    requireNonNull(offerId, OFFER_ID_IS_REQUIRED);
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+
+    return offerApi.getOffer(offerId, acceptLanguage, xAuthToken);
+  }
 }
+

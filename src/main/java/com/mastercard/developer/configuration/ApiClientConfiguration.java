@@ -1,16 +1,7 @@
 package com.mastercard.developer.configuration;
 
 import com.mastercard.ApiClient;
-import com.mastercard.api.AdjustmentsApi;
-import com.mastercard.api.BulkActivationsApi;
-import com.mastercard.api.MatchedOffersApi;
-import com.mastercard.api.OfferDetailsApi;
-import com.mastercard.api.OffersApi;
-import com.mastercard.api.RedeemedOffersApi;
-import com.mastercard.api.StatementCreditActivationsApi;
-import com.mastercard.api.UserFeedbackApi;
-import com.mastercard.api.UserSavingsApi;
-import com.mastercard.api.UserTokenApi;
+import com.mastercard.api.*;
 import com.mastercard.developer.interceptors.OkHttpOAuth1Interceptor;
 import com.mastercard.developer.utils.AuthenticationUtils;
 import okhttp3.OkHttpClient;
@@ -34,7 +25,7 @@ public class ApiClientConfiguration {
   @Bean
   public ApiClient apiClient(
       final OkHttpClient okHttpClient,
-      @Value("${mastercard.api.basePath}" + "/plo") final String basePath) {
+      @Value("${mastercard.api.basePath}") final String basePath) {
     return new ApiClient().setHttpClient(okHttpClient).setBasePath(basePath);
   }
 
@@ -84,8 +75,13 @@ public class ApiClientConfiguration {
   }
 
   @Bean
-  public BulkActivationsApi bulkActivationsApi(final ApiClient apiClient) {
-    return new BulkActivationsApi(apiClient);
+  public TokensApi tokensApi(final ApiClient apiClient) {
+    return new TokensApi(apiClient);
+  }
+
+  @Bean
+  public OfferApi offerApi(final ApiClient apiClient) {
+    return new OfferApi(apiClient);
   }
 
   @Bean
