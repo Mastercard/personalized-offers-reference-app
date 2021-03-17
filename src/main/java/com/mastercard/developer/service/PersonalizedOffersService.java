@@ -21,6 +21,7 @@ public class PersonalizedOffersService {
   private static final String USER_TOKEN_IS_REQUIRED = "User Token is required.";
   private static final String USER_ID_IS_REQUIRED = "User Id is required.";
   private static final String UTC_OFFSET_IS_REQUIRED = "UtcOffset is required.";
+  private static final String ACTIVATION_REQUEST_IS_REQUIRED = "ActivationRequest is required.";
 
   private final MatchedOffersApi matchedOffersApi;
   private final OfferDetailsApi offerDetailsApi;
@@ -34,6 +35,10 @@ public class PersonalizedOffersService {
   private final AdjustmentsApi adjustmentsApi;
   private final TokensApi tokensApi;
   private final OfferApi offerApi;
+  private final UserRatingsApi userRatingsApi;
+  private final UserRatingApi userRatingApi;
+  private final CreateUserRatingApi createUserRatingApi;
+  private final ActivationsApi activationsApi;
 
   public PersonalizedOffersService(
       @Value("${mastercard.api.auth.token}") final String authInfo,
@@ -47,7 +52,11 @@ public class PersonalizedOffersService {
       final OffersApi offersApi,
       final AdjustmentsApi adjustmentsApi,
       final TokensApi tokensApi,
-      final OfferApi offerApi) {
+      final OfferApi offerApi,
+      final UserRatingsApi userRatingsApi,
+      final UserRatingApi userRatingApi,
+      final CreateUserRatingApi createUserRatingApi,
+     final ActivationsApi activationsApi     ) {
     this.authInfo = authInfo;
     this.userTokenApi = userTokenApi;
     this.matchedOffersApi = matchedOffersApi;
@@ -60,6 +69,10 @@ public class PersonalizedOffersService {
     this.adjustmentsApi = adjustmentsApi;
     this.tokensApi = tokensApi;
     this.offerApi = offerApi;
+    this.userRatingsApi = userRatingsApi;
+    this.userRatingApi = userRatingApi;
+    this.createUserRatingApi = createUserRatingApi;
+    this.activationsApi = activationsApi;
   }
 
   public ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers getRedeemedOffers(
@@ -294,6 +307,40 @@ public class PersonalizedOffersService {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
 
     return offerApi.getOffer(offerId, acceptLanguage, xAuthToken);
+  }
+
+  public OfferRatingsResponse getOfferRatings(String current, Integer offset, Integer limit, String xAuthToken) throws ApiException {
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+    return userRatingsApi.getOfferRatings(current, offset, limit, xAuthToken);
+  }
+
+  public OfferRatingResponse getOfferRating(String offerId, String xAuthToken) throws ApiException {
+    requireNonNull(offerId, OFFER_ID_IS_REQUIRED);
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+
+    return userRatingApi.getOfferRating(offerId,xAuthToken);
+  }
+
+  public OfferRatingResponse createOfferRating(String offerId, OfferRatingRequest offerRatingRequest,  String xAuthToken) throws ApiException {
+    requireNonNull(offerId, OFFER_ID_IS_REQUIRED);
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+    return createUserRatingApi.createOfferRating(offerId,offerRatingRequest,xAuthToken);
+  }
+
+  public Activations processActivations(RequestedActivation requestedActivation,  String xAuthToken) throws ApiException {
+    requireNonNull(requestedActivation, ACTIVATION_REQUEST_IS_REQUIRED);
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+    return activationsApi.processActivations(requestedActivation);
+  }
+
+  public UserSavingsResponse getUserPresentmentSavings(String xAuthToken) throws ApiException {
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+    return userSavingsApi.getUserPresentmentSavings(xAuthToken);
+  }
+
+  public UserAdjustments getUserPresentmentAdjustments(String startDate, String endDate, String dateFilter, Integer offset, Integer limit,String xAuthToken) throws ApiException {
+    requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
+    return adjustmentsApi.getUserPresentmentAdjustments(startDate,endDate,dateFilter,offset,limit,xAuthToken);
   }
 }
 
