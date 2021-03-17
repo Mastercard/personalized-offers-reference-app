@@ -148,141 +148,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIErrorResponse"
-  "/plo/v1/redeemedoffers":
-    get:
-      tags:
-        - Redeemed Offers
-      summary: Returns Redeemed Offers
-      description: This resource returns offers that have been fulfilled by the user.
-      operationId: getRedeemedOfferDetails
-      parameters:
-        - name: FId
-          in: query
-          description: Financial Institution Identifier. Code that specifies the platform
-            and configuration instance, provided by Mastercard during implementation.
-          required: true
-          schema:
-            type: string
-          example: 999999
-        - name: ItemsPerPage
-          in: query
-          description: Maximum count of entities to return in one segment.
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 25
-          example: 1
-        - name: PageNumber
-          in: query
-          description: Segment count to return.
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 1
-          example: 1
-        - name: Lang
-          in: query
-          description: When utilized with a multi-lingual implementation, may be the
-            tongue and country of the user in ISO 639-1, underscore, ISO 3166-1 alpha-2
-          required: false
-          schema:
-            type: string
-          example: en_US
-        - name: UserToken
-          in: query
-          description: Session identifier as returned by the UserToken resource.
-          required: true
-          schema:
-            type: string
-          example: 16097dd31900002
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ResponseWrapperDetailedRedeemedOfferListResponse_RedeemedOffers"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-  "/plo/v1/usersavings":
-    get:
-      tags:
-        - User Savings
-      summary: Returns Savings for the User
-      description: This resource returns the accumulated and potential savings for
-        a Personalized Offers user.
-      operationId: getUserSavings
-      parameters:
-        - name: FId
-          in: query
-          description: Financial Institution Identifier. Code that specifies the platform
-            and configuration instance, provided by Mastercard during implementation.
-          required: true
-          schema:
-            type: string
-          example: 999999
-        - name: UserToken
-          in: query
-          description: Session identifier as returned by the UserToken resource.
-          required: true
-          schema:
-            type: string
-          example: 16097dd31900002
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ResponseWrapperUserSavingsResponse"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
   "/plo/v1/userfeedback":
     get:
       tags:
@@ -476,6 +341,141 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/ResponseWrapperMatchedOfferDetailsResponse_MatchedOffers"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/plo/v1/usersavings":
+    get:
+      tags:
+        - User Savings
+      summary: Returns Savings for the User
+      description: This resource returns the accumulated and potential savings for
+        a Personalized Offers user.
+      operationId: getUserSavings
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ResponseWrapperUserSavingsResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/plo/v1/redeemedoffers":
+    get:
+      tags:
+        - Redeemed Offers
+      summary: Returns Redeemed Offers
+      description: This resource returns offers that have been fulfilled by the user.
+      operationId: getRedeemedOfferDetails
+      parameters:
+        - name: FId
+          in: query
+          description: Financial Institution Identifier. Code that specifies the platform
+            and configuration instance, provided by Mastercard during implementation.
+          required: true
+          schema:
+            type: string
+          example: 999999
+        - name: ItemsPerPage
+          in: query
+          description: Maximum count of entities to return in one segment.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 25
+          example: 1
+        - name: PageNumber
+          in: query
+          description: Segment count to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+          example: 1
+        - name: Lang
+          in: query
+          description: When utilized with a multi-lingual implementation, may be the
+            tongue and country of the user in ISO 639-1, underscore, ISO 3166-1 alpha-2
+          required: false
+          schema:
+            type: string
+          example: en_US
+        - name: UserToken
+          in: query
+          description: Session identifier as returned by the UserToken resource.
+          required: true
+          schema:
+            type: string
+          example: 16097dd31900002
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ResponseWrapperDetailedRedeemedOfferListResponse_RedeemedOffers"
         '400':
           description: Bad Request
           content:
@@ -805,7 +805,7 @@ paths:
           schema:
             type: integer
             format: int32
-          example: 10
+          example: 0
         - name: limit
           in: query
           description: The number of items you want the list to be limited to.
@@ -822,7 +822,7 @@ paths:
           required: false
           schema:
             type: string
-          example: '2020-10-05'
+          example: '2019-10-05'
         - name: end_date
           in: query
           description: Filter criteria to retrieve the list of adjustments. If no date
@@ -849,215 +849,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/AdjustmentResponse"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-  "/loyalty/offers/user-presentment/offers/{offer_id}":
-    get:
-      tags:
-        - Offer
-      summary: Returns an available offer for the given user. This endpoint is emerging
-        and subject to change.
-      description: This resource returns extended information for the requested offer,
-        typically used to display a detail view.
-      operationId: getOffer
-      parameters:
-        - name: offer_id
-          in: path
-          description: System-wide identifier for the campaign.
-          required: true
-          schema:
-            type: string
-          example: abcdefd6-75e1-4001-a72c-9b8218873089
-        - name: Accept-Language
-          in: header
-          description: When utilized with a multi-lingual implementation, may be the
-            tongue and country of the user in ISO 639-1.
-          required: false
-          schema:
-            type: string
-            default: ''
-          example: en-US
-        - name: X-Auth-Token
-          in: header
-          description: Access token as returned by the access token resource.
-          schema:
-            type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserOfferDetailsResponse"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-  "/loyalty/offers/user-presentment/offers":
-    get:
-      tags:
-        - Offers
-      summary: Returns all available offers for the given user. This endpoint is emerging
-        and subject to change.
-      description: This resource returns extended information for the requested offer,
-        typically used to display a detail view.
-      operationId: getOffers
-      parameters:
-        - name: Accept-Language
-          in: header
-          description: When utilized with a multi-lingual implementation, may be the
-            tongue and country of the user in ISO 639-1.
-          required: false
-          schema:
-            type: string
-            default: ''
-          example: en-US
-        - name: offer_type
-          in: query
-          description: The kind of deal. POSTPAIDCREDIT and ALWAYSON.
-          required: false
-          schema:
-            type: string
-          example: POSTPAIDCREDIT
-        - name: category
-          in: query
-          description: The type of retailer to which the offer applies.
-          required: false
-          schema:
-            type: string
-          example: DEPARTMENTSTORE
-        - name: offer_country
-          in: query
-          description: Offer Country.
-          required: false
-          schema:
-            type: string
-          example: USA
-        - name: offset
-          in: query
-          description: The number of items to offset the start of the list from.
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 0
-          example: 1
-        - name: limit
-          in: query
-          description: The number of items you want the list to be limited to.
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-          example: 5
-        - name: sort
-          in: query
-          description: The order and parameter you want to sort by.
-          required: false
-          schema:
-            type: string
-            default: "+eventEndDate"
-          example: "+merchantDisplayName"
-        - name: X-Auth-Token
-          in: header
-          description: Access token as returned by the access token resource.
-          schema:
-            type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserOffersResponse"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIErrorResponse"
-  "/loyalty/offers/user-presentment/access-tokens":
-    post:
-      tags:
-        - Tokens
-      summary: Returns an access token.
-      operationId: createAccessToken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/AccessTokenRequest"
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/AccessTokenResponse"
         '400':
           description: Bad Request
           content:
@@ -1208,6 +999,215 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/offers":
+    get:
+      tags:
+        - Offers
+      summary: Returns all available offers for the given user. This endpoint is emerging
+        and subject to change.
+      description: This resource returns extended information for the requested offer,
+        typically used to display a detail view.
+      operationId: getOffers
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: When utilized with a multi-lingual implementation, may be the
+            tongue and country of the user in ISO 639-1.
+          required: false
+          schema:
+            type: string
+            default: ''
+          example: en-US
+        - name: offer_type
+          in: query
+          description: The kind of deal. POSTPAIDCREDIT and ALWAYSON.
+          required: false
+          schema:
+            type: string
+          example: POSTPAIDCREDIT
+        - name: category
+          in: query
+          description: The type of retailer to which the offer applies.
+          required: false
+          schema:
+            type: string
+          example: SHOP
+        - name: offer_country
+          in: query
+          description: Offer Country.
+          required: false
+          schema:
+            type: string
+          example: USA
+        - name: offset
+          in: query
+          description: The number of items to offset the start of the list from.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items you want the list to be limited to.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+          example: 5
+        - name: sort
+          in: query
+          description: The order and parameter you want to sort by.
+          required: false
+          schema:
+            type: string
+            default: "+eventEndDate"
+          example: "+merchantDisplayName"
+        - name: X-Auth-Token
+          in: header
+          description: Access token as returned by the access token resource.
+          schema:
+            type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserOffersResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/offers/{offer_id}":
+    get:
+      tags:
+        - Offer
+      summary: Returns an available offer for the given user. This endpoint is emerging
+        and subject to change.
+      description: This resource returns extended information for the requested offer,
+        typically used to display a detail view.
+      operationId: getOffer
+      parameters:
+        - name: offer_id
+          in: path
+          description: System-wide identifier for the campaign.
+          required: true
+          schema:
+            type: string
+          example: abcdefd6-75e1-4001-a72c-9b8218873089
+        - name: Accept-Language
+          in: header
+          description: When utilized with a multi-lingual implementation, may be the
+            tongue and country of the user in ISO 639-1.
+          required: false
+          schema:
+            type: string
+            default: ''
+          example: en-US
+        - name: X-Auth-Token
+          in: header
+          description: Access token as returned by the access token resource.
+          schema:
+            type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserOfferDetailsResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/activation-requests":
+    post:
+      tags:
+        - Activations
+      summary: Process Activations.
+      operationId: processActivations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RequestedActivation"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Activations"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
   "/loyalty/offers/user-presentment/offer-ratings/{offer_id}/likes":
     post:
       tags:
@@ -1244,6 +1244,188 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/OfferRatingResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/savings":
+    get:
+      tags:
+        - User Savings
+      summary: Returns the savings for a user
+      description: This resource returns the accumulated and potential savings for
+        a Personalized Offers user
+      operationId: getUserPresentmentSavings
+      parameters:
+        - name: X-Auth-Token
+          in: header
+          description: Access token as returned by the access token resource.
+          schema:
+            type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserSavingsResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/access-tokens":
+    post:
+      tags:
+        - Tokens
+      summary: Returns an access token.
+      operationId: createAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AccessTokenRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccessTokenResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIErrorResponse"
+  "/loyalty/offers/user-presentment/adjustments":
+    get:
+      tags:
+        - Adjustments
+      summary: Returns all adjustments for the given user. This endpoint is emerging
+        and subject to change.
+      description: This resource returns the adjustments for the user that conform
+        to the search criteria (if specified).
+      operationId: getUserPresentmentAdjustments
+      parameters:
+        - name: start_date
+          in: query
+          description: Filter criteria to retrieve the list of adjustments. If no date
+            is specified then retrieves the data of the last 24 hours. Accept Date as
+            ISO date input
+          required: false
+          schema:
+            type: string
+          example: '2019-10-05'
+        - name: end_date
+          in: query
+          description: Filter criteria to retrieve the list of adjustments. If no date
+            is specified then defaults to today's date. Accept Date as ISO date input
+          required: false
+          schema:
+            type: string
+          example: '2020-10-05'
+        - name: dateFilter
+          in: query
+          description: Filter criteria to retrieve the data based on the Created Date
+            or Last Modified Date. Default is Created
+          required: false
+          schema:
+            type: string
+            enum:
+              - CREATED
+              - UPDATED
+          example: CREATED
+        - name: offset
+          in: query
+          description: The number of items to offset the start of the list from.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items you want the list to be limited to.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+          example: 5
+        - name: X-Auth-Token
+          in: header
+          description: Access token as returned by the access token resource.
+          schema:
+            type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaUlkIjoiOTk5OSIsInVzZXJSZWYiOiJhMGZjMTQxNS1hNGZmLTQzMzYtYTA2YS0xZGNlMWU5MTdiYzciLCJ1dGNPZmZzZXQiOiItMDQ6MzAiLCJpYXQiOjE2MDU4OTY2MTI0NTd9.Sk5Ici9iWjJNS2x1RUJTbzFTYWoyMU1rNUk2MVVvRkw4ank0UCt5YlUyVT0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserAdjustments"
         '400':
           description: Bad Request
           content:
@@ -1607,6 +1789,356 @@ components:
           "$ref": "#/components/schemas/Status"
         UserToken:
           "$ref": "#/components/schemas/UserTokenOutput"
+    ResponseWrapperUserFeedbackOutputListResponse:
+      type: object
+      properties:
+        Response:
+          "$ref": "#/components/schemas/UserFeedbackOutputListResponse"
+    UserFeedbackOutput:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
+        Feedback:
+          type: string
+          description: 'User response to the offer. 0: disliked offer. 1: liked offer.'
+          example: '1'
+    UserFeedbackOutputListResponse:
+      type: object
+      properties:
+        Status:
+          "$ref": "#/components/schemas/Status"
+        NumberOfPages:
+          type: string
+          description: Total count of returned segments.
+          example: '5'
+        ItemsPerPage:
+          type: string
+          description: Maximum count of entities to return in one segment.
+          example: '2'
+        CurrentPage:
+          type: string
+          description: Returned segment count.
+          example: '2'
+        Items:
+          "$ref": "#/components/schemas/UserFeedbackWrapper"
+        TotalCount:
+          type: string
+          description: Overall number of returned entities.
+          example: '1'
+    UserFeedbackWrapper:
+      type: object
+      properties:
+        UserFeedback:
+          type: array
+          items:
+            "$ref": "#/components/schemas/UserFeedbackOutput"
+    AddressWrapper_MatchedOffers:
+      type: object
+      properties:
+        Address:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Address_MatchedOffers"
+    Address_MatchedOffers:
+      type: object
+      properties:
+        Street:
+          type: string
+          description: Disregard, reserved for future use.
+        Latitude:
+          type: string
+          description: Disregard, reserved for future use.
+        Longitude:
+          type: string
+          description: Disregard, reserved for future use.
+    MatchedOfferDetailsResponse_MatchedOffers:
+      type: object
+      properties:
+        TotalCount:
+          type: string
+          description: Overall number of returned entities.
+          example: '2'
+        CurrentPage:
+          type: string
+          description: Returned segment count.
+          example: '2'
+        NumberOfPages:
+          type: string
+          description: Total count of returned segments.
+          example: '5'
+        ItemsPerPage:
+          type: string
+          description: Maximum count of entities to return in one segment.
+          example: '2'
+        Status:
+          "$ref": "#/components/schemas/Status_MatchedOffers"
+        Items:
+          "$ref": "#/components/schemas/MatchedOfferWrapper_MatchedOffers"
+    MatchedOfferDetails_MatchedOffers:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
+        OfferType:
+          type: string
+          description: 'The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
+            Statement Credit Offer, which is a discount that is linked to the user
+            and utilized to make the purchase.'
+          example: POSTPAIDCREDIT
+        OfferSource:
+          type: string
+          description: Platform that made the offer available, not intended for end-user
+            display.
+          example: Mastercard
+        Language:
+          type: string
+          description: Tongue of offer display text.
+          example: English
+        CurrencyCode:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made
+            to qualify for the offer.
+          example: USD
+        Merchant:
+          "$ref": "#/components/schemas/Merchant_MatchedOffers"
+        MerchantImageURL:
+          type: string
+          description: Square picture of the retailer logo.
+          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
+        RedemptionMode:
+          type: string
+          description: 'Type of credit made upon redemption of the offer: CASH, POINTS
+            or EITHER'
+          example: CASH
+        PointsConversionRate:
+          type: string
+          description: Conversion rate between cash and points values for the offer.
+          example: '0.025'
+        MinTotalSpend:
+          type: string
+          description: Minimum cumulative spend required to redeem the offer.
+          example: '100.0'
+        LongTerms:
+          type: string
+          description: Extended conditions required for successful redemption of the
+            offer.
+          example: Offer is non-transferable and applies to a purchase of a min. of
+            $30 online or in store charged to your card by the expiration date. Offer
+            is limited to two (2) redemptions per cardholder during the promotion
+            period.
+        PointsType:
+          type: string
+          description: Redemption currency if not cash.
+          example: Example Bank Miles
+        Headline:
+          type: string
+          description: Summary of the deal, typically displayed beneath the headline
+            in a list view.
+          example: On your next purchase of $25 or more at Example.com online or at
+            a store, receive 20% back posted to the card associated with this account.
+        ShortDescription:
+          type: string
+          description: Explanation of the deal, typically displayed beneath the headline
+            in a detail view. Often the same as the ShortDescription.
+          example: On your next purchase of $30 or more at Example.com online or at
+            a store, receive $10.00 back posted to the card associated with this account.
+        EventStartDate:
+          type: string
+          description: First day that redemption can be made by any user, may not
+            apply to the specified user.
+          format: date
+          example: '2020-03-31'
+        EventEndDate:
+          type: string
+          description: Last day that redemption may be made.
+          format: date
+          example: '2020-09-06'
+        MaxUserRedemptions:
+          type: string
+          description: The number of times that the cardholder may take advantage
+            of this offer.
+          example: '1'
+        OfferCountry:
+          type: string
+          description: Nation of Points of Service (PoS) in which the redeeming transaction
+            must be made to qualify for the offer.
+          example: USA
+        ActivationDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: '2020-08-06'
+        ScActivation:
+          "$ref": "#/components/schemas/StatementCreditOfferDetails_MatchedOffers"
+        Price:
+          type: string
+          description: Disregard, deprecated.
+          example: '9.99'
+        Discount:
+          type: string
+          description: 'The kind of deal. POSTPAIDCREDIT: Statement Credit Offer,
+            which is a discount that is automatically applied to the card linked to
+            the user and utilized to make the purchase.'
+          example: '10.2'
+        DiscountType:
+          type: string
+          description: 'The kind of markdown represented by the offer. ABSOLUTE: fixed
+            amount. PERCENTAGE: share of purchase.'
+          example: ABSOLUTE
+        ActiveSc:
+          type: string
+          description: 'ACTIVATED_STATEMENT_CREDIT: ready for redemption by the user.
+            AVAILABLE: requires call to Activate Statement Credit Offer to make ready
+            for redemption.'
+          example: AVAILABLE
+        UserFeedback:
+          "$ref": "#/components/schemas/UserFeedbackOutput_MatchedOffers"
+    MatchedOfferWrapper_MatchedOffers:
+      type: object
+      properties:
+        MatchedOffer:
+          type: array
+          items:
+            "$ref": "#/components/schemas/MatchedOfferDetails_MatchedOffers"
+    Merchant_MatchedOffers:
+      type: object
+      properties:
+        Addresses:
+          "$ref": "#/components/schemas/AddressWrapper_MatchedOffers"
+        Name:
+          type: string
+          description: Display name for the retailer to which the offer applies.
+          example: Example.com
+        Category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended
+            for end-user display.
+          example: DEPARTMENTSTORE
+        MerchantDistance:
+          type: string
+          description: Disregard, reserved for future use.
+          example: '0.0'
+        WebsiteUrl:
+          type: string
+          description: The internet address of the retailer.
+          example: http://www.example.com/
+        StoreLocatorUrl:
+          type: string
+          description: Web page where retailer outlets can be found.
+          example: http://www.example.com/locations/
+        MerchantCustomerCare:
+          type: string
+          description: Disregard, reserved for future use.
+    ResponseWrapperMatchedOfferDetailsResponse_MatchedOffers:
+      type: object
+      properties:
+        Response:
+          "$ref": "#/components/schemas/MatchedOfferDetailsResponse_MatchedOffers"
+    StatementCreditOfferDetails_MatchedOffers:
+      type: object
+      properties:
+        ActivationId:
+          type: string
+          description: Distinct identifier for the offer being available for redemption
+            by the user as returned by Activate Statement Credit Offer or Redeemed
+            Offers, not intended for end-user display.
+          example: TRU_1000136
+        RedemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: '2020-10-29'
+        RedemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: '2020-11-12'
+    Status_MatchedOffers:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: Application response code.
+          example: '600'
+        Message:
+          type: string
+          description: Application response message.
+          example: Success
+    UserFeedbackOutput_MatchedOffers:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
+        Feedback:
+          type: string
+          description: 'User response to the offer. 0: disliked offer. 1: liked offer.'
+          example: '1'
+    ResponseWrapperUserSavingsResponse:
+      type: object
+      properties:
+        Response:
+          "$ref": "#/components/schemas/UserSavingsResponse"
+    StatementCreditOffersSavings:
+      type: object
+      properties:
+        NumRedeemed:
+          type: string
+          description: Count of deals redeemed.
+          example: '1'
+        EarnedCashback:
+          type: string
+          description: Value of redemptions.
+          example: '21.0'
+        NumAvailable:
+          type: string
+          description: Count of deals that are ready for activation or redemption.
+          example: '10'
+        PotentialSavings:
+          type: string
+          description: Minimum value of unredeemed deals.
+          example: '195.0'
+        EarnedPoints:
+          type: string
+          description: Value of redemptions.
+          example: '5'
+        PotentialPoints:
+          type: string
+          description: Minimum value of unredeemed deals.
+          example: '4'
+    UserSavings:
+      type: object
+      properties:
+        StatementCreditOffersSavings:
+          "$ref": "#/components/schemas/StatementCreditOffersSavings"
+        TotalAmountSaved:
+          type: string
+          description: Combined value of redeemed deals.
+          example: '40.0'
+        TotalOffersUsed:
+          type: string
+          description: Combined count of redeemed deals.
+          example: '5'
+        TotalEarnedPoints:
+          type: string
+          description: Combined value of redeemed deals.
+          example: '10'
+    UserSavingsResponse:
+      type: object
+      properties:
+        Status:
+          "$ref": "#/components/schemas/Status"
+        UserSavings:
+          "$ref": "#/components/schemas/UserSavings"
     AddressWrapper_RedeemedOffers:
       type: object
       properties:
@@ -1949,356 +2481,6 @@ components:
           type: string
           description: Application response message.
           example: Success
-    ResponseWrapperUserSavingsResponse:
-      type: object
-      properties:
-        Response:
-          "$ref": "#/components/schemas/UserSavingsResponse"
-    StatementCreditOffersSavings:
-      type: object
-      properties:
-        NumRedeemed:
-          type: string
-          description: Count of deals redeemed.
-          example: '1'
-        EarnedCashback:
-          type: string
-          description: Value of redemptions.
-          example: '21.0'
-        NumAvailable:
-          type: string
-          description: Count of deals that are ready for activation or redemption.
-          example: '10'
-        PotentialSavings:
-          type: string
-          description: Minimum value of unredeemed deals.
-          example: '195.0'
-        EarnedPoints:
-          type: string
-          description: Value of redemptions.
-          example: '5'
-        PotentialPoints:
-          type: string
-          description: Minimum value of unredeemed deals.
-          example: '4'
-    UserSavings:
-      type: object
-      properties:
-        StatementCreditOffersSavings:
-          "$ref": "#/components/schemas/StatementCreditOffersSavings"
-        TotalAmountSaved:
-          type: string
-          description: Combined value of redeemed deals.
-          example: '40.0'
-        TotalOffersUsed:
-          type: string
-          description: Combined count of redeemed deals.
-          example: '5'
-        TotalEarnedPoints:
-          type: string
-          description: Combined value of redeemed deals.
-          example: '10'
-    UserSavingsResponse:
-      type: object
-      properties:
-        Status:
-          "$ref": "#/components/schemas/Status"
-        UserSavings:
-          "$ref": "#/components/schemas/UserSavings"
-    ResponseWrapperUserFeedbackOutputListResponse:
-      type: object
-      properties:
-        Response:
-          "$ref": "#/components/schemas/UserFeedbackOutputListResponse"
-    UserFeedbackOutput:
-      type: object
-      properties:
-        OfferId:
-          type: string
-          description: System-wide identifier for the campaign, not intended for end-user
-            display.
-          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
-        Feedback:
-          type: string
-          description: 'User response to the offer. 0: disliked offer. 1: liked offer.'
-          example: '1'
-    UserFeedbackOutputListResponse:
-      type: object
-      properties:
-        Status:
-          "$ref": "#/components/schemas/Status"
-        NumberOfPages:
-          type: string
-          description: Total count of returned segments.
-          example: '5'
-        ItemsPerPage:
-          type: string
-          description: Maximum count of entities to return in one segment.
-          example: '2'
-        CurrentPage:
-          type: string
-          description: Returned segment count.
-          example: '2'
-        Items:
-          "$ref": "#/components/schemas/UserFeedbackWrapper"
-        TotalCount:
-          type: string
-          description: Overall number of returned entities.
-          example: '1'
-    UserFeedbackWrapper:
-      type: object
-      properties:
-        UserFeedback:
-          type: array
-          items:
-            "$ref": "#/components/schemas/UserFeedbackOutput"
-    AddressWrapper_MatchedOffers:
-      type: object
-      properties:
-        Address:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Address_MatchedOffers"
-    Address_MatchedOffers:
-      type: object
-      properties:
-        Street:
-          type: string
-          description: Disregard, reserved for future use.
-        Latitude:
-          type: string
-          description: Disregard, reserved for future use.
-        Longitude:
-          type: string
-          description: Disregard, reserved for future use.
-    MatchedOfferDetailsResponse_MatchedOffers:
-      type: object
-      properties:
-        TotalCount:
-          type: string
-          description: Overall number of returned entities.
-          example: '2'
-        CurrentPage:
-          type: string
-          description: Returned segment count.
-          example: '2'
-        NumberOfPages:
-          type: string
-          description: Total count of returned segments.
-          example: '5'
-        ItemsPerPage:
-          type: string
-          description: Maximum count of entities to return in one segment.
-          example: '2'
-        Status:
-          "$ref": "#/components/schemas/Status_MatchedOffers"
-        Items:
-          "$ref": "#/components/schemas/MatchedOfferWrapper_MatchedOffers"
-    MatchedOfferDetails_MatchedOffers:
-      type: object
-      properties:
-        OfferId:
-          type: string
-          description: System-wide identifier for the campaign, not intended for end-user
-            display.
-          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
-        OfferType:
-          type: string
-          description: 'The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
-            Statement Credit Offer, which is a discount that is linked to the user
-            and utilized to make the purchase.'
-          example: POSTPAIDCREDIT
-        OfferSource:
-          type: string
-          description: Platform that made the offer available, not intended for end-user
-            display.
-          example: Mastercard
-        Language:
-          type: string
-          description: Tongue of offer display text.
-          example: English
-        CurrencyCode:
-          type: string
-          description: ISO 4217 code in which the redeeming transaction must be made
-            to qualify for the offer.
-          example: USD
-        Merchant:
-          "$ref": "#/components/schemas/Merchant_MatchedOffers"
-        MerchantImageURL:
-          type: string
-          description: Square picture of the retailer logo.
-          example: https://assets.eop.mastercard.com/test/mtf/pclo/5683/merchant_logo/examplecom_en-US_85x85.png
-        RedemptionMode:
-          type: string
-          description: 'Type of credit made upon redemption of the offer: CASH, POINTS
-            or EITHER'
-          example: CASH
-        PointsConversionRate:
-          type: string
-          description: Conversion rate between cash and points values for the offer.
-          example: '0.025'
-        MinTotalSpend:
-          type: string
-          description: Minimum cumulative spend required to redeem the offer.
-          example: '100.0'
-        LongTerms:
-          type: string
-          description: Extended conditions required for successful redemption of the
-            offer.
-          example: Offer is non-transferable and applies to a purchase of a min. of
-            $30 online or in store charged to your card by the expiration date. Offer
-            is limited to two (2) redemptions per cardholder during the promotion
-            period.
-        PointsType:
-          type: string
-          description: Redemption currency if not cash.
-          example: Example Bank Miles
-        Headline:
-          type: string
-          description: Summary of the deal, typically displayed beneath the headline
-            in a list view.
-          example: On your next purchase of $25 or more at Example.com online or at
-            a store, receive 20% back posted to the card associated with this account.
-        ShortDescription:
-          type: string
-          description: Explanation of the deal, typically displayed beneath the headline
-            in a detail view. Often the same as the ShortDescription.
-          example: On your next purchase of $30 or more at Example.com online or at
-            a store, receive $10.00 back posted to the card associated with this account.
-        EventStartDate:
-          type: string
-          description: First day that redemption can be made by any user, may not
-            apply to the specified user.
-          format: date
-          example: '2020-03-31'
-        EventEndDate:
-          type: string
-          description: Last day that redemption may be made.
-          format: date
-          example: '2020-09-06'
-        MaxUserRedemptions:
-          type: string
-          description: The number of times that the cardholder may take advantage
-            of this offer.
-          example: '1'
-        OfferCountry:
-          type: string
-          description: Nation of Points of Service (PoS) in which the redeeming transaction
-            must be made to qualify for the offer.
-          example: USA
-        ActivationDate:
-          type: string
-          description: Day on which the offer became ready for redemption.
-          format: date
-          example: '2020-08-06'
-        ScActivation:
-          "$ref": "#/components/schemas/StatementCreditOfferDetails_MatchedOffers"
-        Price:
-          type: string
-          description: Disregard, deprecated.
-          example: '9.99'
-        Discount:
-          type: string
-          description: 'The kind of deal. POSTPAIDCREDIT: Statement Credit Offer,
-            which is a discount that is automatically applied to the card linked to
-            the user and utilized to make the purchase.'
-          example: '10.2'
-        DiscountType:
-          type: string
-          description: 'The kind of markdown represented by the offer. ABSOLUTE: fixed
-            amount. PERCENTAGE: share of purchase.'
-          example: ABSOLUTE
-        ActiveSc:
-          type: string
-          description: 'ACTIVATED_STATEMENT_CREDIT: ready for redemption by the user.
-            AVAILABLE: requires call to Activate Statement Credit Offer to make ready
-            for redemption.'
-          example: AVAILABLE
-        UserFeedback:
-          "$ref": "#/components/schemas/UserFeedbackOutput_MatchedOffers"
-    MatchedOfferWrapper_MatchedOffers:
-      type: object
-      properties:
-        MatchedOffer:
-          type: array
-          items:
-            "$ref": "#/components/schemas/MatchedOfferDetails_MatchedOffers"
-    Merchant_MatchedOffers:
-      type: object
-      properties:
-        Addresses:
-          "$ref": "#/components/schemas/AddressWrapper_MatchedOffers"
-        Name:
-          type: string
-          description: Display name for the retailer to which the offer applies.
-          example: Example.com
-        Category:
-          type: string
-          description: The type of retailer to which the offer applies, not intended
-            for end-user display.
-          example: DEPARTMENTSTORE
-        MerchantDistance:
-          type: string
-          description: Disregard, reserved for future use.
-          example: '0.0'
-        WebsiteUrl:
-          type: string
-          description: The internet address of the retailer.
-          example: http://www.example.com/
-        StoreLocatorUrl:
-          type: string
-          description: Web page where retailer outlets can be found.
-          example: http://www.example.com/locations/
-        MerchantCustomerCare:
-          type: string
-          description: Disregard, reserved for future use.
-    ResponseWrapperMatchedOfferDetailsResponse_MatchedOffers:
-      type: object
-      properties:
-        Response:
-          "$ref": "#/components/schemas/MatchedOfferDetailsResponse_MatchedOffers"
-    StatementCreditOfferDetails_MatchedOffers:
-      type: object
-      properties:
-        ActivationId:
-          type: string
-          description: Distinct identifier for the offer being available for redemption
-            by the user as returned by Activate Statement Credit Offer or Redeemed
-            Offers, not intended for end-user display.
-          example: TRU_1000136
-        RedemptionEndDate:
-          type: string
-          description: Last day on which a purchase may qualify for the offer.
-          format: date
-          example: '2020-10-29'
-        RedemptionStartDate:
-          type: string
-          description: First day on which a purchase may qualify for the offer.
-          format: date
-          example: '2020-11-12'
-    Status_MatchedOffers:
-      type: object
-      properties:
-        Code:
-          type: string
-          description: Application response code.
-          example: '600'
-        Message:
-          type: string
-          description: Application response message.
-          example: Success
-    UserFeedbackOutput_MatchedOffers:
-      type: object
-      properties:
-        OfferId:
-          type: string
-          description: System-wide identifier for the campaign, not intended for end-user
-            display.
-          example: c7dcfca7-cf35-36Us-erFe-edbackOutput
-        Feedback:
-          type: string
-          description: 'User response to the offer. 0: disliked offer. 1: liked offer.'
-          example: '1'
     ResponseWrapperStatementCreditOfferDetailsResponse_StatementCreditOfferActivationDetail:
       type: object
       properties:
@@ -2884,6 +3066,8 @@ components:
           "$ref": "#/components/schemas/RedemptionCountries"
         redemptionIssuerCountries:
           "$ref": "#/components/schemas/RedemptionIssuerCountries"
+        presentmentCountries:
+          "$ref": "#/components/schemas/PresentmentCountries"
         redemptionIssuerICAs:
           "$ref": "#/components/schemas/RedemptionIssuerICAs"
         redemptionLocationIds:
@@ -2901,6 +3085,23 @@ components:
             type: string
             description: Adjustment bank product codes for the offer.
             example: '["Altitude_PCLO004"]'
+    PresentmentCountries:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'Eligibility qualifier for presentment nations: EXCLUSION or
+            INCLUSION.'
+          example: INCLUSION
+        values:
+          type: array
+          description: presentment nations for the offer in ISO 3166-1 alpha-2.
+          example:
+            - USA
+          items:
+            type: string
+            description: presentment nations for the offer in ISO 3166-1 alpha-2.
+            example: '["USA"]'
     RedemptionBankProductCodes:
       type: object
       properties:
@@ -3267,7 +3468,7 @@ components:
           type: string
           description: ISO 4217 code for the currency in which the redeeming transaction
             was made.
-          example: USD, CAD, AUD
+          example: USD
         transactionBankAccountNumberAlias:
           type: string
           description: The alias of Bank Account Number of the account to which the
@@ -3359,168 +3560,46 @@ components:
             purchase: PHYSICAL, DIGITAL, ONLINE_REDEMPTION, ONLINE_OFFLINK, NO_INVENTORY,
             STATEMENT_CREDIT'
           example: STATEMENT_CREDIT
-    UserOfferDetails:
+    OfferRating:
       type: object
       properties:
-        id:
+        offerId:
           type: string
-          description: System-wide identifier for the campaign, not intended for end-user
-            display.
-          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
-        type:
-          type: string
-          description: 'The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
-            Statement Credit Offer, which is a discount that is linked to the user
-            and utilized to make the purchase.'
-          example: POSTPAIDCREDIT
-        redemptionChannel:
-          type: string
-          description: 'Where a purchase may be made to qualify for the offer: INSTORE,
-            ONLINE or ONLINE-INSTORE (either).'
-          example: ONLINE-INSTORE
-        source:
-          type: string
-          description: Platform that made the offer available, not intended for end-user
-            display.
-          example: Truaxis
-        category:
-          type: string
-          description: The type of retailer to which the offer applies, not intended
-            for end-user display.
-        currency:
-          type: string
-          description: ISO 4217 code in which the redeeming transaction must be made
-            to qualify for the offer.
-          example: USD
-        merchant:
-          "$ref": "#/components/schemas/MerchantInfo"
-        redemptionSpendThreshold:
-          type: number
-          description: Minimum cumulative spend required to redeem the offer.
-          example: 100
-        eventStartDate:
-          type: string
-          description: Event Start Date.
-          format: date
-          example: '2020-03-31'
-        eventEndDate:
-          type: string
-          description: Last day that redemption can be made.
-          format: date
-          example: '2020-09-06'
-        redemptionMaxPerUser:
+        like:
           type: integer
-          description: The number of times that the cardholder may take advantage
-            of this offer.
           format: int32
-          example: 1
-        offerCountry:
-          type: string
-          description: Nation of Points of Service (PoS) in which the redeeming transaction
-            must be made to qualify for the offer.
-          example: USA
-        matchStartDate:
-          type: string
-          description: Day on which the offer became ready for redemption.
-          format: date
-          example: '2019-08-06'
-        matchEndDate:
-          type: string
-          description: Day on which the offer becomes discontinued for redemption.
-          format: date
-          example: '2020-09-01'
-        activationType:
-          type: string
-          description: 'Type of the offer activation: USER_ACTIVATION or AUTO_ACTIVATION.'
-          example: USER_ACTIVATION
-        assignmentOnEnrollment:
-          type: boolean
-          description: Assignment on enrollment.
-          example: true
-        goal:
-          type: string
-          description: The target of the offer.
-          example: New Customer Acquisition
-        lastModified:
-          type: string
-          description: The last time the offer was modified.
-          format: date-time
-          example: '2019-08-21T15:10:42-07:00'
-        matchMaxPerUser:
+    OfferRatingsResponse:
+      type: object
+      properties:
+        offset:
           type: integer
-          description: The number of times someone can match and possibly get assigned
-            the offer after already getting and using the offer.
+          description: The number of items to offset the start of the list from.
           format: int32
-          example: 1
-        presentmentEndDate:
-          type: string
-          description: The last day the offer may be presented.
-          format: date
-          example: '2022-03-31'
-        status:
-          type: string
-          description: 'The offer status: APPROVED, DECLINED, PENDING, CHANGED, NEEDSAPPROVAL,
-            NEW, DISCONTINUE or FAILED.'
-          example: APPROVED
-        test:
-          type: boolean
-          description: The indicator whether the offer is a test offer.
-          example: false
-        redemptionGracePeriodDays:
+          example: 5
+        limit:
           type: integer
-          description: The number of days after event end date in which a qualifying
-            transaction will still be accepted.
+          description: The number of items you want the list to be limited to.
           format: int32
           example: 10
-        redemptionSpendMinPerTxn:
-          type: number
-          description: The smallest purchase amount that will qualify for redemption.
-          example: 30.3
-        redemptionVisitThreshold:
+        total:
           type: integer
-          description: The number of purchases required to qualify for redemption.
+          description: The total number of items that are in the entire collection.
           format: int32
-          example: 1
-        redemptionStatementCreditType:
-          type: string
-          description: 'Calculation kind of the redemption value: SPEND or VISIT.'
-          example: SPEND
-        rewards:
+          example: 50
+        count:
+          type: integer
+          description: The number of items that are in this offset batch.
+          format: int32
+          example: 10
+        offerRatings:
           type: array
           items:
-            "$ref": "#/components/schemas/Reward"
-        localizations:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Localization"
-        redemptionClassifiers:
-          "$ref": "#/components/schemas/RedemptionClassifiers"
-        redemptionCountries:
-          "$ref": "#/components/schemas/RedemptionCountries"
-        redemptionIssuerCountries:
-          "$ref": "#/components/schemas/RedemptionIssuerCountries"
-        redemptionIssuerICAs:
-          "$ref": "#/components/schemas/RedemptionIssuerICAs"
-        redemptionLocationIds:
-          "$ref": "#/components/schemas/RedemptionLocationIds"
-        redemptionMerchantIdsByAcquirerICAs:
-          "$ref": "#/components/schemas/RedemptionMerchantIdsByAcquirerICAs"
-        redemptionBankProductCodes:
-          "$ref": "#/components/schemas/RedemptionBankProductCodes"
-        adjustmentBankProductCodes:
-          type: array
-          description: Adjustment bank product codes for the offer.
-          example:
-            - Altitude_PCLO004
-          items:
-            type: string
-            description: Adjustment bank product codes for the offer.
-            example: '["Altitude_PCLO004"]'
-    UserOfferDetailsResponse:
+            "$ref": "#/components/schemas/OfferRating"
+    OfferRatingResponse:
       type: object
       properties:
-        userOfferDetails:
-          "$ref": "#/components/schemas/UserOfferDetails"
+        offerRating:
+          "$ref": "#/components/schemas/OfferRating"
     UserAssigment:
       type: object
       properties:
@@ -3693,6 +3772,8 @@ components:
           "$ref": "#/components/schemas/RedemptionCountries"
         redemptionIssuerCountries:
           "$ref": "#/components/schemas/RedemptionIssuerCountries"
+        presentmentCountries:
+          "$ref": "#/components/schemas/PresentmentCountries"
         redemptionIssuerICAs:
           "$ref": "#/components/schemas/RedemptionIssuerICAs"
         redemptionLocationIds:
@@ -3741,6 +3822,239 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/UserOffer"
+    UserOfferDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: d82e1e7c-c6b9-3b46-acd0-5498731c2838
+        type:
+          type: string
+          description: 'The kind of deal: ALWAYSON or POSTPAIDCREDIT. POSTPAIDCREDIT:
+            Statement Credit Offer, which is a discount that is linked to the user
+            and utilized to make the purchase.'
+          example: POSTPAIDCREDIT
+        redemptionChannel:
+          type: string
+          description: 'Where a purchase may be made to qualify for the offer: INSTORE,
+            ONLINE or ONLINE-INSTORE (either).'
+          example: ONLINE-INSTORE
+        source:
+          type: string
+          description: Platform that made the offer available, not intended for end-user
+            display.
+          example: Truaxis
+        category:
+          type: string
+          description: The type of retailer to which the offer applies, not intended
+            for end-user display.
+        currency:
+          type: string
+          description: ISO 4217 code in which the redeeming transaction must be made
+            to qualify for the offer.
+          example: USD
+        merchant:
+          "$ref": "#/components/schemas/MerchantInfo"
+        redemptionSpendThreshold:
+          type: number
+          description: Minimum cumulative spend required to redeem the offer.
+          example: 100
+        eventStartDate:
+          type: string
+          description: Event Start Date.
+          format: date
+          example: '2020-03-31'
+        eventEndDate:
+          type: string
+          description: Last day that redemption can be made.
+          format: date
+          example: '2020-09-06'
+        redemptionMaxPerUser:
+          type: integer
+          description: The number of times that the cardholder may take advantage
+            of this offer.
+          format: int32
+          example: 1
+        offerCountry:
+          type: string
+          description: Nation of Points of Service (PoS) in which the redeeming transaction
+            must be made to qualify for the offer.
+          example: USA
+        matchStartDate:
+          type: string
+          description: Day on which the offer became ready for redemption.
+          format: date
+          example: '2019-08-06'
+        matchEndDate:
+          type: string
+          description: Day on which the offer becomes discontinued for redemption.
+          format: date
+          example: '2020-09-01'
+        activationType:
+          type: string
+          description: 'Type of the offer activation: USER_ACTIVATION or AUTO_ACTIVATION.'
+          example: USER_ACTIVATION
+        assignmentOnEnrollment:
+          type: boolean
+          description: Assignment on enrollment.
+          example: true
+        goal:
+          type: string
+          description: The target of the offer.
+          example: New Customer Acquisition
+        lastModified:
+          type: string
+          description: The last time the offer was modified.
+          format: date-time
+          example: '2019-08-21T15:10:42-07:00'
+        matchMaxPerUser:
+          type: integer
+          description: The number of times someone can match and possibly get assigned
+            the offer after already getting and using the offer.
+          format: int32
+          example: 1
+        presentmentEndDate:
+          type: string
+          description: The last day the offer may be presented.
+          format: date
+          example: '2022-03-31'
+        status:
+          type: string
+          description: 'The offer status: APPROVED, DECLINED, PENDING, CHANGED, NEEDSAPPROVAL,
+            NEW, DISCONTINUE or FAILED.'
+          example: APPROVED
+        test:
+          type: boolean
+          description: The indicator whether the offer is a test offer.
+          example: false
+        redemptionGracePeriodDays:
+          type: integer
+          description: The number of days after event end date in which a qualifying
+            transaction will still be accepted.
+          format: int32
+          example: 10
+        redemptionSpendMinPerTxn:
+          type: number
+          description: The smallest purchase amount that will qualify for redemption.
+          example: 30.3
+        redemptionVisitThreshold:
+          type: integer
+          description: The number of purchases required to qualify for redemption.
+          format: int32
+          example: 1
+        redemptionStatementCreditType:
+          type: string
+          description: 'Calculation kind of the redemption value: SPEND or VISIT.'
+          example: SPEND
+        rewards:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Reward"
+        localizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Localization"
+        redemptionClassifiers:
+          "$ref": "#/components/schemas/RedemptionClassifiers"
+        redemptionCountries:
+          "$ref": "#/components/schemas/RedemptionCountries"
+        redemptionIssuerCountries:
+          "$ref": "#/components/schemas/RedemptionIssuerCountries"
+        presentmentCountries:
+          "$ref": "#/components/schemas/PresentmentCountries"
+        redemptionIssuerICAs:
+          "$ref": "#/components/schemas/RedemptionIssuerICAs"
+        redemptionLocationIds:
+          "$ref": "#/components/schemas/RedemptionLocationIds"
+        redemptionMerchantIdsByAcquirerICAs:
+          "$ref": "#/components/schemas/RedemptionMerchantIdsByAcquirerICAs"
+        redemptionBankProductCodes:
+          "$ref": "#/components/schemas/RedemptionBankProductCodes"
+        adjustmentBankProductCodes:
+          type: array
+          description: Adjustment bank product codes for the offer.
+          example:
+            - Altitude_PCLO004
+          items:
+            type: string
+            description: Adjustment bank product codes for the offer.
+            example: '["Altitude_PCLO004"]'
+    UserOfferDetailsResponse:
+      type: object
+      properties:
+        userOfferDetails:
+          "$ref": "#/components/schemas/UserOfferDetails"
+    RequestedActivation:
+      type: object
+      properties:
+        offerId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: 123e4567-e89b-12d3-a456-426614174000
+    Activation:
+      type: object
+      properties:
+        assignments:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Assignment"
+        id:
+          type: string
+          description: Universally Unique Identifier of the offer activation request
+          example: 98382a7a-6276-4a12-94a6-f4d67f530717
+        status:
+          type: string
+          description: The activation request status
+          example: QUEUED
+        offerId:
+          type: string
+          description: System-wide identifier for the campaign, not intended for end-user
+            display.
+          example: 123e4567-e89b-12d3-a456-426614174000
+    Activations:
+      type: object
+      properties:
+        activations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Activation"
+    Assignment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Universally Unique Identifier of the offer assignment.
+          example: 0e7ab575-87ce-4811-926f-d53eac68d17a
+        activationTimeStamp:
+          type: string
+          description: Day on which the user requested that the offer be ready for
+            redemption.
+          format: date
+        redemptionStartDate:
+          type: string
+          description: First day on which a purchase may qualify for the offer.
+          format: date
+          example: '2020-10-12'
+        redemptionEndDate:
+          type: string
+          description: Last day on which a purchase may qualify for the offer.
+          format: date
+          example: '2020-10-29'
+        status:
+          type: string
+          description: Disposition of the activation request.
+          example: ACTIVATED
+    OfferRatingRequest:
+      type: object
+      properties:
+        like:
+          type: integer
+          description: The user's rating of the offer. 1 is like, 0 is dislike.
+          format: int32
+          example: 1
     AccessTokenRequest:
       type: object
       properties:
@@ -3753,7 +4067,7 @@ components:
           type: string
           description: User ID as specified in enrollment, typically the Bank Customer
             Number (BCN)
-          example: 1PCLOSANDBOXBCN00003tru5raquVe
+          example: 1PCLOSANDBOXBCN00002tra6athatR
         utcOffset:
           type: string
           description: The UTC offset of time zone from which the user makes requests.
@@ -3766,15 +4080,7 @@ components:
           description: The access toke the user should utilize to make requests against
             other resources. The access token has expiration time.
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiYWRtaW4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCzcmJmMjLiuyu5CSpyHI
-    OfferRating:
-      type: object
-      properties:
-        offerId:
-          type: string
-        like:
-          type: integer
-          format: int32
-    OfferRatingsResponse:
+    UserAdjustments:
       type: object
       properties:
         offset:
@@ -3796,24 +4102,14 @@ components:
           type: integer
           description: The number of items that are in this offset batch.
           format: int32
-          example: 10
-        offerRatings:
+          example: 5
+        responseLastModified:
+          type: string
+          format: date-time
+        adjustments:
           type: array
           items:
-            "$ref": "#/components/schemas/OfferRating"
-    OfferRatingResponse:
-      type: object
-      properties:
-        offerRating:
-          "$ref": "#/components/schemas/OfferRating"
-    OfferRatingRequest:
-      type: object
-      properties:
-        like:
-          type: integer
-          description: The user's rating of the offer. 1 is like, 0 is dislike.
-          format: int32
-          example: 1
+            "$ref": "#/components/schemas/Adjustments"
     HealthCheckResponse:
       type: object
       properties:
