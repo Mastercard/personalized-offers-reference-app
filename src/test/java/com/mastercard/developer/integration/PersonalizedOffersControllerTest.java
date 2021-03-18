@@ -6,6 +6,7 @@ import com.mastercard.api.model.UserFeedbackInput;
 import com.mastercard.developer.controller.PersonalizedOffersController;
 import com.mastercard.developer.integration.data.PersonalizedOffersData;
 import com.mastercard.developer.service.PersonalizedOffersService;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -901,37 +902,37 @@ class PersonalizedOffersControllerTest {
             .andExpect(status().isOk())
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.numRedeemed",
-                            is(PersonalizedOffersData.ONE)))
+                            "$.savings.statementCreditOffers.redeemedOffersCount",
+                            is(Integer.valueOf(PersonalizedOffersData.ONE))))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.earnedCashback",
-                            is(PersonalizedOffersData.CASH_BACK)))
+                            "$.savings.statementCreditOffers.earnedCash",
+                            is(10)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.numAvailable",
-                            is(PersonalizedOffersData.ONE)))
+                            "$.savings.statementCreditOffers.availableOffersCount",
+                            is(1)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.potentialSavings",
-                            is(PersonalizedOffersData.ONE)))
+                            "$.savings.statementCreditOffers.potentialCash",
+                            is(1)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.earnedPoints",
-                            is(PersonalizedOffersData.POINTS_EARNED)))
+                            "$.savings.statementCreditOffers.earnedPoints",
+                            is(2)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.statementCreditOffersSavings.potentialPoints",
-                            is(PersonalizedOffersData.POINTS_EARNED)))
+                            "$.savings.statementCreditOffers.potentialPoints",
+                            is(2)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.totalAmountSaved", is(PersonalizedOffersData.CASH_AMOUNT)))
+                            "$.savings.totalCashSaved", is(25)))
             .andExpect(
-                    jsonPath("$.userSavings.totalOffersUsed", is(PersonalizedOffersData.ONE)))
+                    jsonPath("$.savings.totalOffersUsed", is(1)))
             .andExpect(
                     jsonPath(
-                            "$.userSavings.totalEarnedPoints",
-                            is(PersonalizedOffersData.POINTS_EARNED)));
+                            "$.savings.totalPointsEarned",
+                            is(2)));
   }
 
   @Test
