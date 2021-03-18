@@ -161,7 +161,7 @@ public class PersonalizedOffersController {
   }
 
   @GetMapping("/user-presentment/savings")
-  public UserSavingsResponse getUserPresentmentSavings (
+  public UserPresentmentSavingsResponse getUserPresentmentSavings (
           @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
     return referenceApplicationGateway.getUserPresentmentSavings(xAuthToken);
   }
