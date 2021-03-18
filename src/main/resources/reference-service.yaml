@@ -1289,7 +1289,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/UserSavingsResponse"
+                "$ref": "#/components/schemas/UserPresentmentSavingsResponse"
         '400':
           description: Bad Request
           content:
@@ -2139,6 +2139,55 @@ components:
           "$ref": "#/components/schemas/Status"
         UserSavings:
           "$ref": "#/components/schemas/UserSavings"
+    Savings:
+      type: object
+      properties:
+        statementCreditOffers:
+          "$ref": "#/components/schemas/StatementCreditOffers"
+        totalCashSaved:
+          type: number
+          description: Combined value of redeemed deals.
+          example: '40.0'
+        totalOffersUsed:
+          type: integer
+          description: Combined count of redeemed deals.
+          example: '5'
+        totalPointsEarned:
+          type: number
+          description: Combined value of redeemed deals.
+          example: '10'
+    StatementCreditOffers:
+      type: object
+      properties:
+        redeemedOffersCount:
+          type: integer
+          description: Count of deals redeemed.
+          example: '1'
+        earnedCash:
+          type: number
+          description: Value of redemptions.
+          example: '21.0'
+        availableOffersCount:
+          type: integer
+          description: Count of deals that are ready for activation or redemption.
+          example: '10'
+        potentialCash:
+          type: number
+          description: Minimum value of unredeemed deals.
+          example: '195.0'
+        earnedPoints:
+          type: number
+          description: Value of redemptions.
+          example: '5'
+        potentialPoints:
+          type: number
+          description: Minimum value of unredeemed deals.
+          example: '4'
+    UserPresentmentSavingsResponse:
+      type: object
+      properties:
+        savings:
+          "$ref": "#/components/schemas/Savings"
     AddressWrapper_RedeemedOffers:
       type: object
       properties:
