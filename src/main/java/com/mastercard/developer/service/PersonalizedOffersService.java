@@ -333,7 +333,7 @@ public class PersonalizedOffersService {
     return activationsApi.processActivations(requestedActivation);
   }
 
-  public UserSavingsResponse getUserPresentmentSavings(String xAuthToken) throws ApiException {
+  public UserPresentmentSavingsResponse getUserPresentmentSavings(String xAuthToken) throws ApiException {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
     return userSavingsApi.getUserPresentmentSavings(xAuthToken);
   }
