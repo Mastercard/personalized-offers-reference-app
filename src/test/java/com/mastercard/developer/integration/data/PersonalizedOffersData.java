@@ -598,14 +598,14 @@ public class PersonalizedOffersData {
     return status;
   }
 
-  public static UserSavingsResponse getUserPresentmentSavings() {
-    final UserSavingsResponse userSavingsResponse = new UserSavingsResponse();
+  public static UserPresentmentSavingsResponse getUserPresentmentSavings() {
+    final UserPresentmentSavingsResponse userPresentmentSavingsResponse = new UserPresentmentSavingsResponse();
 
-    final UserSavings savings = getUserSavingsData();
+    final Savings savings = getSavingsData();
 
-    userSavingsResponse.setUserSavings(savings);
+    userPresentmentSavingsResponse.setSavings(savings);
 
-    return userSavingsResponse;
+    return userPresentmentSavingsResponse;
   }
 
   @NotNull private static UserSavings getUserSavingsData() {
@@ -750,5 +750,23 @@ public class PersonalizedOffersData {
     offerRating.setOfferId(OFFER_ID);
     offerRating.setLike(OFFER_RATING);
     return offerRating;
+  }
+
+  @NotNull private static Savings getSavingsData() {
+    final StatementCreditOffers statementCreditOffers = new StatementCreditOffers();
+    statementCreditOffers.setAvailableOffersCount(Integer.valueOf(ONE));
+    statementCreditOffers.setEarnedCash(new BigDecimal(CASH_BACK));
+    statementCreditOffers.setRedeemedOffersCount(Integer.valueOf(ONE));
+    statementCreditOffers.setPotentialCash(new BigDecimal(ONE));
+    statementCreditOffers.setEarnedPoints(new BigDecimal(POINTS_EARNED));
+    statementCreditOffers.setPotentialPoints(new BigDecimal(POINTS_EARNED));
+
+    final Savings savings = new Savings();
+    savings.setStatementCreditOffers(statementCreditOffers);
+
+    savings.setTotalCashSaved(new BigDecimal(CASH_AMOUNT));
+    savings.setTotalOffersUsed(Integer.valueOf(ONE));
+    savings.setTotalPointsEarned(new BigDecimal(POINTS_EARNED));
+    return savings;
   }
 }
