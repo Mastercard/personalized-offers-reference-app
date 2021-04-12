@@ -85,6 +85,25 @@ public class ApiClientConfiguration {
   }
 
   @Bean
+  public UserRatingsApi userRatingsApi(final ApiClient apiClient) {
+    return new UserRatingsApi(apiClient);
+  }
+
+  @Bean
+  public UserRatingApi userRatingApi(final ApiClient apiClient) {
+    return new UserRatingApi(apiClient);
+  }
+
+  @Bean
+  public CreateUserRatingApi createUserRatingApi(final ApiClient apiClient) {
+    return new CreateUserRatingApi(apiClient);
+  }
+
+  @Bean
+  public ActivationsApi processActivations(final ApiClient apiClient) {
+    return new ActivationsApi(apiClient);
+  }
+  @Bean
   public OkHttpClient getHttpClient(
       @Value("${mastercard.api.consumer.key}") final String consumerKey,
       @Value("${mastercard.api.key.alias}") final String signingKeyAlias,

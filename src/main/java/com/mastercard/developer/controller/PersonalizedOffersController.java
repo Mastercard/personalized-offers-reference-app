@@ -129,4 +129,52 @@ public class PersonalizedOffersController {
     return referenceApplicationGateway.getOfferDetails(offerId, language, xAuthToken);
   }
 
+  @GetMapping("/user-presentment/offer-ratings")
+  public OfferRatingsResponse getOfferRatings (
+          @RequestParam(value = "current", defaultValue = "true", required = false) final String current,
+          @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
+          @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
+          @RequestHeader(name = "x-auth-token") final String xAuthToken
+  ) throws ApiException {
+    return referenceApplicationGateway.getOfferRatings( current , offset, limit,xAuthToken);
+  }
+
+  @GetMapping("/user-presentment/offer-ratings/{offer_id}")
+  public OfferRatingResponse getOfferRating (
+          @PathVariable(value = "offer_id") final String offerId,
+          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.getOfferRating(offerId,xAuthToken);
+  }
+
+  @PostMapping("/user-presentment/offer-ratings/{offer_id}/likes")
+  public OfferRatingResponse createOfferRating (
+          @PathVariable(value = "offer_id") final String offerId,
+          @RequestBody OfferRatingRequest offerRatingRequest,
+          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.createOfferRating(offerId,offerRatingRequest,xAuthToken);
+  }
+
+  @PostMapping("/user-presentment/activation-requests")
+  public Activations processActivations (@RequestBody RequestedActivation requestedActivation,
+          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.processActivations(requestedActivation,xAuthToken);
+  }
+
+  @GetMapping("/user-presentment/savings")
+  public UserPresentmentSavingsResponse getUserPresentmentSavings (
+          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.getUserPresentmentSavings(xAuthToken);
+  }
+
+  @GetMapping("/user-presentment/adjustments")
+  public UserAdjustments getUserPresentmentAdjustments (  @RequestParam(value = "start_date", required = false)
+  final String  startDate,
+          @RequestParam(value = "end_date", required = false)
+          final String endDate,
+          @RequestParam(value = "date_filter", required = false) final String dateFilter,
+          @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
+          @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
+          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+    return referenceApplicationGateway.getUserPresentmentAdjustments(startDate,endDate,dateFilter,offset,limit,xAuthToken);
+  }
 }

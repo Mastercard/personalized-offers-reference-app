@@ -1,5 +1,18 @@
 # Change Log
 
+## Version 2.3.0
+
+Released: March 15, 2021
+
+Changes:
+
+* Introduce User Presentment Offer Ratings API
+* Introduce User Presentment Offer Rating API
+* Introduce User Presentment Create Offer Rating API
+* Introduce User Presentment Process Activations API
+* Introduce User Presentment Savings API
+* Introduce User Presentment Adjustments API
+
 ## Version 2.2.0
 
 Released: January 8, 2021

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class PersonalizedOffersData {
 
@@ -70,6 +71,7 @@ public class PersonalizedOffersData {
   public static final String OFFER_COUNTRY = "USA";
   public static final String OFFER_ID = "Test-Offer-Id";
   public static final String OFFER_ID2 = "Test-Offer-Id2";
+  public static final Integer OFFER_RATING = 1;
   public static final String OFFER_SOURCE = "Test-Offer-Source";
   public static final String OFFER_TYPE = "Test-Offer-Type";
   public static final String ONE = "1";
@@ -325,21 +327,7 @@ public class PersonalizedOffersData {
     status.setMessage(STATUS_MESSAGE);
     userSavings.setStatus(status);
 
-    final StatementCreditOffersSavings statementCreditOffersSavings =
-        new StatementCreditOffersSavings();
-    statementCreditOffersSavings.setNumRedeemed(ONE);
-    statementCreditOffersSavings.setEarnedCashback(CASH_BACK);
-    statementCreditOffersSavings.setNumAvailable(ONE);
-    statementCreditOffersSavings.setPotentialSavings(ONE);
-    statementCreditOffersSavings.setEarnedPoints(POINTS_EARNED);
-    statementCreditOffersSavings.setPotentialPoints(POINTS_EARNED);
-
-    final UserSavings savings = new UserSavings();
-    savings.setStatementCreditOffersSavings(statementCreditOffersSavings);
-
-    savings.setTotalAmountSaved(CASH_AMOUNT);
-    savings.setTotalOffersUsed(ONE);
-    savings.setTotalEarnedPoints(POINTS_EARNED);
+    final UserSavings savings = getUserSavingsData();
 
     userSavings.setUserSavings(savings);
 
@@ -463,53 +451,7 @@ public class PersonalizedOffersData {
     adjustmentResponse.setResponseLastModified(LAST_MODIFIED);
     adjustmentResponse.setStatus(getStatusInfo());
 
-    Adjustments adjustments = new Adjustments();
-    adjustments.setId(ID);
-    adjustments.setAdjustmentId(ADJUSTMENT_ID);
-    adjustments.setActivationId(ADJUSTMENT_ACTIVATION_ID);
-    adjustments.setActivatedDateTime(ACTIVATED_DATE_TIME);
-    adjustments.setTransactionClassifier(TRANSACTION_CLASSIFIER);
-    adjustments.setOfferId(OFFER_ID);
-    adjustments.setAdjustmentMode(ADJUSTMENT_MODE);
-    adjustments.setTransactionBankAccountNumber(TRANSACTION_BANK_ACCOUNT_NUMBER);
-    adjustments.setTransactionAmount(TRANSACTION_AMOUNT);
-    adjustments.setTransactionDate(TRANSACTION_DATE);
-    adjustments.setTransactionTime(TRANSACTION_TIME);
-    adjustments.setTransactionDescription(TRANSACTION_DESCRIPTION);
-    adjustments.setTransactionSequenceNumber(TRANSACTION_SEQUENCE_NUMBER);
-    adjustments.setAdjustmentCashValue(ADJUSTMENT_CASH_VALUE);
-    adjustments.setRedemptionDateTime(REDEMPTION_DATETIME);
-    adjustments.setStatus(STATUS);
-    adjustments.setAdjustmentPointsValue(ADJUSTMENT_POINTS_VALUE);
-    adjustments.setTransactionMerchantId(TRANSACTION_MERCHANT_ID);
-    adjustments.setTransactionChannel(TRANSACTION_CHANNEL);
-    adjustments.setOfferType(OFFER_TYPE);
-    adjustments.setTransactionAccountISUID(TRANSACTION_ACCOUNT_ISU_ID);
-    adjustments.setTransactionBankProductCode(TRANSACTION_BANK_PRODUCT_CODE);
-    adjustments.setAdjustmentBankAccountNumber(ADJUSTMENT_BANK_ACCOUNT_NUMBER);
-    adjustments.setAdjustmentBankProductCode(ADJUSTMENT_BANK_PRODUCT_CODE);
-    adjustments.setAdjustmentAccountISUID(ADJUSTMENT_ACCOUNT_ISU_ID);
-    adjustments.setTransactionCountry(TRANSACTION_COUNTRY);
-    adjustments.setTransactionCurrency(TRANSACTION_CURRENCY);
-    adjustments.setTransactionBankAccountNumberAlias(TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS);
-    adjustments.setTransactionInstallmentPayment(TRANSACTION_INSTALLMENT_PAYMENT);
-    adjustments.setTransactionIssuerCountry(TRANSACTION_ISSUER_COUNTRY);
-    adjustments.setCreated(CREATED);
-    adjustments.setLastModified(LAST_MODIFIED);
-    adjustments.setBankCustomerNumber(BANK_CUSTOMER_NUMBER);
-    adjustments.setTransactionAuthorizationCode(TRANSACTION_AUTHORIZATION_CODE);
-    adjustments.setTransactionDescriptionOriginal(TRANSACTION_DESCRIPTION_ORIGINAL);
-    adjustments.setErrorDescription(ERROR_DESCRIPTION);
-    adjustments.setTransactionCity(TRANSACTION_CITY);
-    adjustments.setAdjustmentReversal(ADJUSTMENT_REVERSAL);
-    adjustments.setAdjustmentValueSign(ADJUSTMENT_VALUE_SIGN);
-    adjustments.setAdjustmentMerchantCategoryCode(ADJUSTMENT_MERCHANT_CATEGORY_CODE);
-    adjustments.setPointsConversionRate(POINTS_CONVERSION_RATE);
-    adjustments.setTransactionClassifierDisplayName(TRANSACTION_CLASSIFIER_DISPLAY_NAME);
-    adjustments.setCampaignId(CAMPAIGN_ID);
-    adjustments.setTransactionIssuerICA(TRANSACTION_ISSUER_ICA);
-    adjustments.setAdjustmentPointsType(ADJUSTMENT_POINTS_TYPE);
-    adjustments.setType(TYPE);
+    Adjustments adjustments = getAdjustmentsData();
 
     adjustmentResponse.setAdjustments(Collections.singletonList(adjustments));
     return adjustmentResponse;
@@ -654,5 +596,177 @@ public class PersonalizedOffersData {
     status.setCode(Integer.valueOf(STATUS_CODE));
     status.setMessage(STATUS_MESSAGE);
     return status;
+  }
+
+  public static UserPresentmentSavingsResponse getUserPresentmentSavings() {
+    final UserPresentmentSavingsResponse userPresentmentSavingsResponse = new UserPresentmentSavingsResponse();
+
+    final Savings savings = getSavingsData();
+
+    userPresentmentSavingsResponse.setSavings(savings);
+
+    return userPresentmentSavingsResponse;
+  }
+
+  @NotNull private static UserSavings getUserSavingsData() {
+    final StatementCreditOffersSavings statementCreditOffersSavings = new StatementCreditOffersSavings();
+    statementCreditOffersSavings.setNumRedeemed(ONE);
+    statementCreditOffersSavings.setEarnedCashback(CASH_BACK);
+    statementCreditOffersSavings.setNumAvailable(ONE);
+    statementCreditOffersSavings.setPotentialSavings(ONE);
+    statementCreditOffersSavings.setEarnedPoints(POINTS_EARNED);
+    statementCreditOffersSavings.setPotentialPoints(POINTS_EARNED);
+
+    final UserSavings savings = new UserSavings();
+    savings.setStatementCreditOffersSavings(statementCreditOffersSavings);
+
+    savings.setTotalAmountSaved(CASH_AMOUNT);
+    savings.setTotalOffersUsed(ONE);
+    savings.setTotalEarnedPoints(POINTS_EARNED);
+    return savings;
+  }
+
+  public static UserAdjustments getUserAdjustments() {
+    final UserAdjustments adjustmentResponse = new UserAdjustments();
+    adjustmentResponse.setOffset(OFFSET);
+    adjustmentResponse.setLimit(LIMIT);
+    adjustmentResponse.setTotal(TOTAL);
+    adjustmentResponse.setCount(COUNT);
+    adjustmentResponse.setResponseLastModified(LAST_MODIFIED);
+
+    Adjustments adjustments = getAdjustmentsData();
+
+    adjustmentResponse.setAdjustments(Collections.singletonList(adjustments));
+    return adjustmentResponse;
+  }
+
+  @NotNull private static Adjustments getAdjustmentsData() {
+    Adjustments adjustments = new Adjustments();
+    adjustments.setId(ID);
+    adjustments.setAdjustmentId(ADJUSTMENT_ID);
+    adjustments.setActivationId(ADJUSTMENT_ACTIVATION_ID);
+    adjustments.setActivatedDateTime(ACTIVATED_DATE_TIME);
+    adjustments.setTransactionClassifier(TRANSACTION_CLASSIFIER);
+    adjustments.setOfferId(OFFER_ID);
+    adjustments.setAdjustmentMode(ADJUSTMENT_MODE);
+    adjustments.setTransactionBankAccountNumber(TRANSACTION_BANK_ACCOUNT_NUMBER);
+    adjustments.setTransactionAmount(TRANSACTION_AMOUNT);
+    adjustments.setTransactionDate(TRANSACTION_DATE);
+    adjustments.setTransactionTime(TRANSACTION_TIME);
+    adjustments.setTransactionDescription(TRANSACTION_DESCRIPTION);
+    adjustments.setTransactionSequenceNumber(TRANSACTION_SEQUENCE_NUMBER);
+    adjustments.setAdjustmentCashValue(ADJUSTMENT_CASH_VALUE);
+    adjustments.setRedemptionDateTime(REDEMPTION_DATETIME);
+    adjustments.setStatus(STATUS);
+    adjustments.setAdjustmentPointsValue(ADJUSTMENT_POINTS_VALUE);
+    adjustments.setTransactionMerchantId(TRANSACTION_MERCHANT_ID);
+    adjustments.setTransactionChannel(TRANSACTION_CHANNEL);
+    adjustments.setOfferType(OFFER_TYPE);
+    adjustments.setTransactionAccountISUID(TRANSACTION_ACCOUNT_ISU_ID);
+    adjustments.setTransactionBankProductCode(TRANSACTION_BANK_PRODUCT_CODE);
+    adjustments.setAdjustmentBankAccountNumber(ADJUSTMENT_BANK_ACCOUNT_NUMBER);
+    adjustments.setAdjustmentBankProductCode(ADJUSTMENT_BANK_PRODUCT_CODE);
+    adjustments.setAdjustmentAccountISUID(ADJUSTMENT_ACCOUNT_ISU_ID);
+    adjustments.setTransactionCountry(TRANSACTION_COUNTRY);
+    adjustments.setTransactionCurrency(TRANSACTION_CURRENCY);
+    adjustments.setTransactionBankAccountNumberAlias(TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS);
+    adjustments.setTransactionInstallmentPayment(TRANSACTION_INSTALLMENT_PAYMENT);
+    adjustments.setTransactionIssuerCountry(TRANSACTION_ISSUER_COUNTRY);
+    adjustments.setCreated(CREATED);
+    adjustments.setLastModified(LAST_MODIFIED);
+    adjustments.setBankCustomerNumber(BANK_CUSTOMER_NUMBER);
+    adjustments.setTransactionAuthorizationCode(TRANSACTION_AUTHORIZATION_CODE);
+    adjustments.setTransactionDescriptionOriginal(TRANSACTION_DESCRIPTION_ORIGINAL);
+    adjustments.setErrorDescription(ERROR_DESCRIPTION);
+    adjustments.setTransactionCity(TRANSACTION_CITY);
+    adjustments.setAdjustmentReversal(ADJUSTMENT_REVERSAL);
+    adjustments.setAdjustmentValueSign(ADJUSTMENT_VALUE_SIGN);
+    adjustments.setAdjustmentMerchantCategoryCode(ADJUSTMENT_MERCHANT_CATEGORY_CODE);
+    adjustments.setPointsConversionRate(POINTS_CONVERSION_RATE);
+    adjustments.setTransactionClassifierDisplayName(TRANSACTION_CLASSIFIER_DISPLAY_NAME);
+    adjustments.setCampaignId(CAMPAIGN_ID);
+    adjustments.setTransactionIssuerICA(TRANSACTION_ISSUER_ICA);
+    adjustments.setAdjustmentPointsType(ADJUSTMENT_POINTS_TYPE);
+    adjustments.setType(TYPE);
+    return adjustments;
+  }
+
+  public static RequestedActivation getRequestedActivation() {
+    RequestedActivation requestedActivation = new RequestedActivation();
+    requestedActivation.setOfferId(OFFER_ID);
+    return requestedActivation;
+  }
+
+  public static Activations getActivations() {
+    Activations activations = new Activations();
+    Activation activation = new Activation();
+    activation.setId(ACTIVATION_ID);
+    activation.setOfferId(OFFER_ID);
+    activation.setStatus(STATUS);
+    Assignment assignment = new Assignment();
+    assignment.setStatus(STATUS);
+    assignment.setRedemptionEndDate(END_DATE);
+    assignment.setRedemptionStartDate(START_DATE);
+    assignment.setActivationTimeStamp(START_DATE);
+    assignment.setId(ID);
+    List<Assignment> assignments = new ArrayList<>();
+    assignments.add(assignment);
+    activation.setAssignments(assignments);
+    List<Activation> activationList = new ArrayList<>();
+    activationList.add(activation);
+    activations.setActivations(activationList);
+    return activations;
+  }
+
+  public static OfferRatingRequest getOfferRatingRequest() {
+    OfferRatingRequest offerRatingRequest = new OfferRatingRequest();
+    offerRatingRequest.setLike(OFFER_RATING);
+    return offerRatingRequest;
+  }
+
+  public static OfferRatingResponse getOfferRatingResponse() {
+    OfferRatingResponse offerRatingResponse = new OfferRatingResponse();
+    OfferRating offerRating = getOfferRating();
+    offerRatingResponse.setOfferRating(offerRating);
+    return offerRatingResponse;
+  }
+
+  public static OfferRatingsResponse getOfferRatingsResponse() {
+    OfferRatingsResponse offerRatingsResponse = new OfferRatingsResponse();
+    offerRatingsResponse.setOffset(OFFSET);
+    offerRatingsResponse.setLimit(LIMIT);
+    offerRatingsResponse.setTotal(TOTAL);
+    offerRatingsResponse.setCount(COUNT);
+
+    OfferRating offerRating = getOfferRating();
+    List<OfferRating> offerRatings = new ArrayList<>();
+    offerRatings.add(offerRating);
+    offerRatingsResponse.setOfferRatings(offerRatings);
+    return offerRatingsResponse;
+  }
+
+  @NotNull private static OfferRating getOfferRating() {
+    OfferRating offerRating = new OfferRating();
+    offerRating.setOfferId(OFFER_ID);
+    offerRating.setLike(OFFER_RATING);
+    return offerRating;
+  }
+
+  @NotNull private static Savings getSavingsData() {
+    final StatementCreditOffers statementCreditOffers = new StatementCreditOffers();
+    statementCreditOffers.setAvailableOffersCount(Integer.valueOf(ONE));
+    statementCreditOffers.setEarnedCash(new BigDecimal(CASH_BACK));
+    statementCreditOffers.setRedeemedOffersCount(Integer.valueOf(ONE));
+    statementCreditOffers.setPotentialCash(new BigDecimal(ONE));
+    statementCreditOffers.setEarnedPoints(new BigDecimal(POINTS_EARNED));
+    statementCreditOffers.setPotentialPoints(new BigDecimal(POINTS_EARNED));
+
+    final Savings savings = new Savings();
+    savings.setStatementCreditOffers(statementCreditOffers);
+
+    savings.setTotalCashSaved(new BigDecimal(CASH_AMOUNT));
+    savings.setTotalOffersUsed(Integer.valueOf(ONE));
+    savings.setTotalPointsEarned(new BigDecimal(POINTS_EARNED));
+    return savings;
   }
 }
