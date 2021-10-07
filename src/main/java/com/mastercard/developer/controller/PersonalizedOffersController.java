@@ -1,10 +1,39 @@
 package com.mastercard.developer.controller;
 
-import com.mastercard.ApiException;
-import com.mastercard.api.model.*;
-import com.mastercard.developer.service.PersonalizedOffersService;
+import com.mastercard.api.model.ResponseWrapperUserSavingsOutputWrapper;
+import com.mastercard.api.model.ResponseWrapperUserTokenOutputWrapper;
+import com.mastercard.api.model.UserSavings;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.mastercard.ApiException;
+import com.mastercard.api.model.UserAccessToken;
+import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
+import com.mastercard.api.model.Activations;
+import com.mastercard.api.model.BrowseOffers;
+import com.mastercard.api.model.OfferDetails;
+import com.mastercard.api.model.RequestedAccessToken;
+import com.mastercard.api.model.RequestedActivation;
+import com.mastercard.api.model.RequestedOfferRating;
+import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
+import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
+import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
+import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation;
+import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
+import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputList;
+import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputWrapper;
+import com.mastercard.api.model.UserAdjustment;
+import com.mastercard.api.model.UserAdjustments;
+import com.mastercard.api.model.UserFeedbackInput;
+import com.mastercard.api.model.UserOfferRating;
+import com.mastercard.api.model.UserOfferRatings;
+import com.mastercard.api.model.UserOffers;
+import com.mastercard.developer.service.PersonalizedOffersService;
 
 @RestController
 public class PersonalizedOffersController {
@@ -45,13 +74,13 @@ public class PersonalizedOffersController {
   }
 
   @PostMapping("/user-feedbacks")
-  public ResponseEntity<ResponseWrapperUserFeedbackOutputResponse> sendUserFeedback(
+  public ResponseEntity<ResponseWrapperUserFeedbackOutputWrapper> sendUserFeedback(
       @RequestBody final UserFeedbackInput userFeedback) throws ApiException {
     return ResponseEntity.ok(referenceApplicationGateway.sendUserFeedback(userFeedback));
   }
 
   @GetMapping("/user-feedbacks")
-  public ResponseEntity<ResponseWrapperUserFeedbackOutputListResponse> userFeedbacks(
+  public ResponseEntity<ResponseWrapperUserFeedbackOutputList> userFeedbacks(
       @RequestParam("f_id") final String fId) throws ApiException {
     return ResponseEntity.ok(referenceApplicationGateway.getUserFeedback(fId));
   }
@@ -63,13 +92,13 @@ public class PersonalizedOffersController {
   }
 
   @GetMapping("/user-savings")
-  public ResponseEntity<ResponseWrapperUserSavingsResponse> userSavings(
+  public ResponseEntity<ResponseWrapperUserSavingsOutputWrapper> userSavings(
       @RequestParam("f_id") final String fId) throws ApiException {
     return ResponseEntity.ok(referenceApplicationGateway.getUserSavings(fId));
   }
 
   @GetMapping("/user-tokens")
-  public ResponseEntity<ResponseWrapperUserTokenOutputResponse> userTokens(
+  public ResponseEntity<ResponseWrapperUserTokenOutputWrapper> userTokens(
       @RequestParam("f_id") final String fId) throws ApiException {
     return ResponseEntity.ok(referenceApplicationGateway.getUserToken(fId));
   }
@@ -82,13 +111,13 @@ public class PersonalizedOffersController {
   }
 
   @GetMapping("/offers")
-  public ResponseEntity<BrowseOffersResponse> offers(@RequestParam("f_id") final String fId)
+  public ResponseEntity<BrowseOffers> offers(@RequestParam("f_id") final String fId)
       throws ApiException {
     return ResponseEntity.ok(referenceApplicationGateway.getOffers(fId));
   }
 
   @GetMapping("/adjustments")
-  public ResponseEntity<AdjustmentResponse> adjustmentDetails(
+  public ResponseEntity<UserAdjustment> adjustmentDetails(
       @RequestParam(name = "f_id") final String fId,
       @RequestParam(required = false, name = "offset") final Integer offset,
       @RequestParam(required = false, name = "limit") final Integer limit,
@@ -102,79 +131,89 @@ public class PersonalizedOffersController {
   }
 
   @PostMapping("/user-presentment/access-tokens")
-  public AccessTokenResponse createAccessToken(@RequestBody AccessTokenRequest accessToken)
+  public UserAccessToken createAccessToken(@RequestBody RequestedAccessToken accessToken)
       throws ApiException {
     return referenceApplicationGateway.getToken(accessToken);
   }
 
   @GetMapping("/user-presentment/offers")
-  public UserOffersResponse getOffers (
-      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false) final String language,
+  public UserOffers getOffers(
+      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false)
+          final String language,
       @RequestParam(value = "offer_type", required = false) final String offerType,
       @RequestParam(value = "category", required = false) final String category,
       @RequestParam(value = "offer_country", required = false) final String offerCountry,
       @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
       @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
       @RequestParam(value = "sort", required = false) final String sort,
-      @RequestHeader(name = "x-auth-token") final String xAuthToken
-  ) throws ApiException {
-    return referenceApplicationGateway.getOffers(language, offerType, category, offerCountry, offset, limit, sort, xAuthToken);
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.getOffers(
+        language, offerType, category, offerCountry, offset, limit, sort, xAuthToken);
   }
 
   @GetMapping("/user-presentment/offers/{offer_id}")
-  public UserOfferDetailsResponse getOfferDetails (
+  public OfferDetails getOfferDetails(
       @PathVariable(value = "offer_id") final String offerId,
-      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false) final String language,
-      @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
-    return referenceApplicationGateway.getOfferDetails(offerId, language, xAuthToken);
+      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false)
+          final String language,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.getOfferDetails(offerId, xAuthToken, language);
   }
 
   @GetMapping("/user-presentment/offer-ratings")
-  public OfferRatingsResponse getOfferRatings (
-          @RequestParam(value = "current", defaultValue = "true", required = false) final String current,
-          @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
-          @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
-          @RequestHeader(name = "x-auth-token") final String xAuthToken
-  ) throws ApiException {
-    return referenceApplicationGateway.getOfferRatings( current , offset, limit,xAuthToken);
+  public UserOfferRatings getOfferRatings(
+      @RequestParam(value = "current", defaultValue = "true", required = false)
+          final String current,
+      @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
+      @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.getOfferRatings(current, offset, limit, xAuthToken);
   }
 
   @GetMapping("/user-presentment/offer-ratings/{offer_id}")
-  public OfferRatingResponse getOfferRating (
-          @PathVariable(value = "offer_id") final String offerId,
-          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
-    return referenceApplicationGateway.getOfferRating(offerId,xAuthToken);
+  public UserOfferRating getOfferRating(
+      @PathVariable(value = "offer_id") final String offerId,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.getOfferRating(offerId, xAuthToken);
   }
 
   @PostMapping("/user-presentment/offer-ratings/{offer_id}/likes")
-  public OfferRatingResponse createOfferRating (
-          @PathVariable(value = "offer_id") final String offerId,
-          @RequestBody OfferRatingRequest offerRatingRequest,
-          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
-    return referenceApplicationGateway.createOfferRating(offerId,offerRatingRequest,xAuthToken);
+  public UserOfferRating createOfferRating(
+      @PathVariable(value = "offer_id") final String offerId,
+      @RequestBody RequestedOfferRating offerRatingRequest,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.createOfferRating(offerId, offerRatingRequest, xAuthToken);
   }
 
-  @PostMapping("/user-presentment/activation-requests")
-  public Activations processActivations (@RequestBody RequestedActivation requestedActivation,
-          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
-    return referenceApplicationGateway.processActivations(requestedActivation,xAuthToken);
+  @PostMapping("/user-presentment/activations")
+  public Activations processActivations(
+      @RequestBody RequestedActivation requestedActivation,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.processActivations(requestedActivation, xAuthToken);
   }
 
   @GetMapping("/user-presentment/savings")
-  public UserPresentmentSavingsResponse getUserPresentmentSavings (
-          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
+  public UserSavings getUserPresentmentSavings(
+      @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
     return referenceApplicationGateway.getUserPresentmentSavings(xAuthToken);
   }
 
   @GetMapping("/user-presentment/adjustments")
-  public UserAdjustments getUserPresentmentAdjustments (  @RequestParam(value = "start_date", required = false)
-  final String  startDate,
-          @RequestParam(value = "end_date", required = false)
-          final String endDate,
-          @RequestParam(value = "date_filter", required = false) final String dateFilter,
-          @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
-          @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
-          @RequestHeader(name = "x-auth-token") final String xAuthToken) throws ApiException {
-    return referenceApplicationGateway.getUserPresentmentAdjustments(startDate,endDate,dateFilter,offset,limit,xAuthToken);
+  public UserAdjustments getUserPresentmentAdjustments(
+      @RequestParam(value = "start_date", required = false) final String startDate,
+      @RequestParam(value = "end_date", required = false) final String endDate,
+      @RequestParam(value = "date_filter", required = false) final String dateFilter,
+      @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
+      @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
+      @RequestHeader(name = "x-auth-token") final String xAuthToken)
+      throws ApiException {
+    return referenceApplicationGateway.getUserPresentmentAdjustments(
+        startDate, endDate, dateFilter, offset, limit, xAuthToken);
   }
 }

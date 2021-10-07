@@ -24,8 +24,7 @@ public class ApiClientConfiguration {
 
   @Bean
   public ApiClient apiClient(
-      final OkHttpClient okHttpClient,
-      @Value("${mastercard.api.basePath}") final String basePath) {
+      final OkHttpClient okHttpClient, @Value("${mastercard.api.basePath}") final String basePath) {
     return new ApiClient().setHttpClient(okHttpClient).setBasePath(basePath);
   }
 
@@ -80,29 +79,25 @@ public class ApiClientConfiguration {
   }
 
   @Bean
-  public OfferApi offerApi(final ApiClient apiClient) {
-    return new OfferApi(apiClient);
+  public UserOffersApi offerApi(final ApiClient apiClient) {
+    return new UserOffersApi(apiClient);
   }
 
   @Bean
-  public UserRatingsApi userRatingsApi(final ApiClient apiClient) {
-    return new UserRatingsApi(apiClient);
+  public OfferRatingsApi userRatingsApi(final ApiClient apiClient) {
+    return new OfferRatingsApi(apiClient);
   }
 
   @Bean
-  public UserRatingApi userRatingApi(final ApiClient apiClient) {
-    return new UserRatingApi(apiClient);
-  }
-
-  @Bean
-  public CreateUserRatingApi createUserRatingApi(final ApiClient apiClient) {
-    return new CreateUserRatingApi(apiClient);
+  public UserAdjustmentsApi userAdjustmentsApi(final ApiClient apiClient) {
+    return new UserAdjustmentsApi(apiClient);
   }
 
   @Bean
   public ActivationsApi processActivations(final ApiClient apiClient) {
     return new ActivationsApi(apiClient);
   }
+
   @Bean
   public OkHttpClient getHttpClient(
       @Value("${mastercard.api.consumer.key}") final String consumerKey,

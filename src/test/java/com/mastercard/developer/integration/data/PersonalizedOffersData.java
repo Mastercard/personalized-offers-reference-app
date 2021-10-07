@@ -1,11 +1,73 @@
 package com.mastercard.developer.integration.data;
 
-import com.mastercard.api.model.*;
-
+import com.mastercard.api.model.Activation;
+import com.mastercard.api.model.Activations;
+import com.mastercard.api.model.Adjustments;
+import com.mastercard.api.model.BrowseOffers;
+import com.mastercard.api.model.DetailPostpaidCreditOfferDetailedOffers;
+import com.mastercard.api.model.DetailedOfferDetailedOffers;
+import com.mastercard.api.model.DetailedOffersResponseDetailedOffers;
+import com.mastercard.api.model.DetailedRedeemedOfferListResponseRedeemedOffers;
+import com.mastercard.api.model.Localization;
+import com.mastercard.api.model.MatchedOfferDetailsMatchedOffers;
+import com.mastercard.api.model.MatchedOfferDetailsResponseMatchedOffers;
+import com.mastercard.api.model.MatchedOfferWrapperMatchedOffers;
+import com.mastercard.api.model.MerchantDetailedOffers;
+import com.mastercard.api.model.MerchantInfo;
+import com.mastercard.api.model.MerchantMatchedOffers;
+import com.mastercard.api.model.OfferDetails;
+import com.mastercard.api.model.OfferInfo;
+import com.mastercard.api.model.OfferRating;
+import com.mastercard.api.model.RedemptionClassifiers;
+import com.mastercard.api.model.RequestedAccessToken;
+import com.mastercard.api.model.RequestedActivation;
+import com.mastercard.api.model.RequestedOfferRating;
+import com.mastercard.api.model.ResponseWrapperDetailedOffersResponseDetailedOffers;
+import com.mastercard.api.model.ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers;
+import com.mastercard.api.model.ResponseWrapperMatchedOfferDetailsResponseMatchedOffers;
+import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation;
+import com.mastercard.api.model.ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
+import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputList;
+import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputWrapper;
+import com.mastercard.api.model.ResponseWrapperUserSavingsOutputWrapper;
+import com.mastercard.api.model.ResponseWrapperUserTokenOutputWrapper;
+import com.mastercard.api.model.Reward;
+import com.mastercard.api.model.StatementCreditOfferDetailsMatchedOffers;
+import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivation;
+import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
+import com.mastercard.api.model.StatementCreditOfferDetailsStatementCreditOfferActivation;
+import com.mastercard.api.model.StatementCreditOfferDetailsStatementCreditOfferActivationDetail;
+import com.mastercard.api.model.StatementCreditOffersSavings;
+import com.mastercard.api.model.Status;
+import com.mastercard.api.model.StatusDetailedOffers;
+import com.mastercard.api.model.StatusInfo;
+import com.mastercard.api.model.StatusMatchedOffers;
+import com.mastercard.api.model.StatusRedeemedOffers;
+import com.mastercard.api.model.StatusStatementCreditOfferActivation;
+import com.mastercard.api.model.StatusStatementCreditOfferActivationDetail;
+import com.mastercard.api.model.UserAccessToken;
+import com.mastercard.api.model.UserAdjustment;
+import com.mastercard.api.model.UserAdjustments;
+import com.mastercard.api.model.UserAssignment;
+import com.mastercard.api.model.UserFeedbackOutput;
+import com.mastercard.api.model.UserFeedbackOutputList;
+import com.mastercard.api.model.UserFeedbackOutputMatchedOffers;
+import com.mastercard.api.model.UserFeedbackOutputWrapper;
+import com.mastercard.api.model.UserFeedbackWrapper;
+import com.mastercard.api.model.UserOffer;
+import com.mastercard.api.model.UserOfferDetails;
+import com.mastercard.api.model.UserOfferRating;
+import com.mastercard.api.model.UserOfferRatings;
+import com.mastercard.api.model.UserOffers;
+import com.mastercard.api.model.UserSavings;
+import com.mastercard.api.model.UserSavingsOutputWrapper;
+import com.mastercard.api.model.UserTokenOutput;
+import com.mastercard.api.model.UserTokenOutputWrapper;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 public class PersonalizedOffersData {
@@ -49,7 +111,7 @@ public class PersonalizedOffersData {
   public static final String BANK_CUSTOMER_NUMBER = "BankCustomerNumber";
   public static final String CASH_AMOUNT = "25";
   public static final String CASH_BACK = "10";
-  public static final String CREATED = "2019-09-25T09:43:11.000+0000";
+  public static final String CREATED_DATE = "2019-09-25";
   public static final String CURRENCY_CODE = "USD";
   public static final String DATE_FILTER = "CREATED";
   public static final String DESCRIPTION_LONG = "Shop for Holiday Deals. Receive 100 points";
@@ -62,10 +124,10 @@ public class PersonalizedOffersData {
   public static final String FIRST = "1";
   public static final String GOAL = "Test-Goal";
   public static final String HEADLINE = "Receive 100 points";
-  public static final String ID = "Id";
+  public static final String ID = "a85093f3-7753-4eab-b963-c6c9d1974d1d";
   public static final String ITEMS_PER_PAGE = "25";
   public static final String LANGUAGE = "en-US";
-  public static final String LAST_MODIFIED = "2019-09-25T09:43:11.000+0000";
+  public static final String LAST_MODIFIED_DATE_TIME = "2019-09-25T09:43:11.000+0000";
   public static final String MERCHANT = "Test-Merchant";
   public static final String OFFER_CATEGORY = "Test-Offer-Category";
   public static final String OFFER_COUNTRY = "USA";
@@ -75,6 +137,7 @@ public class PersonalizedOffersData {
   public static final String OFFER_SOURCE = "Test-Offer-Source";
   public static final String OFFER_TYPE = "Test-Offer-Type";
   public static final String ONE = "1";
+  public static final String ORIGINAL_OFFER_ID = "original-offer-id";
   public static final String POINTS_EARNED = "2";
   public static final String PRESENTMENT_DATE = "2020-08-09";
   public static final String PRICE = "0.0";
@@ -82,6 +145,7 @@ public class PersonalizedOffersData {
   public static final String REDEMPTION_DATE = "2020-08-09";
   public static final String REDEMPTION_DATETIME = "2019-09-25T09:43:11.000+0000";
   public static final String REDEMPTION_MODE = "CASH";
+  public static final String REDEMPTION_STATUS_COMPLETED = "COMPLETED";
   public static final String REDEMPTION_TYPE = "ONLINE";
   public static final String SLOGAN = "Test-Slogan";
   public static final String START_DATE = "2020-10-10";
@@ -94,12 +158,14 @@ public class PersonalizedOffersData {
   public static final String TRANSACTION_ACCOUNT_ISU_ID = "Transaction-Account-Iss-Id";
   public static final String TRANSACTION_AUTHORIZATION_CODE = "TransactionAuthorizationCode";
   public static final String TRANSACTION_BANK_ACCOUNT_NUMBER = "Transaction-Bank-Account-Number";
-  public static final String TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS = "Transaction-Bank-Account-Number-Alias";
+  public static final String TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS =
+      "Transaction-Bank-Account-Number-Alias";
   public static final String TRANSACTION_BANK_PRODUCT_CODE = "Transaction-Bank-Product-Code";
   public static final String TRANSACTION_CHANNEL = "Transaction-Channel";
   public static final String TRANSACTION_CITY = "TransactionCity";
   public static final String TRANSACTION_CLASSIFIER = "Test-Transaction-Classifier";
-  public static final String TRANSACTION_CLASSIFIER_DISPLAY_NAME = "TransactionClassifierDisplayName";
+  public static final String TRANSACTION_CLASSIFIER_DISPLAY_NAME =
+      "TransactionClassifierDisplayName";
   public static final String TRANSACTION_COUNTRY = "Transaction-Country";
   public static final String TRANSACTION_CURRENCY = "Transaction-Currency";
   public static final String TRANSACTION_DATE = "2019-09-25T09:43:11.000+0000";
@@ -171,7 +237,8 @@ public class PersonalizedOffersData {
     return activationOfferResponse;
   }
 
-  public static ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
+  public static
+  ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail
       activationDetails() {
     final StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail activationDetail =
         new StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail();
@@ -205,8 +272,8 @@ public class PersonalizedOffersData {
     return activationDetailResponse;
   }
 
-  public static ResponseWrapperUserFeedbackOutputResponse sendUserFeedback() {
-    final UserFeedbackOutputResponse userFeedback = new UserFeedbackOutputResponse();
+  public static ResponseWrapperUserFeedbackOutputWrapper sendUserFeedback() {
+    final UserFeedbackOutputWrapper userFeedback = new UserFeedbackOutputWrapper();
 
     final Status status = new Status();
     status.setCode(STATUS_CODE);
@@ -218,15 +285,15 @@ public class PersonalizedOffersData {
     userFeedbackOutput.setFeedback(String.valueOf(FEEDBACK));
     userFeedback.setUserFeedback(userFeedbackOutput);
 
-    ResponseWrapperUserFeedbackOutputResponse userFeedbackResponse =
-        new ResponseWrapperUserFeedbackOutputResponse();
+    ResponseWrapperUserFeedbackOutputWrapper userFeedbackResponse =
+        new ResponseWrapperUserFeedbackOutputWrapper();
     userFeedbackResponse.setResponse(userFeedback);
 
     return userFeedbackResponse;
   }
 
-  public static ResponseWrapperUserFeedbackOutputListResponse getUserFeedback() {
-    final UserFeedbackOutputListResponse userFeedback = new UserFeedbackOutputListResponse();
+  public static ResponseWrapperUserFeedbackOutputList getUserFeedback() {
+    final UserFeedbackOutputList userFeedback = new UserFeedbackOutputList();
 
     final Status status = new Status();
     status.setCode(STATUS_CODE);
@@ -253,8 +320,8 @@ public class PersonalizedOffersData {
     userFeedback.setItemsPerPage(ITEMS_PER_PAGE);
     userFeedback.setTotalCount(TOTAL_COUNT);
 
-    ResponseWrapperUserFeedbackOutputListResponse userFeedbackResponse =
-        new ResponseWrapperUserFeedbackOutputListResponse();
+    ResponseWrapperUserFeedbackOutputList userFeedbackResponse =
+        new ResponseWrapperUserFeedbackOutputList();
     userFeedbackResponse.setResponse(userFeedback);
 
     return userFeedbackResponse;
@@ -319,27 +386,27 @@ public class PersonalizedOffersData {
     return matchedOffersResponse;
   }
 
-  public static ResponseWrapperUserSavingsResponse getUserSavings() {
-    final UserSavingsResponse userSavings = new UserSavingsResponse();
+  public static ResponseWrapperUserSavingsOutputWrapper getUserSavings() {
+    final UserSavingsOutputWrapper userSavingsOutputWrapper = new UserSavingsOutputWrapper();
 
     final Status status = new Status();
     status.setCode(STATUS_CODE);
     status.setMessage(STATUS_MESSAGE);
-    userSavings.setStatus(status);
+    userSavingsOutputWrapper.setStatus(status);
 
     final UserSavings savings = getUserSavingsData();
 
-    userSavings.setUserSavings(savings);
+    userSavingsOutputWrapper.setUserSavings(savings);
 
-    ResponseWrapperUserSavingsResponse userSavingsResponse =
-        new ResponseWrapperUserSavingsResponse();
-    userSavingsResponse.setResponse(userSavings);
+    ResponseWrapperUserSavingsOutputWrapper userSavingsResponse =
+        new ResponseWrapperUserSavingsOutputWrapper();
+    userSavingsResponse.setResponse(userSavingsOutputWrapper);
 
     return userSavingsResponse;
   }
 
-  public static ResponseWrapperUserTokenOutputResponse getUserToken() {
-    final UserTokenOutputResponse userToken = new UserTokenOutputResponse();
+  public static ResponseWrapperUserTokenOutputWrapper getUserToken() {
+    final UserTokenOutputWrapper userToken = new UserTokenOutputWrapper();
 
     final Status status = new Status();
     status.setCode(STATUS_CODE);
@@ -350,8 +417,8 @@ public class PersonalizedOffersData {
     token.setToken(USER_TOKEN);
     userToken.setUserToken(token);
 
-    ResponseWrapperUserTokenOutputResponse userTokenResponse =
-        new ResponseWrapperUserTokenOutputResponse();
+    ResponseWrapperUserTokenOutputWrapper userTokenResponse =
+        new ResponseWrapperUserTokenOutputWrapper();
     userTokenResponse.setResponse(userToken);
 
     return userTokenResponse;
@@ -402,8 +469,8 @@ public class PersonalizedOffersData {
     return detailedOffersResponse;
   }
 
-  public static BrowseOffersResponse getOffers() {
-    BrowseOffersResponse browseOffersResponse = new BrowseOffersResponse();
+  public static BrowseOffers getOffers() {
+    BrowseOffers browseOffersResponse = new BrowseOffers();
     browseOffersResponse.setOffset(FIVE);
     browseOffersResponse.setLimit(FIVE);
     browseOffersResponse.setTotal(FIVE);
@@ -412,6 +479,7 @@ public class PersonalizedOffersData {
 
     OfferInfo offerInfo = new OfferInfo();
     offerInfo.id(ONE);
+    offerInfo.originalOfferId(ORIGINAL_OFFER_ID);
     offerInfo.type(OFFER_TYPE);
     offerInfo.redemptionChannel(REDEMPTION_CHANNEL);
     offerInfo.source(OFFER_SOURCE);
@@ -442,13 +510,13 @@ public class PersonalizedOffersData {
     return browseOffersResponse;
   }
 
-  public static AdjustmentResponse getAdjustments() {
-    final AdjustmentResponse adjustmentResponse = new AdjustmentResponse();
+  public static UserAdjustment getAdjustments() {
+    final UserAdjustment adjustmentResponse = new UserAdjustment();
     adjustmentResponse.setOffset(OFFSET);
     adjustmentResponse.setLimit(LIMIT);
     adjustmentResponse.setTotal(TOTAL);
     adjustmentResponse.setCount(COUNT);
-    adjustmentResponse.setResponseLastModified(LAST_MODIFIED);
+    adjustmentResponse.setResponseLastModifiedDateTime(LAST_MODIFIED_DATE_TIME);
     adjustmentResponse.setStatus(getStatusInfo());
 
     Adjustments adjustments = getAdjustmentsData();
@@ -457,22 +525,22 @@ public class PersonalizedOffersData {
     return adjustmentResponse;
   }
 
-  public static AccessTokenRequest getAccessTokenRequest() {
-    AccessTokenRequest accessTokenRequest = new AccessTokenRequest();
+  public static RequestedAccessToken getAccessTokenRequest() {
+    RequestedAccessToken accessTokenRequest = new RequestedAccessToken();
     accessTokenRequest.setFiId(FID);
     accessTokenRequest.setUserId(USER_ID);
     accessTokenRequest.setUtcOffset(UTC_OFFSET);
     return accessTokenRequest;
   }
 
-  public static AccessTokenResponse getAccessTokenResponse() {
-    AccessTokenResponse accessTokenResponse = new AccessTokenResponse();
+  public static UserAccessToken getAccessToken() {
+    UserAccessToken accessTokenResponse = new UserAccessToken();
     accessTokenResponse.setAccessToken(ACCESS_TOKEN);
     return accessTokenResponse;
   }
 
-  public static UserOffersResponse getUserPresentmentOffers() {
-    UserOffersResponse offersResponse = new UserOffersResponse();
+  public static UserOffers getUserPresentmentOffers() {
+    UserOffers offersResponse = new UserOffers();
     offersResponse.setOffset(OFFSET);
     offersResponse.setLimit(LIMIT);
     offersResponse.setTotal(TOTAL);
@@ -480,6 +548,7 @@ public class PersonalizedOffersData {
 
     UserOffer offer = new UserOffer();
     offer.setId(OFFER_ID);
+    offer.setOriginalOfferId(ORIGINAL_OFFER_ID);
     offer.setType(OFFER_TYPE);
     offer.setRedemptionChannel(REDEMPTION_CHANNEL);
     offer.setSource(OFFER_SOURCE);
@@ -496,7 +565,7 @@ public class PersonalizedOffersData {
     offer.setActivationType(ACTIVATION_TYPE);
     offer.setAssignmentOnEnrollment(false);
     offer.setGoal(GOAL);
-    offer.setLastModified(LAST_MODIFIED);
+    offer.setLastModified(LAST_MODIFIED_DATE_TIME);
     offer.setMatchMaxPerUser(FIVE);
     offer.setPresentmentEndDate(PRESENTMENT_DATE);
     offer.setStatus(STATUS);
@@ -514,9 +583,10 @@ public class PersonalizedOffersData {
     return offersResponse;
   }
 
-  public static UserOfferDetailsResponse getUserOfferDetails() {
+  public static OfferDetails getUserOfferDetails() {
     UserOfferDetails offerDetails = new UserOfferDetails();
     offerDetails.setId(OFFER_ID);
+    offerDetails.setOriginalOfferId(ORIGINAL_OFFER_ID);
     offerDetails.setType(OFFER_TYPE);
     offerDetails.setRedemptionChannel(REDEMPTION_CHANNEL);
     offerDetails.setSource(OFFER_SOURCE);
@@ -533,7 +603,7 @@ public class PersonalizedOffersData {
     offerDetails.setActivationType(ACTIVATION_TYPE);
     offerDetails.setAssignmentOnEnrollment(false);
     offerDetails.setGoal(GOAL);
-    offerDetails.setLastModified(LAST_MODIFIED);
+    offerDetails.setLastModified(LAST_MODIFIED_DATE_TIME);
     offerDetails.setMatchMaxPerUser(FIVE);
     offerDetails.setPresentmentEndDate(PRESENTMENT_DATE);
     offerDetails.setStatus(STATUS);
@@ -547,7 +617,7 @@ public class PersonalizedOffersData {
     offerDetails.setRedemptionClassifiers(getRedemptionClassifiers());
     offerDetails.setAdjustmentBankProductCodes(Collections.emptyList());
 
-    UserOfferDetailsResponse userOfferDetailsResponse = new UserOfferDetailsResponse();
+    OfferDetails userOfferDetailsResponse = new OfferDetails();
     userOfferDetailsResponse.setUserOfferDetails(offerDetails);
     return userOfferDetailsResponse;
   }
@@ -598,18 +668,23 @@ public class PersonalizedOffersData {
     return status;
   }
 
-  public static UserPresentmentSavingsResponse getUserPresentmentSavings() {
-    final UserPresentmentSavingsResponse userPresentmentSavingsResponse = new UserPresentmentSavingsResponse();
+  public static UserSavings getUserPresentmentSavings() {
+    final UserSavings userPresentmentSavingsResponse = new UserSavings();
 
-    final Savings savings = getSavingsData();
+    final StatementCreditOffersSavings savings = getSavingsData();
 
-    userPresentmentSavingsResponse.setSavings(savings);
+    userPresentmentSavingsResponse.setStatementCreditOffersSavings(savings);
+    userPresentmentSavingsResponse.setTotalAmountSaved(CASH_AMOUNT);
+    userPresentmentSavingsResponse.setTotalOffersUsed(ONE);
+    userPresentmentSavingsResponse.setTotalEarnedPoints(POINTS_EARNED);
 
     return userPresentmentSavingsResponse;
   }
 
-  @NotNull private static UserSavings getUserSavingsData() {
-    final StatementCreditOffersSavings statementCreditOffersSavings = new StatementCreditOffersSavings();
+  @NotNull
+  private static UserSavings getUserSavingsData() {
+    final StatementCreditOffersSavings statementCreditOffersSavings =
+        new StatementCreditOffersSavings();
     statementCreditOffersSavings.setNumRedeemed(ONE);
     statementCreditOffersSavings.setEarnedCashback(CASH_BACK);
     statementCreditOffersSavings.setNumAvailable(ONE);
@@ -632,7 +707,7 @@ public class PersonalizedOffersData {
     adjustmentResponse.setLimit(LIMIT);
     adjustmentResponse.setTotal(TOTAL);
     adjustmentResponse.setCount(COUNT);
-    adjustmentResponse.setResponseLastModified(LAST_MODIFIED);
+    adjustmentResponse.setResponseLastModifiedDateTime(LAST_MODIFIED_DATE_TIME);
 
     Adjustments adjustments = getAdjustmentsData();
 
@@ -640,9 +715,10 @@ public class PersonalizedOffersData {
     return adjustmentResponse;
   }
 
-  @NotNull private static Adjustments getAdjustmentsData() {
+  @NotNull
+  private static Adjustments getAdjustmentsData() {
     Adjustments adjustments = new Adjustments();
-    adjustments.setId(ID);
+    adjustments.setId(UUID.fromString(ID));
     adjustments.setAdjustmentId(ADJUSTMENT_ID);
     adjustments.setActivationId(ADJUSTMENT_ACTIVATION_ID);
     adjustments.setActivatedDateTime(ACTIVATED_DATE_TIME);
@@ -657,7 +733,7 @@ public class PersonalizedOffersData {
     adjustments.setTransactionSequenceNumber(TRANSACTION_SEQUENCE_NUMBER);
     adjustments.setAdjustmentCashValue(ADJUSTMENT_CASH_VALUE);
     adjustments.setRedemptionDateTime(REDEMPTION_DATETIME);
-    adjustments.setStatus(STATUS);
+    adjustments.setStatus(REDEMPTION_STATUS_COMPLETED);
     adjustments.setAdjustmentPointsValue(ADJUSTMENT_POINTS_VALUE);
     adjustments.setTransactionMerchantId(TRANSACTION_MERCHANT_ID);
     adjustments.setTransactionChannel(TRANSACTION_CHANNEL);
@@ -672,12 +748,11 @@ public class PersonalizedOffersData {
     adjustments.setTransactionBankAccountNumberAlias(TRANSACTION_BANK_ACCOUNT_NUMBER_ALIAS);
     adjustments.setTransactionInstallmentPayment(TRANSACTION_INSTALLMENT_PAYMENT);
     adjustments.setTransactionIssuerCountry(TRANSACTION_ISSUER_COUNTRY);
-    adjustments.setCreated(CREATED);
-    adjustments.setLastModified(LAST_MODIFIED);
+    adjustments.setCreatedDate(CREATED_DATE);
+    adjustments.setLastModifiedDateTime(LAST_MODIFIED_DATE_TIME);
     adjustments.setBankCustomerNumber(BANK_CUSTOMER_NUMBER);
     adjustments.setTransactionAuthorizationCode(TRANSACTION_AUTHORIZATION_CODE);
     adjustments.setTransactionDescriptionOriginal(TRANSACTION_DESCRIPTION_ORIGINAL);
-    adjustments.setErrorDescription(ERROR_DESCRIPTION);
     adjustments.setTransactionCity(TRANSACTION_CITY);
     adjustments.setAdjustmentReversal(ADJUSTMENT_REVERSAL);
     adjustments.setAdjustmentValueSign(ADJUSTMENT_VALUE_SIGN);
@@ -687,7 +762,6 @@ public class PersonalizedOffersData {
     adjustments.setCampaignId(CAMPAIGN_ID);
     adjustments.setTransactionIssuerICA(TRANSACTION_ISSUER_ICA);
     adjustments.setAdjustmentPointsType(ADJUSTMENT_POINTS_TYPE);
-    adjustments.setType(TYPE);
     return adjustments;
   }
 
@@ -703,13 +777,13 @@ public class PersonalizedOffersData {
     activation.setId(ACTIVATION_ID);
     activation.setOfferId(OFFER_ID);
     activation.setStatus(STATUS);
-    Assignment assignment = new Assignment();
+    UserAssignment assignment = new UserAssignment();
     assignment.setStatus(STATUS);
     assignment.setRedemptionEndDate(END_DATE);
     assignment.setRedemptionStartDate(START_DATE);
-    assignment.setActivationTimeStamp(START_DATE);
+    assignment.setActivationDateTime(START_DATE);
     assignment.setId(ID);
-    List<Assignment> assignments = new ArrayList<>();
+    List<UserAssignment> assignments = new ArrayList<>();
     assignments.add(assignment);
     activation.setAssignments(assignments);
     List<Activation> activationList = new ArrayList<>();
@@ -718,21 +792,21 @@ public class PersonalizedOffersData {
     return activations;
   }
 
-  public static OfferRatingRequest getOfferRatingRequest() {
-    OfferRatingRequest offerRatingRequest = new OfferRatingRequest();
+  public static RequestedOfferRating getOfferRatingRequest() {
+    RequestedOfferRating offerRatingRequest = new RequestedOfferRating();
     offerRatingRequest.setLike(OFFER_RATING);
     return offerRatingRequest;
   }
 
-  public static OfferRatingResponse getOfferRatingResponse() {
-    OfferRatingResponse offerRatingResponse = new OfferRatingResponse();
+  public static UserOfferRating getUserOfferRating() {
+    UserOfferRating offerRatingResponse = new UserOfferRating();
     OfferRating offerRating = getOfferRating();
     offerRatingResponse.setOfferRating(offerRating);
     return offerRatingResponse;
   }
 
-  public static OfferRatingsResponse getOfferRatingsResponse() {
-    OfferRatingsResponse offerRatingsResponse = new OfferRatingsResponse();
+  public static UserOfferRatings getUserOfferRatings() {
+    UserOfferRatings offerRatingsResponse = new UserOfferRatings();
     offerRatingsResponse.setOffset(OFFSET);
     offerRatingsResponse.setLimit(LIMIT);
     offerRatingsResponse.setTotal(TOTAL);
@@ -745,28 +819,23 @@ public class PersonalizedOffersData {
     return offerRatingsResponse;
   }
 
-  @NotNull private static OfferRating getOfferRating() {
+  @NotNull
+  private static OfferRating getOfferRating() {
     OfferRating offerRating = new OfferRating();
     offerRating.setOfferId(OFFER_ID);
     offerRating.setLike(OFFER_RATING);
     return offerRating;
   }
 
-  @NotNull private static Savings getSavingsData() {
-    final StatementCreditOffers statementCreditOffers = new StatementCreditOffers();
-    statementCreditOffers.setAvailableOffersCount(Integer.valueOf(ONE));
-    statementCreditOffers.setEarnedCash(new BigDecimal(CASH_BACK));
-    statementCreditOffers.setRedeemedOffersCount(Integer.valueOf(ONE));
-    statementCreditOffers.setPotentialCash(new BigDecimal(ONE));
-    statementCreditOffers.setEarnedPoints(new BigDecimal(POINTS_EARNED));
-    statementCreditOffers.setPotentialPoints(new BigDecimal(POINTS_EARNED));
-
-    final Savings savings = new Savings();
-    savings.setStatementCreditOffers(statementCreditOffers);
-
-    savings.setTotalCashSaved(new BigDecimal(CASH_AMOUNT));
-    savings.setTotalOffersUsed(Integer.valueOf(ONE));
-    savings.setTotalPointsEarned(new BigDecimal(POINTS_EARNED));
-    return savings;
+  @NotNull
+  private static StatementCreditOffersSavings getSavingsData() {
+    final StatementCreditOffersSavings statementCreditOffers = new StatementCreditOffersSavings();
+    statementCreditOffers.setNumAvailable(ONE);
+    statementCreditOffers.setEarnedCashback(CASH_BACK);
+    statementCreditOffers.setNumRedeemed(ONE);
+    statementCreditOffers.setPotentialSavings(ONE);
+    statementCreditOffers.setEarnedPoints(POINTS_EARNED);
+    statementCreditOffers.setPotentialPoints(POINTS_EARNED);
+    return statementCreditOffers;
   }
 }
