@@ -6,11 +6,12 @@
 - [Usage](#usage)
   * [Frameworks / Libraries used](#prerequisites)
   * [Requirements](#requirements)
-  * [Configuration](#configuration)
-- [Service Documentation](#service-documentation)
 - [Integrating with OpenAPI Generator](#integrating-with-openapi-generator)
   * [OpenAPI Generator Plugin Configuration](#openapi-generator-plugin-configuration)
+- [Configuration](#configuration)  
 - [Use Cases](#use-cases)
+- [Execute the Use-Cases](#execute-the-use-cases)
+- [Service Documentation](#service-documentation)
 - [API Reference](#api-reference)
 - [Support](#support)
 - [License](#license)
@@ -37,31 +38,8 @@ This code showcases reference implementation of Personalized Offers APIs. Please
   - [Plugin for IntelliJ](https://plugins.jetbrains.com/plugin/6317-lombok/)
   - [Setup for Eclipse](https://projectlombok.org/setup/eclipse)
   - [Setup for Netbeans](https://projectlombok.org/setup/netbeans)
-
-### Configuration <a name="configuration"></a>
-1.  Open Mastercard Developers website and create an account at [Mastercard Developer](https://developer.mastercard.com).
-2.  Create a new project [here](https://developer.mastercard.com/dashboard).
-3.  Add the `Personalized Offers` API to your project and click continue.
-4.  Configure project and click continue.
-5.  Download Sandbox Signing Key.
-6.  A `.p12` file is downloaded automatically. **Note**: On Safari, the file name will be `Unknown`. Rename it to a 
-    .p12 extension.
-7.  Copy the downloaded `.p12` file to `src/main/resources` folder in the code.
-8.  Open `src/main/resources/application.properties` and configure:
-      - `mastercard.api.p12.path` - Path to keystore (.p12) file. Since the .p12 is under same resources folder just 
-      pass the name of the .p12 here.
-      - `mastercard.api.consumer.key` - Consumer key. Copy this from "Sandbox/Production Keys" on your project page
-      - `mastercard.api.key.alias` - Key alias. Default key alias for sandbox is `keyalias`.
-      - `mastercard.api.keystore.password` - Keystore password. Default keystore password for sandbox project is 
-      `keystorepassword`.
-9.  Run `./mvnw clean install` from the root of the project directory.
-10. Run `./mvnw spring-boot:run` to start the project.
  
-## Service Documentation <a name="service-documentation"></a>
-
-Personalized Offers service documentation can be found 
-[here](https://developer.mastercard.com/documentation/personalized-offers/)
-
+ 
 ## Integrating with OpenAPI Generator <a name="integrating-with-openapi-generator"></a>
 [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) generates API client libraries from 
 [OpenAPI Specs](https://github.com/OAI/OpenAPI-Specification). 
@@ -102,57 +80,150 @@ It provides generators and library templates for supporting multiple languages a
 For more information on how this client generator works please consult the official 
 [Github repository](https://github.com/OpenAPITools/openapi-generator)
 
+## Configuration <a name="configuration"></a>
+
+1.  Open Mastercard Developers website and create an account at [Mastercard Developer](https://developer.mastercard.com).
+2.  Create a new project [here](https://developer.mastercard.com/dashboard).
+3.  Add the `Personalized Offers` API to your project and click continue.
+4.  Configure project and click continue.
+5.  Download Sandbox Signing Key.
+6.  A `.p12` file is downloaded automatically. **Note**: On Safari, the file name will be `Unknown`. Rename it to a 
+    .p12 extension.
+7.  Copy the downloaded `.p12` file to `src/main/resources` folder in the code.
+8.  Open `src/main/resources/application.properties` and configure:
+      - `mastercard.api.p12.path` - Path to keystore (.p12) file. Since the .p12 is under same resources folder just 
+      pass the name of the .p12 here.
+      - `mastercard.api.consumer.key` - Consumer key. Copy this from "Sandbox/Production Keys" on your project page
+      - `mastercard.api.key.alias` - Key alias. Default key alias for sandbox is `keyalias`.
+      - `mastercard.api.keystore.password` - Keystore password. Default keystore password for sandbox project is 
+      `keystorepassword`.
+
 ## Use Cases <a name="use-cases"></a>
 
-> Case 1: [Retrieve Redeemed Offers]()
-  - As part of the consumer experience, Issuers or Partners can also provide a list of offers the cardholder has 
-  redeemed. This allows a cardholder to see their activity and understand which offers they may have used in the past, 
-  and the benefits they attained from the program.
+**Legacy User Presentment Use Cases**
 
-> Case 2: [Activate an Offer]()
-  - For attribution reasons, merchants want to know if a cardholder has seen an offer and plan to use it. An Issuer or 
-  Partner can activate an offer (based on a user action such as a click, or a page view) and enable that offer for use.
-  Not all programs require an offer to be activated. This is determined during program implementation and Mastercard 
-  will consult with the Issuer/Partner on whether offers require an activation for use.
-  - Issuer or Partner can retrieve extended information about the specified activated Postpaid Credit offer.
+1. **Retrieve Redeemed Offers**  
+As part of the consumer experience, Issuers or Partners can also provide a list of offers the cardholder has 
+redeemed. This allows a cardholder to see their activity and understand which offers they may have used in the past, 
+and the benefits they attained from the program.
 
-> Case 3: [User Feedback]()
-  - Issuer or Partner is allowed to provide a thumbs-up or a thumbs-down rating of the specified offer. Offer matches 
-  that are disliked will be suppressed from the results of future calls to Matched Offers. Issuer or Partner can 
-  retrieve feedback with offer ids based on the search criteria.
+2. **Activate an Offer**  
+ For attribution reasons, merchants want to know if a cardholder has seen an offer and plan to use it. An Issuer or 
+Partner can activate an offer (based on a user action such as a click, or a page view) and enable that offer for use.
+Not all programs require an offer to be activated. This is determined during program implementation and Mastercard 
+will consult with the Issuer/Partner on whether offers require an activation for use.
+Issuer or Partner can retrieve extended information about the specified activated Postpaid Credit offer.
 
-> Case 4: [Retrieve Personalized Offers]()
-  - Issuer or Partner can get a list of offers that a cardholder was assigned based on their spend history. The offers 
-  are returned along with all the associated marketing content, terms and conditions, and logos/images. The Issuer or 
-  Partner can then take the offer content and integrate it into their app or site to create a seamless, integrated 
-  consumer experience for their cardholders.
+3. **User Feedback**  
+Issuer or Partner is allowed to provide a thumbs-up or a thumbs-down rating of the specified offer. Offer matches 
+that are disliked will be suppressed from the results of future calls to Matched Offers. Issuer or Partner can 
+retrieve feedback with offer ids based on the search criteria.
+
+4. **Retrieve Personalized Offers**  
+Issuer or Partner can get a list of offers that a cardholder was assigned based on their spend history. The offers 
+are returned along with all the associated marketing content, terms and conditions, and logos/images. The Issuer or 
+Partner can then take the offer content and integrate it into their app or site to create a seamless, integrated 
+consumer experience for their cardholders.
   
-> Case 5: [Show the Total User Savings]()
-  - Similar to retrieving redeemed offers, an Issuer or Partner can also retrieve the total savings a cardholder has 
-  earned from the program and the total cash back or points they have accumulated from redeeming offers. Again, this 
-  is used to highlight the benefits a cardholder received from the program. Redeemed Offers is a line-by-line listing 
-  of all individual offers that were redeemed whereas User Savings only provide the aggregate sum of the cash back or 
-  points earned.
+5. **Show the Total User Savings**  
+Similar to retrieving redeemed offers, an Issuer or Partner can also retrieve the total savings a cardholder has 
+earned from the program and the total cash back or points they have accumulated from redeeming offers. Again, this 
+is used to highlight the benefits a cardholder received from the program. Redeemed Offers is a line-by-line listing 
+of all individual offers that were redeemed whereas User Savings only provide the aggregate sum of the cash back or 
+points earned.
   
-> Case 6: [Retrieve User Token]()
-  - Issuer or Partner can create a user session token for a cardholder. It must be called prior to any other API calls 
-  for the specified cardholder. The token value does not expire.
+6. **Retrieve User Token**  
+Issuer or Partner can create a user session token for a cardholder. It must be called prior to any other API calls 
+for the specified cardholder. The token value does not expire.
   
-> Case 7: [Retrieve Offer Details]()
-  - Issuer or Partner can retrieve extended information for the requested offer, typically returns a detailed 
-  information of an offer.
+7. **Retrieve Offer Details**  
+Issuer or Partner can retrieve extended information for the requested offer, typically returns a detailed 
+information of an offer.
   
-> Case 8: [Retrieve All Offers]()
-  - Issuer or Partner can get a list of all offers regardless of cardholder. Issuer or Partner can retrieve 
-  extended information for the requested offers.
+More details on the Legacy User Presentment Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/legacy-user-presentment/use-cases/).  
   
-> Case 9: [Adjustments]()  
-  - The Adjustments/Redemption API provides detailed information on the redemptions that has satisfied specific offer 
-  criteria in order to be eligible to receive cash back or points offered by merchant in collaboration with the issuer
-   and Mastercard.
+**Platform Admin Use Cases**  
+
+1. **Retrieve All Offers**  
+Issuer or Partner can get a list of all offers regardless of cardholder. Issuer or Partner can retrieve 
+extended information for the requested offers.
+  
+2. **Retrieve All Adjustments**  
+The Adjustments/Redemption API provides detailed information on the redemptions that has satisfied specific offer 
+criteria in order to be eligible to receive cash back or points offered by merchant in collaboration with the issuer
+and Mastercard.
    
-> Case 10: [Access Tokens]()  
-  - The Access Tokens API responsible for generating access tokens. It must be called prior to any other user centered API calls.
+More details on the Platform Admin Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/platform-admin/use-cases/).    
+   
+**User Presentment Use Cases**
+   
+1. **Retrieve Access Token**  
+The Access Tokens API responsible for generating access tokens. It must be called prior to any other user centered 
+API calls.
+  
+2. **Retrieve User Offers**  
+Retrieves a list of offers that were assigned to the cardholder based on his or her spend history. 
+The offers are returned along with all the associated marketing content, terms and conditions, and logos/images.
+
+3. **Activate Offer**  
+Activates the given offer and makes it available for redemption to the cardholder.
+  
+4. **Offer Rating**  
+Cardholder can submit a rating for an offer based on his or her preference (for example: like or dislike).
+Cardholder can also Retrieve the rating for the offer.
+  
+5. **Retrieve Offer Ratings**  
+Cardholder can retrieve all ratings he or she submitted with the corresponding offer ids..
+
+6. **Retrieve Offer**  
+Cardholder can retrieve extended information for the requested offer, typically returns a detailed information of an offer.
+
+7. **Retrieve User Adjustments**  
+Cardholder can retrieve all adjustments made that conform to the search criteria (if specified).
+
+8. **Retrieve User Savings**  
+Provides an overview of the accumulated and potential savings for a cardholder based on the redemptions made and the additional offers available for the cardholder.                
+  
+More details on the User Presentment Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/user-presentment/use-cases/).      
+
+## Execute the Use-Cases   <a name="execute-the-use-cases"></a>
+1. Run `./mvnw clean install` from the root of the project directory.
+2. There are two ways to execute the use-cases:
+    1. Execute the use-cases(test cases):  
+        - Go to `src/main/java/com/mastercard/developer/usecases` folder.  
+        - Execute each test cases.
+        - In `LegacyUserPresentmentServiceTest.java` and `PlatformAdminServiceTest.java`, note that a Financial Institution Identifier (f-id) provided by Mastercard during implementation is required while executing all test cases.
+        - In `LegacyUserPresentmentServiceTest.java`, note that a user-token is created using Financial Institution Identifier and AuthInfo (encrypted concatenation of "User ID as specified in enrollment:Financial Institute ID:current Unix time) provided by Mastercard during formal implementation project, the user-token is used while executing all the other test-cases.
+        - In `UserPresentmentServiceTest.java`, note that an access-token is created using Financial Institution Identifier, user Id and UTC time offset. The access-token is used while executing all the other test-cases.
+    
+    2. Use REST API based Client( such as [Insomnia](https://insomnia.rest/download/core/) or [Postman](https://www.postman.com/downloads/))  
+        - Run `./mvnw spring-boot:run` command to run the application.  
+        - Use any REST API based Client to test the functionality. Below are the endpoints exposed by this reference application, use `locahost:8080` as the Host:  
+                - GET <Host>/redeem-offers      
+                - POST <Host>/activate-offers  
+                - GET <Host>/activation-details  
+                - POST <Host>/user-feedbacks      
+                - GET <Host>/user-feedbacks  
+                - GET <Host>/matched-offers  
+                - GET <Host>/user-savings             
+                - GET <Host>/user-tokens  
+                - GET <Host>/offer-details  
+                - GET <Host>/offers  
+                - GET <Host>/adjustments  
+                - POST <Host>/user-presentment/access-tokens  
+                - GET <Host>/user-presentment/offers  
+                - GET <Host>/user-presentment/offers/{offer_id}  
+                - GET <Host>/user-presentment/offer-ratings  
+                - GET <Host>/user-presentment/offer-ratings/{offer_id}  
+                - POST <Host>/user-presentment/offer-ratings/{offer_id}/likes  
+                - POST <Host>/user-presentment/activations  
+                - GET <Host>/user-presentment/savings  
+                - GET <Host>/user-presentment/adjustments                         
+    
+## Service Documentation <a name="service-documentation"></a>
+
+Personalized Offers service documentation can be found 
+[here](https://developer.mastercard.com/documentation/personalized-offers/)    
     
 ## API Reference <a name="api-reference"></a>
 
