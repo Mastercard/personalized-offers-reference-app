@@ -743,13 +743,6 @@ paths:
             type: integer
             format: int32
           example: 5
-        - name: sort
-          in: query
-          description: The order and parameter you want to sort by.
-          required: false
-          schema:
-            type: string
-          example: "+merchantDisplayName"
       responses:
         '200':
           description: OK
@@ -994,14 +987,6 @@ paths:
             format: int32
             default: 25
           example: 5
-        - name: sort
-          in: query
-          description: The order and parameter you want to sort by.
-          required: false
-          schema:
-            type: string
-            default: "+eventEndDate"
-          example: "+merchantDisplayName"
         - name: X-Auth-Token
           in: header
           description: Access token as returned by the access token resource.

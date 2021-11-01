@@ -145,11 +145,10 @@ public class PersonalizedOffersController {
       @RequestParam(value = "offer_country", required = false) final String offerCountry,
       @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
       @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
-      @RequestParam(value = "sort", required = false) final String sort,
       @RequestHeader(name = "x-auth-token") final String xAuthToken)
       throws ApiException {
     return referenceApplicationGateway.getOffers(
-        language, offerType, category, offerCountry, offset, limit, sort, xAuthToken);
+        language, offerType, category, offerCountry, offset, limit, xAuthToken);
   }
 
   @GetMapping("/user-presentment/offers/{offer_id}")
