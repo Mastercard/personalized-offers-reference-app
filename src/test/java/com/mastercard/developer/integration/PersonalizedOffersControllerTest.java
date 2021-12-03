@@ -711,8 +711,7 @@ class PersonalizedOffersControllerTest {
   @Test
   @DisplayName("GET /user-presentment/offers")
   void userPresentmentOffers() throws Exception {
-    when(referenceApplicationGateway.getOffers(
-            any(), any(), any(), any(), any(), any(), any(), any()))
+    when(referenceApplicationGateway.getOffers(any(), any(), any(), any(), any(), any(), any()))
         .thenReturn(PersonalizedOffersData.getUserPresentmentOffers());
 
     mockMvc

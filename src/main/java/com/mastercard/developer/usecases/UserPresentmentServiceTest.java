@@ -86,7 +86,7 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, "+merchantDisplayName", accessToken);
+              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, accessToken);
 
       assertNotNull(userOffers);
       assertNotNull(userOffers.getOffers());
@@ -240,7 +240,7 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, "+merchantDisplayName", accessToken);
+              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, accessToken);
       assertNotNull(userOffers.getOffers());
 
       UserOfferRatings userOfferRatings =

@@ -50,7 +50,6 @@ class PlatformAdminServiceTest {
             .lang("en_US")
             .offset(0)
             .limit(10)
-            .sort("+merchantDisplayName")
             .build();
 
     try {

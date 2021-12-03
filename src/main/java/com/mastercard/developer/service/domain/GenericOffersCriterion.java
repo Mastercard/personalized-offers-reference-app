@@ -25,7 +25,6 @@ public class GenericOffersCriterion {
   List<String> languages;
   Integer offset;
   Integer limit;
-  String sort;
   String startDate;
   String endDate;
   String dateFilter;

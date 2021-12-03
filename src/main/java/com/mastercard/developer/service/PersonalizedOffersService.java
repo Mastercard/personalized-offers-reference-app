@@ -325,8 +325,7 @@ public class PersonalizedOffersService {
         offersCriterion.getOfferCountry(),
         offersCriterion.getLanguages(),
         offersCriterion.getOffset(),
-        offersCriterion.getLimit(),
-        offersCriterion.getSort());
+        offersCriterion.getLimit());
   }
 
   public UserAccessToken getToken(RequestedAccessToken accessToken) throws ApiException {
@@ -344,13 +343,12 @@ public class PersonalizedOffersService {
       String offerCountry,
       Integer offset,
       Integer limit,
-      String sort,
       String xAuthToken)
       throws ApiException {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
 
     return userOffersApi.getOffers(
-        xAuthToken, acceptLanguage, offerType, category, offerCountry, offset, limit, sort);
+        xAuthToken, acceptLanguage, offerType, category, offerCountry, offset, limit);
   }
 
   public OfferDetails getOfferDetails(String offerId, String xAuthToken, String acceptLanguage)
