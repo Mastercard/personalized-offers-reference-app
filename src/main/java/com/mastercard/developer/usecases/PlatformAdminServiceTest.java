@@ -74,7 +74,7 @@ class PlatformAdminServiceTest {
             .fid(fId)
             .offset(0)
             .limit(10)
-            .startDate("2019-10-05")
+            .startDate("2020-07-07")
             .endDate("2020-10-05")
             .dateFilter("CREATED")
             .build();
