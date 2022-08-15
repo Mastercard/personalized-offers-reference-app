@@ -3033,6 +3033,14 @@ components:
           description: The last day the offer may be presented.
           format: date
           example: '2022-03-31'
+        tags:
+          type: array
+          description: The tags of the offer.
+          example: Westpac
+          items:
+            type: string
+            description: The tags of the offer.
+            example: '["Westpac"]'
         status:
           type: string
           description: 'The offer status: APPROVED, DECLINED, PENDING, CHANGED, NEEDSAPPROVAL,
@@ -3692,6 +3700,14 @@ components:
           description: The last day the offer may be presented.
           format: date
           example: '2022-03-31'
+        tags:
+          type: array
+          description: The tags of the offer.
+          example: Westpac
+          items:
+            type: string
+            description: The tags of the offer.
+            example: '["Westpac"]'
         status:
           type: string
           description: 'The offer status: APPROVED, DECLINED, PENDING, CHANGED, NEEDSAPPROVAL,
@@ -3888,6 +3904,14 @@ components:
           description: The last day the offer may be presented.
           format: date
           example: '2022-03-31'
+        tags:
+          type: array
+          description: The tags of the offer.
+          example: Westpac
+          items:
+            type: string
+            description: The tags of the offer.
+            example: '["Westpac"]'
         status:
           type: string
           description: 'The offer status: APPROVED, DECLINED, PENDING, CHANGED, NEEDSAPPROVAL,
