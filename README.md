@@ -51,7 +51,7 @@ It provides generators and library templates for supporting multiple languages a
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>4.3.1</version>
+        <version>5.3.0</version>
         <executions>
           <execution>
             <goals>
@@ -190,11 +190,12 @@ More details on the User Presentment Use Cases can be found [here](https://devel
 1. Run `./mvnw clean install` from the root of the project directory.
 2. There are two ways to execute the use-cases:
     1. Execute the use-cases(test cases):  
-        - Go to `src/main/java/com/mastercard/developer/usecases` folder.  
+        - Go to `src/test/java/com/mastercard/developer/usecases` folder.  
         - Execute each test cases.
         - In `LegacyUserPresentmentServiceTest.java` and `PlatformAdminServiceTest.java`, note that a Financial Institution Identifier (f-id) provided by Mastercard during implementation is required while executing all test cases.
         - In `LegacyUserPresentmentServiceTest.java`, note that a user-token is created using Financial Institution Identifier and AuthInfo (encrypted concatenation of "User ID as specified in enrollment:Financial Institute ID:current Unix time) provided by Mastercard during formal implementation project, the user-token is used while executing all the other test-cases.
         - In `UserPresentmentServiceTest.java`, note that an access-token is created using Financial Institution Identifier, user Id and UTC time offset. The access-token is used while executing all the other test-cases.
+        - If you want to change any request parameters, please make change in `Constant.java`from `src/main/java/com/mastercard/developer/constant` folder.
     
     2. Use REST API based Client( such as [Insomnia](https://insomnia.rest/download/core/) or [Postman](https://www.postman.com/downloads/))  
         - Run `./mvnw spring-boot:run` command to run the application.  
@@ -218,7 +219,8 @@ More details on the User Presentment Use Cases can be found [here](https://devel
                 - POST <Host>/user-presentment/offer-ratings/{offer_id}/likes  
                 - POST <Host>/user-presentment/activations  
                 - GET <Host>/user-presentment/savings  
-                - GET <Host>/user-presentment/adjustments                         
+                - GET <Host>/user-presentment/adjustments
+        - For more information about above endpoints, please refer `PersonalizedOffersController.java` from `src/main/java/com/mastercard/developer/controller` folder.
     
 ## Service Documentation <a name="service-documentation"></a>
 

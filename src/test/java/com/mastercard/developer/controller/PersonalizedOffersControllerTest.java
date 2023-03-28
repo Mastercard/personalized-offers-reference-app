@@ -1,4 +1,4 @@
-package com.mastercard.developer.integration;
+package com.mastercard.developer.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.google.gson.Gson;
 import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivation;
 import com.mastercard.api.model.UserFeedbackInput;
-import com.mastercard.developer.controller.PersonalizedOffersController;
 import com.mastercard.developer.integration.data.PersonalizedOffersData;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import org.junit.jupiter.api.DisplayName;

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.mastercard.ApiException;
 import com.mastercard.api.model.BrowseOffers;
 import com.mastercard.api.model.UserAdjustment;
+import com.mastercard.developer.constant.Constant;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import com.mastercard.developer.service.domain.GenericOffersCriterion;
 import org.junit.jupiter.api.Assertions;
@@ -44,12 +45,12 @@ class PlatformAdminServiceTest {
             .fid(fId)
             .issuerIca(ica)
             .bankProductCode(bankProductCode)
-            .offerType("POSTPAIDCREDIT")
-            .category("DEPARTMENTSTORE")
-            .offerCountry("USA")
-            .lang("en_US")
-            .offset(0)
-            .limit(10)
+            .offerType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT)
+            .category(Constant.Offers.CATEGORY_DEPARTMENTSTORE)
+            .offerCountry(Constant.Offers.COUNTRY_USA)
+            .lang(Constant.Offers.EN_US)
+            .offset(Constant.OFFSET)
+            .limit(Constant.LIMIT_TEN)
             .build();
 
     try {
@@ -72,11 +73,11 @@ class PlatformAdminServiceTest {
     GenericOffersCriterion genericOffersCriterion =
         GenericOffersCriterion.builder()
             .fid(fId)
-            .offset(0)
-            .limit(10)
-            .startDate("2019-10-05")
-            .endDate("2020-10-05")
-            .dateFilter("CREATED")
+            .offset(Constant.OFFSET)
+            .limit(Constant.LIMIT_TEN)
+            .startDate(Constant.UserAdjustments.START_DATE)
+            .endDate(Constant.UserAdjustments.END_DATE)
+            .dateFilter(Constant.UserAdjustments.DATE_FILTER)
             .build();
 
     try {
