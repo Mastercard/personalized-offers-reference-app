@@ -31,6 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * The following APIs are deprecated version of the current User Presentment APIs that are listed under UserPresentmentServiceTest.java
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LegacyUserPresentmentServiceTest {

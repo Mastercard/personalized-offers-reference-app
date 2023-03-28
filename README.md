@@ -102,6 +102,8 @@ For more information on how this client generator works please consult the offic
 
 **Legacy User Presentment Use Cases**
 
+The following API use cases are the deprecated version of the current User Presentment APIs that are listed under [User Presentment Use Cases](#user-presentment-use-cases)
+
 1. **Retrieve Redeemed Offers**  
 As part of the consumer experience, Issuers or Partners can also provide a list of offers the cardholder has 
 redeemed. This allows a cardholder to see their activity and understand which offers they may have used in the past, 
@@ -155,7 +157,7 @@ and Mastercard.
    
 More details on the Platform Admin Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/platform-admin/use-cases/).    
    
-**User Presentment Use Cases**
+##### User Presentment Use Cases <a name="user-presentment-use-cases"></a>
    
 1. **Retrieve Access Token**  
 The Access Tokens API responsible for generating access tokens. It must be called prior to any other user centered 
