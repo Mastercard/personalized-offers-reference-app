@@ -15,6 +15,7 @@ import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputWrapper;
 import com.mastercard.api.model.ResponseWrapperUserSavingsOutputWrapper;
 import com.mastercard.api.model.ResponseWrapperUserTokenOutputWrapper;
 import com.mastercard.api.model.UserFeedbackInput;
+import com.mastercard.developer.constant.Constant;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import com.mastercard.developer.service.domain.GenericOffersCriterion;
 import com.mastercard.developer.service.domain.MatchedOffersCriterion;
@@ -30,6 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * The following APIs are deprecated version of the current User Presentment APIs that are listed under UserPresentmentServiceTest.java
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LegacyUserPresentmentServiceTest {
@@ -79,12 +83,12 @@ class LegacyUserPresentmentServiceTest {
     MatchedOffersCriterion matchedOffersCriterion =
         MatchedOffersCriterion.builder()
             .fid(fId)
-            .merchantName("Koalla")
-            .category("SHOP")
-            .offerType("POSTPAIDCREDIT")
-            .pageNumber(1)
-            .itemsPerPage(5)
-            .lang("en_US")
+            .merchantName(Constant.Offers.MERCHANT_NAME)
+            .category(Constant.Offers.CATEGORY_SHOP)
+            .offerType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT)
+            .pageNumber(Constant.PAGE_NUMBER)
+            .itemsPerPage(Constant.LIMIT_FIVE)
+            .lang(Constant.Offers.EN_US)
             .userToken(userToken)
             .build();
 
@@ -123,8 +127,8 @@ class LegacyUserPresentmentServiceTest {
         new ActivateSCOfferInputStatementCreditOfferActivation()
             .fid(fId)
             .offerId(offerId)
-            .lang("en_US")
-            .presentmentDate("2020-02-20")
+            .lang(Constant.Offers.EN_US)
+            .presentmentDate(Constant.StatementCreditOffer.PRESENTMENT_DATE)
             .userToken(userToken);
 
     try {
@@ -142,8 +146,8 @@ class LegacyUserPresentmentServiceTest {
               personalizedOffersService.getStatementCreditActivationDetail(
                   GenericOffersCriterion.builder()
                       .fid(fId)
-                      .activationId("7")
-                      .lang("en_US")
+                      .activationId(Constant.StatementCreditOffer.ACTIVATION_ID)
+                      .lang(Constant.Offers.EN_US)
                       .userToken(userToken)
                       .build());
       assertNotNull(activatedOffer);
@@ -162,7 +166,7 @@ class LegacyUserPresentmentServiceTest {
   void userFeedback() {
 
     UserFeedbackInput userFeedbackInput =
-        new UserFeedbackInput().fid(fId).userToken(userToken).offerId(offerId).feedback(1);
+        new UserFeedbackInput().fid(fId).userToken(userToken).offerId(offerId).feedback(Constant.UserFeedback.FEEDBACK);
 
     try {
       ResponseWrapperUserFeedbackOutputWrapper userFeedback =
@@ -176,7 +180,7 @@ class LegacyUserPresentmentServiceTest {
                   .fid(fId)
                   .userToken(userToken)
                   .offerId(offerId)
-                  .feedback("1")
+                  .feedback(Constant.UserFeedback.FEEDBACK.toString())
                   .build());
       assertNotNull(userFeedbackOutput);
       LOGGER.info("Retrieve the user feedback : {}", userFeedbackOutput);
@@ -197,7 +201,7 @@ class LegacyUserPresentmentServiceTest {
         GenericOffersCriterion.builder()
             .fid(fId)
             .offerId(offerId)
-            .lang("en_US")
+            .lang(Constant.Offers.EN_US)
             .userToken(userToken)
             .build();
 
@@ -223,9 +227,9 @@ class LegacyUserPresentmentServiceTest {
     GenericOffersCriterion genericOffersCriterion =
         GenericOffersCriterion.builder()
             .fid(fId)
-            .itemsPerPage(5)
-            .pageNumber(1)
-            .lang("en_US")
+            .itemsPerPage(Constant.LIMIT_FIVE)
+            .pageNumber(Constant.PAGE_NUMBER)
+            .lang(Constant.Offers.EN_US)
             .userToken(userToken)
             .build();
 

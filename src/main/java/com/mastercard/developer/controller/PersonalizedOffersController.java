@@ -35,6 +35,9 @@ import com.mastercard.api.model.UserOfferRatings;
 import com.mastercard.api.model.UserOffers;
 import com.mastercard.developer.service.PersonalizedOffersService;
 
+/**
+ * This controller is use to execute use-cases by REST API based Client such as Insomnia or Postman.
+ */
 @RestController
 public class PersonalizedOffersController {
 

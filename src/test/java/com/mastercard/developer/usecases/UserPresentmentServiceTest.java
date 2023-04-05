@@ -16,6 +16,7 @@ import com.mastercard.api.model.UserOfferRating;
 import com.mastercard.api.model.UserOfferRatings;
 import com.mastercard.api.model.UserOffers;
 import com.mastercard.api.model.UserSavings;
+import com.mastercard.developer.constant.Constant;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +60,7 @@ class UserPresentmentServiceTest {
   void retrieveAccessToken() {
 
     RequestedAccessToken requestedAccessToken =
-        new RequestedAccessToken().fiId(fId).userId(userId).utcOffset("-07:00");
+        new RequestedAccessToken().fiId(fId).userId(userId).utcOffset(Constant.UTC_OFFSET);
 
     try {
 
@@ -86,7 +87,12 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, accessToken);
+                  Constant.Offers.EN_HYPEN_US,
+                  Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
+                  Constant.Offers.CATEGORY_SHOP,
+                  Constant.Offers.COUNTRY_USA,
+                  Constant.OFFSET, Constant.LIMIT_FIVE,
+                  accessToken);
 
       assertNotNull(userOffers);
       assertNotNull(userOffers.getOffers());
@@ -130,7 +136,7 @@ class UserPresentmentServiceTest {
   @Order(4)
   void offerRating() {
 
-    RequestedOfferRating requestedOfferRating = new RequestedOfferRating().like(1);
+    RequestedOfferRating requestedOfferRating = new RequestedOfferRating().like(Constant.OfferRating.LIKE);
 
     try {
       UserOfferRating userOfferRating =
@@ -157,7 +163,11 @@ class UserPresentmentServiceTest {
 
     try {
       UserOfferRatings userOfferRatings =
-          personalizedOffersService.getOfferRatings("false", 0, 10, accessToken);
+          personalizedOffersService.getOfferRatings(
+                  Constant.OfferRating.CURRENT_FALSE,
+                  Constant.OFFSET,
+                  Constant.LIMIT_TEN,
+                  accessToken);
 
       assertNotNull(userOfferRatings);
 
@@ -196,7 +206,12 @@ class UserPresentmentServiceTest {
     try {
       UserAdjustments userAdjustments =
           personalizedOffersService.getUserPresentmentAdjustments(
-              "2019-10-05", "2020-10-05", "CREATED", 0, 5, accessToken);
+                  Constant.UserAdjustments.START_DATE,
+                  Constant.UserAdjustments.END_DATE,
+                  Constant.UserAdjustments.DATE_FILTER,
+                  Constant.OFFSET,
+                  Constant.LIMIT_FIVE,
+                  accessToken);
 
       assertNotNull(userAdjustments);
 
@@ -240,11 +255,21 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-              "en-US", "POSTPAIDCREDIT", "SHOP", "USA", 0, 5, accessToken);
+                  Constant.Offers.EN_HYPEN_US,
+                  Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
+                  Constant.Offers.CATEGORY_SHOP,
+                  Constant.Offers.COUNTRY_USA,
+                  Constant.OFFSET,
+                  Constant.LIMIT_FIVE,
+                  accessToken);
       assertNotNull(userOffers.getOffers());
 
       UserOfferRatings userOfferRatings =
-          personalizedOffersService.getOfferRatings("true", 0, 10, accessToken);
+          personalizedOffersService.getOfferRatings(
+                  Constant.OfferRating.CURRENT_TRUE,
+                  Constant.OFFSET,
+                  Constant.LIMIT_TEN,
+                  accessToken);
       assertNotNull(userOfferRatings.getOfferRatings());
 
       Set<String> likedOffers = getLikedOffers(userOfferRatings.getOfferRatings());
