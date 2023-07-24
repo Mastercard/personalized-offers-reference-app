@@ -22,7 +22,7 @@
     <gson-fire.version>1.8.5</gson-fire.version>
     <client-encryption.version>1.7.0</client-encryption.version>
     <oauth1-signer.version>1.5.0</oauth1-signer.version>
-    <openapitools.version>4.3.1</openapitools.version>
+    <openapitools.version>5.1.0</openapitools.version>
     <swagger-annotations.version>1.6.2</swagger-annotations.version>
     <code-findbugs.version>3.0.2</code-findbugs.version>
   </properties>
