@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.mastercard.ApiException;
 import com.mastercard.api.ActivationsApi;
 import com.mastercard.api.AdjustmentsApi;
+import com.mastercard.api.FilterUserOffersApi;
 import com.mastercard.api.MatchedOffersApi;
 import com.mastercard.api.OfferDetailsApi;
 import com.mastercard.api.OfferRatingsApi;
@@ -21,6 +22,7 @@ import com.mastercard.api.model.ActivateSCOfferInputStatementCreditOfferActivati
 import com.mastercard.api.model.Activations;
 import com.mastercard.api.model.BrowseOffers;
 import com.mastercard.api.model.OfferDetails;
+import com.mastercard.api.model.OfferFilter;
 import com.mastercard.api.model.RequestedAccessToken;
 import com.mastercard.api.model.RequestedActivation;
 import com.mastercard.api.model.RequestedOfferRating;
@@ -68,6 +70,7 @@ public class PersonalizedOffersService {
   private final UserSavingsApi userSavingsApi;
   private final UserTokenApi userTokenApi;
   private final OffersApi offersApi;
+  private final FilterUserOffersApi filterUserOffersApi;
   private final AdjustmentsApi adjustmentsApi;
   private final TokensApi tokensApi;
   private final UserOffersApi userOffersApi;
@@ -85,6 +88,7 @@ public class PersonalizedOffersService {
       final UserFeedbackApi userFeedbackApi,
       final UserSavingsApi userSavingsApi,
       final OffersApi offersApi,
+      final FilterUserOffersApi filterUserOffersApi,
       final AdjustmentsApi adjustmentsApi,
       final TokensApi tokensApi,
       final UserOffersApi userOffersApi,
@@ -100,6 +104,7 @@ public class PersonalizedOffersService {
     this.userFeedbackApi = userFeedbackApi;
     this.userSavingsApi = userSavingsApi;
     this.offersApi = offersApi;
+    this.filterUserOffersApi = filterUserOffersApi;
     this.adjustmentsApi = adjustmentsApi;
     this.tokensApi = tokensApi;
     this.userOffersApi = userOffersApi;
@@ -191,10 +196,11 @@ public class PersonalizedOffersService {
     ResponseWrapperUserTokenOutputWrapper userToken = getUserToken(fid);
 
     return getOffers(
-        GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build());
+        GenericOffersCriterion.builder().fid(fid).userToken(getToken(userToken)).build(), null);
   }
 
   public UserAdjustment getAdjustments(
+      String clientId,
       String fid,
       Integer offset,
       Integer limit,
@@ -211,15 +217,16 @@ public class PersonalizedOffersService {
             .startDate(startDate)
             .endDate(endDate)
             .dateFilter(dateFilter)
-            .build());
+            .build(), clientId);
   }
 
-  public UserAdjustment getAdjustments(GenericOffersCriterion adjustmentsCriterion)
+  public UserAdjustment getAdjustments(GenericOffersCriterion adjustmentsCriterion, String clientId)
       throws ApiException {
     requireNonNull(adjustmentsCriterion.getFid(), FID_IS_REQUIRED);
 
     return adjustmentsApi.getAdjustments(
         adjustmentsCriterion.getFid(),
+        clientId,
         adjustmentsCriterion.getOffset(),
         adjustmentsCriterion.getLimit(),
         adjustmentsCriterion.getStartDate(),
@@ -277,9 +284,6 @@ public class PersonalizedOffersService {
         matchedOffersCriterion.getMerchantName(),
         matchedOffersCriterion.getCategory(),
         matchedOffersCriterion.getOfferType(),
-        matchedOffersCriterion.getLatitude(),
-        matchedOffersCriterion.getLongitude(),
-        matchedOffersCriterion.getRadius(),
         matchedOffersCriterion.getPageNumber(),
         matchedOffersCriterion.getItemsPerPage(),
         matchedOffersCriterion.getLang(),
@@ -313,11 +317,12 @@ public class PersonalizedOffersService {
         offerDetailsCriterion.getLang());
   }
 
-  public BrowseOffers getOffers(GenericOffersCriterion offersCriterion) throws ApiException {
+  public BrowseOffers getOffers(GenericOffersCriterion offersCriterion, String clientId) throws ApiException {
     requireNonNull(offersCriterion.getFid(), FID_IS_REQUIRED);
 
     return offersApi.browseOffers(
         offersCriterion.getFid(),
+        clientId,
         offersCriterion.getIssuerIca(),
         offersCriterion.getBankProductCode(),
         offersCriterion.getOfferType(),
@@ -341,6 +346,7 @@ public class PersonalizedOffersService {
       String offerType,
       String category,
       String offerCountry,
+      Boolean active,
       Integer offset,
       Integer limit,
       String xAuthToken)
@@ -348,7 +354,12 @@ public class PersonalizedOffersService {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
 
     return userOffersApi.getOffers(
-        xAuthToken, acceptLanguage, offerType, category, offerCountry, offset, limit);
+        xAuthToken, acceptLanguage, offerType, category, offerCountry, active, offset, limit);
+  }
+
+  public UserOffers filterOffers(String xAuthToken, OfferFilter offerFilter, String language, String clientId)
+      throws ApiException {
+    return filterUserOffersApi.searchOffers(xAuthToken, offerFilter, language, clientId);
   }
 
   public OfferDetails getOfferDetails(String offerId, String xAuthToken, String acceptLanguage)

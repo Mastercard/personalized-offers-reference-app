@@ -11,9 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PersonalizedOffersServiceTest {
@@ -43,16 +44,16 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetRedeemedOffersForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(null).when(personalizedOffersService).getRedeemedOffers(Mockito.any(GenericOffersCriterion.class));
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(null).when(personalizedOffersService).getRedeemedOffers(any(GenericOffersCriterion.class));
         ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers redeemedOffers = personalizedOffersService.getRedeemedOffers(PersonalizedOffersData.FID);
         Assert.assertNull(redeemedOffers);
     }
 
     @Test
     public void testGetRedeemedOffersForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.when(redeemedOffersApi.getRedeemedOfferDetails(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(PersonalizedOffersData.redeemedOffers());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        when(redeemedOffersApi.getRedeemedOfferDetails(any(), any(), any(), any(), any())).thenReturn(PersonalizedOffersData.redeemedOffers());
         ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers redeemedOffers = personalizedOffersService.getRedeemedOffers(PersonalizedOffersData.FID);
         Assert.assertNotNull(redeemedOffers);
         Assert.assertNotNull(redeemedOffers.getResponse());
@@ -62,20 +63,20 @@ public class PersonalizedOffersServiceTest {
 
     @Test(expected = Exception.class)
     public void testActivateStatementCreditOfferForException() throws ApiException {
-        Mockito.doReturn(new ApiException()).when(statementCreditActivationsApi).activateStatementCreditOffer(Mockito.any());
+        doReturn(new ApiException()).when(statementCreditActivationsApi).activateStatementCreditOffer(any());
         personalizedOffersService.activateStatementCreditOffer(new ActivateSCOfferInputStatementCreditOfferActivation());
     }
 
     @Test
     public void testActivateStatementCreditOfferForNull() throws ApiException {
-        Mockito.doReturn(null).when(statementCreditActivationsApi).activateStatementCreditOffer(Mockito.any());
+        doReturn(null).when(statementCreditActivationsApi).activateStatementCreditOffer(any());
         ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation response = personalizedOffersService.activateStatementCreditOffer(new ActivateSCOfferInputStatementCreditOfferActivation());
         Assert.assertNull(response);
     }
 
     @Test
     public void testActivateStatementCreditOfferForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.activatedOffer()).when(statementCreditActivationsApi).activateStatementCreditOffer(Mockito.any());
+        doReturn(PersonalizedOffersData.activatedOffer()).when(statementCreditActivationsApi).activateStatementCreditOffer(any());
         ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivation response = personalizedOffersService.activateStatementCreditOffer(new ActivateSCOfferInputStatementCreditOfferActivation());
         Assert.assertNotNull(response);
         Assert.assertEquals(PersonalizedOffersData.activatedOffer(), response);
@@ -88,15 +89,15 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetStatementCreditActivationDetailForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
         ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail redeemedOffers = personalizedOffersService.getStatementCreditActivationDetail(PersonalizedOffersData.FID, PersonalizedOffersData.ACTIVATION_ID);
         Assert.assertNull(redeemedOffers);
     }
 
     @Test
     public void testGetStatementCreditActivationDetailForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(PersonalizedOffersData.activationDetails()).when(personalizedOffersService).getStatementCreditActivationDetail(Mockito.any());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(PersonalizedOffersData.activationDetails()).when(personalizedOffersService).getStatementCreditActivationDetail(any());
         ResponseWrapperStatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail redeemedOffers = personalizedOffersService.getStatementCreditActivationDetail(PersonalizedOffersData.FID, PersonalizedOffersData.ACTIVATION_ID);
         Assert.assertNotNull(redeemedOffers);
         Assert.assertEquals(PersonalizedOffersData.activationDetails(), redeemedOffers);
@@ -114,7 +115,7 @@ public class PersonalizedOffersServiceTest {
         input.setUserToken(PersonalizedOffersData.USER_TOKEN);
         input.setOfferId(PersonalizedOffersData.OFFER_ID);
         input.setFeedback(PersonalizedOffersData.FEEDBACK);
-        Mockito.doReturn(null).when(userFeedbackApi).sendUserFeedback(Mockito.any());
+        doReturn(null).when(userFeedbackApi).sendUserFeedback(any());
         ResponseWrapperUserFeedbackOutputWrapper wrapper = personalizedOffersService.sendUserFeedback(input);
         Assert.assertNull(wrapper);
     }
@@ -126,7 +127,7 @@ public class PersonalizedOffersServiceTest {
         input.setUserToken(PersonalizedOffersData.USER_TOKEN);
         input.setOfferId(PersonalizedOffersData.OFFER_ID);
         input.setFeedback(PersonalizedOffersData.FEEDBACK);
-        Mockito.doReturn(PersonalizedOffersData.sendUserFeedback()).when(userFeedbackApi).sendUserFeedback(Mockito.any());
+        doReturn(PersonalizedOffersData.sendUserFeedback()).when(userFeedbackApi).sendUserFeedback(any());
         ResponseWrapperUserFeedbackOutputWrapper wrapper = personalizedOffersService.sendUserFeedback(input);
         Assert.assertNotNull(wrapper);
         Assert.assertEquals(PersonalizedOffersData.sendUserFeedback(), wrapper);
@@ -139,14 +140,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetUserFeedbackForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
         ResponseWrapperUserFeedbackOutputList wrapper = personalizedOffersService.getUserFeedback(PersonalizedOffersData.FID);
         Assert.assertNull(wrapper);
     }
 
     @Test
     public void testGetUserFeedbackForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserFeedback()).when(personalizedOffersService).getUserFeedback(Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserFeedback()).when(personalizedOffersService).getUserFeedback(anyString());
         ResponseWrapperUserFeedbackOutputList wrapper = personalizedOffersService.getUserFeedback(PersonalizedOffersData.FID);
         Assert.assertNotNull(wrapper);
         Assert.assertEquals(PersonalizedOffersData.getUserFeedback(), wrapper);
@@ -159,16 +160,16 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetMatchedOffersForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(null).when(personalizedOffersService).getMatchedOffers(Mockito.any(MatchedOffersCriterion.class));
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(null).when(personalizedOffersService).getMatchedOffers(any(MatchedOffersCriterion.class));
         ResponseWrapperMatchedOfferDetailsResponseMatchedOffers matchedOffers = personalizedOffersService.getMatchedOffers(PersonalizedOffersData.FID);
         Assert.assertNull(matchedOffers);
     }
 
     @Test
     public void testGetMatchedOffersForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(PersonalizedOffersData.getMatchedOffers()).when(matchedOffersApi).matchedOffers(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(PersonalizedOffersData.getMatchedOffers()).when(matchedOffersApi).matchedOffers(any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
         ResponseWrapperMatchedOfferDetailsResponseMatchedOffers matchedOffers = personalizedOffersService.getMatchedOffers(PersonalizedOffersData.FID);
         Assert.assertNotNull(matchedOffers);
         Assert.assertEquals(PersonalizedOffersData.getMatchedOffers(), matchedOffers);
@@ -181,16 +182,16 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetUserSavingsForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(null).when(personalizedOffersService).getUserSavings(Mockito.any(GenericOffersCriterion.class));
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(null).when(personalizedOffersService).getUserSavings(any(GenericOffersCriterion.class));
         ResponseWrapperUserSavingsOutputWrapper outputWrapper = personalizedOffersService.getUserSavings(PersonalizedOffersData.FID);
         Assert.assertNull(outputWrapper);
     }
 
     @Test
     public void testGetUserSavingsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(PersonalizedOffersData.getUserSavings()).when(userSavingsApi).getUserSavings(Mockito.any(), Mockito.any());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(PersonalizedOffersData.getUserSavings()).when(userSavingsApi).getUserSavings(any(), any());
         ResponseWrapperUserSavingsOutputWrapper outputWrapper = personalizedOffersService.getUserSavings(PersonalizedOffersData.FID);
         Assert.assertNotNull(outputWrapper);
         Assert.assertEquals(PersonalizedOffersData.getUserSavings(), outputWrapper);
@@ -203,16 +204,16 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetOfferDetailsForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(null).when(personalizedOffersService).getOfferDetails(Mockito.any(GenericOffersCriterion.class));
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(null).when(personalizedOffersService).getOfferDetails(any(GenericOffersCriterion.class));
         ResponseWrapperDetailedOffersResponseDetailedOffers detailedOffers = personalizedOffersService.getOfferDetails(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_ID);
         Assert.assertNull(detailedOffers);
     }
 
     @Test
     public void testGetOfferDetailsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(PersonalizedOffersData.getOfferDetails()).when(offerDetailsApi).getOfferDetails(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(PersonalizedOffersData.getOfferDetails()).when(offerDetailsApi).getOfferDetails(any(), any(), any(), any());
         ResponseWrapperDetailedOffersResponseDetailedOffers detailedOffers = personalizedOffersService.getOfferDetails(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_ID);
         Assert.assertNotNull(detailedOffers);
         Assert.assertEquals(PersonalizedOffersData.getOfferDetails(), detailedOffers);
@@ -225,16 +226,15 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetOffersForNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(null).when(personalizedOffersService).getOffers(Mockito.any(GenericOffersCriterion.class));
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
         BrowseOffers browseOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID);
         Assert.assertNull(browseOffers);
     }
 
     @Test
     public void testGetOffersForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(Mockito.anyString());
-        Mockito.doReturn(PersonalizedOffersData.getOffers()).when(offersApi).browseOffers(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any());
+        doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
+        doReturn(PersonalizedOffersData.getOffers()).when(offersApi).browseOffers(any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
         BrowseOffers browseOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID);
         Assert.assertNotNull(browseOffers);
         Assert.assertEquals(PersonalizedOffersData.getOffers(), browseOffers);
@@ -242,20 +242,20 @@ public class PersonalizedOffersServiceTest {
 
     @Test(expected = Exception.class)
     public void testGetAdjustmentsForException() throws ApiException {
-        personalizedOffersService.getAdjustments(PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
+        personalizedOffersService.getAdjustments(PersonalizedOffersData.CLIENT_ID, PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
     }
 
     @Test
     public void testGetAdjustmentsForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getAdjustments(Mockito.any());
-        UserAdjustment userAdjustment = personalizedOffersService.getAdjustments(PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
+        doReturn(null).when(personalizedOffersService).getAdjustments(any(), any());
+        UserAdjustment userAdjustment = personalizedOffersService.getAdjustments(PersonalizedOffersData.CLIENT_ID, PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
         Assert.assertNull(userAdjustment);
     }
 
     @Test
     public void testGetAdjustmentsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getAdjustments()).when(personalizedOffersService).getAdjustments(Mockito.any());
-        UserAdjustment userAdjustment = personalizedOffersService.getAdjustments(PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
+        doReturn(PersonalizedOffersData.getAdjustments()).when(personalizedOffersService).getAdjustments(any(), any());
+        UserAdjustment userAdjustment = personalizedOffersService.getAdjustments(PersonalizedOffersData.CLIENT_ID, PersonalizedOffersData.FID, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER);
         Assert.assertNotNull(userAdjustment);
         Assert.assertEquals(PersonalizedOffersData.getAdjustments(), userAdjustment);
     }
@@ -267,14 +267,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetTokenForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getToken(Mockito.any());
+        doReturn(null).when(personalizedOffersService).getToken(any());
         UserAccessToken userAccessToken = personalizedOffersService.getToken(PersonalizedOffersData.getAccessTokenRequest());
         Assert.assertNull(userAccessToken);
     }
 
     @Test
     public void testGetTokenFornotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getAccessToken()).when(personalizedOffersService).getToken(Mockito.any());
+        doReturn(PersonalizedOffersData.getAccessToken()).when(personalizedOffersService).getToken(any());
         UserAccessToken userAccessToken = personalizedOffersService.getToken(PersonalizedOffersData.getAccessTokenRequest());
         Assert.assertNotNull(userAccessToken);
         Assert.assertEquals(PersonalizedOffersData.getAccessToken(), userAccessToken);
@@ -282,20 +282,20 @@ public class PersonalizedOffersServiceTest {
 
     @Test(expected = Exception.class)
     public void testGetUserPresentmentOffersForException() throws ApiException {
-        personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
     }
 
     @Test
     public void testGetUserPresentmentOffersForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getOffers(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
-        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        doReturn(null).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), anyInt(), anyString());
+        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userOffers);
     }
 
     @Test
     public void testGetUserPresentmentOffersForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserPresentmentOffers()).when(personalizedOffersService).getOffers(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
-        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        doReturn(PersonalizedOffersData.getUserPresentmentOffers()).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), anyInt(), anyString());
+        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userOffers);
         Assert.assertEquals(PersonalizedOffersData.getUserPresentmentOffers(), userOffers);
     }
@@ -307,14 +307,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetUserOfferDetailsForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getOfferDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).getOfferDetails(anyString(), anyString(), anyString());
         OfferDetails offerDetails = personalizedOffersService.getOfferDetails(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.ACCESS_TOKEN, PersonalizedOffersData.LANGUAGE);
         Assert.assertNull(offerDetails);
     }
 
     @Test
     public void testGetUserOfferDetailsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserOfferDetails()).when(personalizedOffersService).getOfferDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserOfferDetails()).when(personalizedOffersService).getOfferDetails(anyString(), anyString(), anyString());
         OfferDetails offerDetails = personalizedOffersService.getOfferDetails(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.ACCESS_TOKEN, PersonalizedOffersData.LANGUAGE);
         Assert.assertNotNull(offerDetails);
         Assert.assertEquals(PersonalizedOffersData.getUserOfferDetails(), offerDetails);
@@ -327,14 +327,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetOfferRatingsForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getOfferRatings(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).getOfferRatings(anyString(), anyInt(), anyInt(), anyString());
         UserOfferRatings userOfferRatings = personalizedOffersService.getOfferRatings(PersonalizedOffersData.CURRENCY_CODE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userOfferRatings);
     }
 
     @Test
     public void testGetOfferRatingsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserOfferRatings()).when(personalizedOffersService).getOfferRatings(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserOfferRatings()).when(personalizedOffersService).getOfferRatings(anyString(), anyInt(), anyInt(), anyString());
         UserOfferRatings userOfferRatings = personalizedOffersService.getOfferRatings(PersonalizedOffersData.CURRENCY_CODE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userOfferRatings);
         Assert.assertEquals(PersonalizedOffersData.getUserOfferRatings(), userOfferRatings);
@@ -347,14 +347,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetOfferRatingForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getOfferRating(Mockito.anyString(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).getOfferRating(anyString(), anyString());
         UserOfferRating userOfferRating = personalizedOffersService.getOfferRating(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userOfferRating);
     }
 
     @Test
     public void testGetOfferRatingForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserOfferRating()).when(personalizedOffersService).getOfferRating(Mockito.anyString(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserOfferRating()).when(personalizedOffersService).getOfferRating(anyString(), anyString());
         UserOfferRating userOfferRating = personalizedOffersService.getOfferRating(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userOfferRating);
         Assert.assertEquals(PersonalizedOffersData.getUserOfferRating(), userOfferRating);
@@ -367,14 +367,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testCreateOfferRatingForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).createOfferRating(Mockito.anyString(), Mockito.any(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).createOfferRating(anyString(), any(), anyString());
         UserOfferRating userOfferRating = personalizedOffersService.createOfferRating(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.getOfferRatingRequest(), PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userOfferRating);
     }
 
     @Test
     public void testCreateOfferRatingForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserOfferRating()).when(personalizedOffersService).createOfferRating(Mockito.anyString(), Mockito.any(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserOfferRating()).when(personalizedOffersService).createOfferRating(anyString(), any(), anyString());
         UserOfferRating userOfferRating = personalizedOffersService.createOfferRating(PersonalizedOffersData.OFFER_ID, PersonalizedOffersData.getOfferRatingRequest(), PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userOfferRating);
         Assert.assertEquals(PersonalizedOffersData.getUserOfferRating(), userOfferRating);
@@ -387,14 +387,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testProcessActivationsForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).processActivations(Mockito.any(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).processActivations(any(), anyString());
         Activations activations = personalizedOffersService.processActivations(PersonalizedOffersData.getRequestedActivation(), PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(activations);
     }
 
     @Test
     public void testProcessActivationsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getActivations()).when(personalizedOffersService).processActivations(Mockito.any(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getActivations()).when(personalizedOffersService).processActivations(any(), anyString());
         Activations activations = personalizedOffersService.processActivations(PersonalizedOffersData.getRequestedActivation(), PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(activations);
         Assert.assertEquals(PersonalizedOffersData.getActivations(), activations);
@@ -407,14 +407,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetUserPresentmentSavingsForNull() throws ApiException {
-        Mockito.doReturn(null).when(userSavingsApi).getUserPresentmentSavings(Mockito.anyString());
+        doReturn(null).when(userSavingsApi).getUserPresentmentSavings(anyString());
         UserSavings userSavings = personalizedOffersService.getUserPresentmentSavings(PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userSavings);
     }
 
     @Test
     public void testGetUserPresentmentSavingsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserPresentmentSavings()).when(personalizedOffersService).getUserPresentmentSavings(Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserPresentmentSavings()).when(personalizedOffersService).getUserPresentmentSavings(anyString());
         UserSavings userSavings = personalizedOffersService.getUserPresentmentSavings(PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userSavings);
         Assert.assertEquals(PersonalizedOffersData.getUserPresentmentSavings(), userSavings);
@@ -427,14 +427,14 @@ public class PersonalizedOffersServiceTest {
 
     @Test
     public void testGetUserPresentmentAdjustmentsForNull() throws ApiException {
-        Mockito.doReturn(null).when(personalizedOffersService).getUserPresentmentAdjustments(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
+        doReturn(null).when(personalizedOffersService).getUserPresentmentAdjustments(anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
         UserAdjustments userAdjustments = personalizedOffersService.getUserPresentmentAdjustments(PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userAdjustments);
     }
 
     @Test
     public void testGetUserPresentmentAdjustmentsForNotNull() throws ApiException {
-        Mockito.doReturn(PersonalizedOffersData.getUserAdjustments()).when(personalizedOffersService).getUserPresentmentAdjustments(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
+        doReturn(PersonalizedOffersData.getUserAdjustments()).when(personalizedOffersService).getUserPresentmentAdjustments(anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
         UserAdjustments userAdjustments = personalizedOffersService.getUserPresentmentAdjustments(PersonalizedOffersData.START_DATE, PersonalizedOffersData.END_DATE, PersonalizedOffersData.DATE_FILTER, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userAdjustments);
         Assert.assertEquals(PersonalizedOffersData.getUserAdjustments(), userAdjustments);
