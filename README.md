@@ -33,7 +33,8 @@ This code showcases reference implementation of Personalized Offers APIs. Please
 - [Apache Maven](https://maven.apache.org/)
 
 ### Requirements <a name="requirements"></a>
-- [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or above.
+- [Java 11](https://www.oracle.com/java/technologies/downloads/) or above.
+- [Maven](https://maven.apache.org/download.cgi)
 - [Lombok](https://projectlombok.org/)
   - [Plugin for IntelliJ](https://plugins.jetbrains.com/plugin/6317-lombok/)
   - [Setup for Eclipse](https://projectlombok.org/setup/eclipse)
@@ -71,14 +72,15 @@ It provides generators and library templates for supporting multiple languages a
               <configOptions>
                 <sourceFolder>src/gen/java/main</sourceFolder>
                 <supportingFiles>false</supportingFiles>
-                <dateLibrary>java8</dateLibrary>              </configOptions>
+                <dateLibrary>java8</dateLibrary>              
+              </configOptions>
             </configuration>
           </execution>
         </executions>
       </plugin>
 ```
 For more information on how this client generator works please consult the official 
-[Github repository](https://github.com/OpenAPITools/openapi-generator)
+[GitHub repository](https://github.com/OpenAPITools/openapi-generator)
 
 ## Configuration <a name="configuration"></a>
 
@@ -155,7 +157,7 @@ The Adjustments/Redemption API provides detailed information on the redemptions 
 criteria in order to be eligible to receive cash back or points offered by merchant in collaboration with the issuer
 and Mastercard.
    
-More details on the Platform Admin Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/platform-admin/use-cases/).    
+More details on the Platform Admin Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/use-cases/platform-admin/).    
    
 ##### User Presentment Use Cases <a name="user-presentment-use-cases"></a>
    
@@ -175,21 +177,24 @@ Cardholder can submit a rating for an offer based on his or her preference (for 
 Cardholder can also Retrieve the rating for the offer.
   
 5. **Retrieve Offer Ratings**  
-Cardholder can retrieve all ratings he or she submitted with the corresponding offer ids..
+Cardholder can retrieve all ratings he or she submitted with the corresponding offer ids.
 
 6. **Retrieve Offer**  
-Cardholder can retrieve extended information for the requested offer, typically returns a detailed information of an offer.
+Cardholder can retrieve extended information for the requested offer, typically returns detailed information of an offer.
 
 7. **Retrieve User Adjustments**  
 Cardholder can retrieve all adjustments made that conform to the search criteria (if specified).
 
 8. **Retrieve User Savings**  
 Provides an overview of the accumulated and potential savings for a cardholder based on the redemptions made and the additional offers available for the cardholder.                
+
+9. **Filter Personalized Offers**
+Cardholder can filter the list of offers they were assigned based on a criteria provided. The offers are returned along with all the associated marketing content, terms and conditions, and logos/images.
   
-More details on the User Presentment Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/user-presentment/use-cases/).      
+More details on the User Presentment Use Cases can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/use-cases/user-presentment/).      
 
 ## Execute the Use-Cases   <a name="execute-the-use-cases"></a>
-1. Run `./mvnw clean install` from the root of the project directory.
+1. Run `./mvn clean install` from the root of the project directory.
 2. There are two ways to execute the use-cases:
     1. Execute the use-cases(test cases):  
         - Go to `src/test/java/com/mastercard/developer/usecases` folder.  
@@ -199,46 +204,50 @@ More details on the User Presentment Use Cases can be found [here](https://devel
         - In `UserPresentmentServiceTest.java`, note that an access-token is created using Financial Institution Identifier, user Id and UTC time offset. The access-token is used while executing all the other test-cases.
         - If you want to change any request parameters, please make change in `Constant.java`from `src/main/java/com/mastercard/developer/constant` folder.
     
-    2. Use REST API based Client( such as [Insomnia](https://insomnia.rest/download/core/) or [Postman](https://www.postman.com/downloads/))  
-        - Run `./mvnw spring-boot:run` command to run the application.  
+    2. Use REST API based Client( such as [Insomnia](https://insomnia.rest/download) or [Postman](https://www.postman.com/downloads/))  
+        - Run `./mvn spring-boot:run` command to run the application.  
         - Use any REST API based Client to test the functionality. Below are the endpoints exposed by this reference application, use `locahost:8080` as the Host:  
-                - GET <Host>/redeem-offers      
-                - POST <Host>/activate-offers  
-                - GET <Host>/activation-details  
-                - POST <Host>/user-feedbacks      
-                - GET <Host>/user-feedbacks  
-                - GET <Host>/matched-offers  
-                - GET <Host>/user-savings             
-                - GET <Host>/user-tokens  
-                - GET <Host>/offer-details  
-                - GET <Host>/offers  
-                - GET <Host>/adjustments  
-                - POST <Host>/user-presentment/access-tokens  
-                - GET <Host>/user-presentment/offers  
-                - GET <Host>/user-presentment/offers/{offer_id}  
-                - GET <Host>/user-presentment/offer-ratings  
-                - GET <Host>/user-presentment/offer-ratings/{offer_id}  
-                - POST <Host>/user-presentment/offer-ratings/{offer_id}/likes  
-                - POST <Host>/user-presentment/activations  
-                - GET <Host>/user-presentment/savings  
-                - GET <Host>/user-presentment/adjustments
+          - GET <Host>/redeem-offers      
+          - POST <Host>/activate-offers  
+          - GET <Host>/activation-details  
+          - POST <Host>/user-feedbacks      
+          - GET <Host>/user-feedbacks  
+          - GET <Host>/matched-offers  
+          - GET <Host>/user-savings             
+          - GET <Host>/user-tokens  
+          - GET <Host>/offer-details  
+          - GET <Host>/offers  
+          - GET <Host>/adjustments  
+          - POST <Host>/user-presentment/access-tokens  
+          - GET <Host>/user-presentment/offers  
+          - GET <Host>/user-presentment/offers/{offer_id}  
+          - POST <Host>/user-presentment/offers/filters  
+          - GET <Host>/user-presentment/offer-ratings  
+          - GET <Host>/user-presentment/offer-ratings/{offer_id}  
+          - POST <Host>/user-presentment/offer-ratings/{offer_id}/likes  
+          - POST <Host>/user-presentment/activations  
+          - GET <Host>/user-presentment/savings  
+          - GET <Host>/user-presentment/adjustments
+          - GET <Host>/platform-admin/offers
+          - POST <Host>/platform-admin/offers/filters
+          - GET <Host>/platform-admin/adjustments
         - For more information about above endpoints, please refer `PersonalizedOffersController.java` from `src/main/java/com/mastercard/developer/controller` folder.
     
 ## Service Documentation <a name="service-documentation"></a>
 
 Personalized Offers service documentation can be found 
-[here](https://developer.mastercard.com/documentation/personalized-offers/)    
+[here](https://developer.mastercard.com/product/personalized-offers)    
     
 ## API Reference <a name="api-reference"></a>
 
-The API Reference can be found [here](https://developer.mastercard.com/documentation/personalized-offers#api-reference)
+The API Reference can be found [here](https://developer.mastercard.com/pclo-presentment/documentation/api-reference/user-presentment/)
 
 ## Support <a name="support"></a>
 
-Please send an email to [pclo_product@mastercard.com]() with any questions or feedback you may have.
+Please email [pclo_product@mastercard.com]() with any questions or feedback you may have.
 
 ## License <a name="license"></a>
-Copyright 2020 Mastercard
+Copyright 2024 Mastercard
  
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with 
 the License. You may obtain a copy of the License at:

@@ -6,6 +6,7 @@ public final class Constant {
         throw new UnsupportedOperationException();
     }
 
+    public static final String CLIENT_ID = "";
     public static final String UTC_OFFSET = "-07:00";
     public static final int OFFSET = 0;
     public static final int PAGE_NUMBER = 1;
@@ -18,10 +19,11 @@ public final class Constant {
             throw new UnsupportedOperationException();
         }
 
+        public static final Boolean ACTIVE = true;
         public static final String COUNTRY_USA = "USA";
         public static final String EN_HYPEN_US = "en-US";
         public static final String EN_US = "en_US";
-        public static final String CATEGORY_SHOP = "SHOP";
+        public static final String CATEGORY_SHOP = null;
         public static final String CATEGORY_DEPARTMENTSTORE = "DEPARTMENTSTORE";
         public static final String OFFER_TYPE_POSTPAIDCREDIT = "POSTPAIDCREDIT";
         public static final String MERCHANT_NAME = "Koalla";
@@ -42,8 +44,8 @@ public final class Constant {
         private UserAdjustments() {
             throw new UnsupportedOperationException();
         }
-        public static final String START_DATE = "2019-10-05";
-        public static final String END_DATE = "2020-10-05";
+        public static final String START_DATE = "2024-01-05";
+        public static final String END_DATE = "2024-02-05";
         public static final String DATE_FILTER = "CREATED";
     }
 
@@ -52,7 +54,7 @@ public final class Constant {
         private StatementCreditOffer() {
             throw new UnsupportedOperationException();
         }
-        public static final String PRESENTMENT_DATE = "2020-02-20";
+        public static final String PRESENTMENT_DATE = "2024-02-05";
         public static final String ACTIVATION_ID = "7";
     }
 

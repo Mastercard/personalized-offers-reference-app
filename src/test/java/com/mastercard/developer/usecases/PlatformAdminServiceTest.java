@@ -6,6 +6,7 @@ import com.mastercard.ApiException;
 import com.mastercard.api.model.BrowseOffers;
 import com.mastercard.api.model.UserAdjustment;
 import com.mastercard.developer.constant.Constant;
+import com.mastercard.developer.integration.data.PersonalizedOffersData;
 import com.mastercard.developer.service.PersonalizedOffersService;
 import com.mastercard.developer.service.domain.GenericOffersCriterion;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 class PlatformAdminServiceTest {
@@ -35,9 +38,9 @@ class PlatformAdminServiceTest {
   @Value("${test.data.bank-product-code}")
   private String bankProductCode;
 
-  /** Use case 1. Retrieve All Offers */
+  /** Use cases 1 and 2. Retrieve/filter All Offers */
   @Test
-  @DisplayName("Retrieve all offers")
+  @DisplayName("Retrieve/Filter all offers")
   void getOffers() {
 
     GenericOffersCriterion genericOffersCriterion =
@@ -47,14 +50,14 @@ class PlatformAdminServiceTest {
             .bankProductCode(bankProductCode)
             .offerType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT)
             .category(Constant.Offers.CATEGORY_DEPARTMENTSTORE)
-            .offerCountry(Constant.Offers.COUNTRY_USA)
+            .offerCountry(List.of(Constant.Offers.COUNTRY_USA))
             .lang(Constant.Offers.EN_US)
             .offset(Constant.OFFSET)
             .limit(Constant.LIMIT_TEN)
             .build();
 
     try {
-      BrowseOffers offers = personalizedOffersService.getOffers(genericOffersCriterion);
+      BrowseOffers offers = personalizedOffersService.getOffers(genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
 
       assertNotNull(offers);
 
@@ -65,7 +68,7 @@ class PlatformAdminServiceTest {
     }
   }
 
-  /** Use case 2. Retrieve All Adjustments */
+  /** Use case 3. Retrieve All Adjustments */
   @Test
   @DisplayName("Retrieve all adjustments")
   void getAdjustments() {
@@ -81,7 +84,7 @@ class PlatformAdminServiceTest {
             .build();
 
     try {
-      UserAdjustment adjustment = personalizedOffersService.getAdjustments(genericOffersCriterion);
+      UserAdjustment adjustment = personalizedOffersService.getAdjustments(genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
 
       assertNotNull(adjustment);
 
