@@ -99,6 +99,11 @@ public class ApiClientConfiguration {
   }
 
   @Bean
+  public FilterUserOffersApi filterUserOffersApi(final ApiClient apiClient) {
+    return new FilterUserOffersApi(apiClient);
+  }
+
+  @Bean
   public OkHttpClient getHttpClient(
       @Value("${mastercard.api.consumer.key}") final String consumerKey,
       @Value("${mastercard.api.key.alias}") final String signingKeyAlias,

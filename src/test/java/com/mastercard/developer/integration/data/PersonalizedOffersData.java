@@ -32,12 +32,12 @@ import com.mastercard.api.model.ResponseWrapperUserFeedbackOutputWrapper;
 import com.mastercard.api.model.ResponseWrapperUserSavingsOutputWrapper;
 import com.mastercard.api.model.ResponseWrapperUserTokenOutputWrapper;
 import com.mastercard.api.model.Reward;
+import com.mastercard.api.model.Savings;
 import com.mastercard.api.model.StatementCreditOfferDetailsMatchedOffers;
 import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivation;
 import com.mastercard.api.model.StatementCreditOfferDetailsResponseStatementCreditOfferActivationDetail;
 import com.mastercard.api.model.StatementCreditOfferDetailsStatementCreditOfferActivation;
 import com.mastercard.api.model.StatementCreditOfferDetailsStatementCreditOfferActivationDetail;
-import com.mastercard.api.model.StatementCreditOffersSavings;
 import com.mastercard.api.model.Status;
 import com.mastercard.api.model.StatusDetailedOffers;
 import com.mastercard.api.model.StatusInfo;
@@ -81,6 +81,7 @@ public class PersonalizedOffersData {
   public static final BigDecimal SPEND_THRESHOLD = new BigDecimal("123.5");
   public static final BigDecimal TRANSACTION_AMOUNT = new BigDecimal("123.5");
 
+  public static final Boolean ACTIVE = Boolean.TRUE;
   public static final Boolean ADJUSTMENT_REVERSAL = Boolean.TRUE;
   public static final Boolean TRANSACTION_INSTALLMENT_PAYMENT = Boolean.TRUE;
 
@@ -111,6 +112,7 @@ public class PersonalizedOffersData {
   public static final String BANK_CUSTOMER_NUMBER = "BankCustomerNumber";
   public static final String CASH_AMOUNT = "25";
   public static final String CASH_BACK = "10";
+  public static final String CLIENT_ID = "";
   public static final String CREATED_DATE = "2019-09-25";
   public static final String CURRENCY_CODE = "USD";
   public static final String DATE_FILTER = "CREATED";
@@ -119,7 +121,6 @@ public class PersonalizedOffersData {
   public static final String DISCOUNT = "20.0";
   public static final String DISCOUNT_TYPE = "PERCENTAGE";
   public static final String END_DATE = "2020-09-10";
-  public static final String ERROR_DESCRIPTION = "ErrorDescription";
   public static final String FID = "Test-FId";
   public static final String FIRST = "1";
   public static final String GOAL = "Test-Goal";
@@ -127,7 +128,7 @@ public class PersonalizedOffersData {
   public static final String ID = "a85093f3-7753-4eab-b963-c6c9d1974d1d";
   public static final String ITEMS_PER_PAGE = "25";
   public static final String LANGUAGE = "en-US";
-  public static final String LAST_MODIFIED_DATE_TIME = "2019-09-25T09:43:11.000+0000";
+  public static final String LAST_MODIFIED_DATE_TIME = "2020-09-10";
   public static final String MERCHANT = "Test-Merchant";
   public static final String OFFER_CATEGORY = "Test-Offer-Category";
   public static final String OFFER_COUNTRY = "USA";
@@ -139,7 +140,7 @@ public class PersonalizedOffersData {
   public static final String ONE = "1";
   public static final String ORIGINAL_OFFER_ID = "original-offer-id";
   public static final String POINTS_EARNED = "2";
-  public static final String PRESENTMENT_DATE = "2020-08-09";
+  public static final String PRESENTMENT_DATE = "2020-09-10";
   public static final String PRICE = "0.0";
   public static final String REDEMPTION_CHANNEL = "Test-Redemption-Channel";
   public static final String REDEMPTION_DATE = "2020-08-09";
@@ -174,7 +175,6 @@ public class PersonalizedOffersData {
   public static final String TRANSACTION_ISSUER_COUNTRY = "Transaction-Issuer-Country";
   public static final String TRANSACTION_MERCHANT_ID = "Transaction-Merchant-Id";
   public static final String TRANSACTION_TIME = "00:28:29.000";
-  public static final String TYPE = "Type";
   public static final String URL = "Test-URL";
   public static final String USER_ID = "Test-User-Id";
   public static final String USER_TOKEN = "Test-User-Token";
@@ -671,34 +671,28 @@ public class PersonalizedOffersData {
   public static UserSavings getUserPresentmentSavings() {
     final UserSavings userPresentmentSavingsResponse = new UserSavings();
 
-    final StatementCreditOffersSavings savings = getSavingsData();
+    final Savings savings = getSavingsData();
 
-    userPresentmentSavingsResponse.setStatementCreditOffersSavings(savings);
-    userPresentmentSavingsResponse.setTotalAmountSaved(CASH_AMOUNT);
-    userPresentmentSavingsResponse.setTotalOffersUsed(ONE);
-    userPresentmentSavingsResponse.setTotalEarnedPoints(POINTS_EARNED);
+    userPresentmentSavingsResponse.setSavings(savings);
 
     return userPresentmentSavingsResponse;
   }
 
   @NotNull
   private static UserSavings getUserSavingsData() {
-    final StatementCreditOffersSavings statementCreditOffersSavings =
-        new StatementCreditOffersSavings();
-    statementCreditOffersSavings.setNumRedeemed(ONE);
-    statementCreditOffersSavings.setEarnedCashback(CASH_BACK);
-    statementCreditOffersSavings.setNumAvailable(ONE);
-    statementCreditOffersSavings.setPotentialSavings(ONE);
-    statementCreditOffersSavings.setEarnedPoints(POINTS_EARNED);
-    statementCreditOffersSavings.setPotentialPoints(POINTS_EARNED);
+    final Savings savings =
+        new Savings();
+    savings.setOffersRedeemed(Integer.valueOf(ONE));
+    savings.setAdjustmentsCashTotal(new BigDecimal(CASH_BACK));
+    savings.setOffersAvailable(Integer.valueOf(ONE));
+    savings.setPotentialCash(new BigDecimal(ONE));
+    savings.setPotentialPoints(new BigDecimal(POINTS_EARNED));
+    savings.setAdjustmentsPointsTotal(new BigDecimal(POINTS_EARNED));
 
-    final UserSavings savings = new UserSavings();
-    savings.setStatementCreditOffersSavings(statementCreditOffersSavings);
+    final UserSavings userSavings = new UserSavings();
+    userSavings.setSavings(savings);
 
-    savings.setTotalAmountSaved(CASH_AMOUNT);
-    savings.setTotalOffersUsed(ONE);
-    savings.setTotalEarnedPoints(POINTS_EARNED);
-    return savings;
+    return userSavings;
   }
 
   public static UserAdjustments getUserAdjustments() {
@@ -828,14 +822,14 @@ public class PersonalizedOffersData {
   }
 
   @NotNull
-  private static StatementCreditOffersSavings getSavingsData() {
-    final StatementCreditOffersSavings statementCreditOffers = new StatementCreditOffersSavings();
-    statementCreditOffers.setNumAvailable(ONE);
-    statementCreditOffers.setEarnedCashback(CASH_BACK);
-    statementCreditOffers.setNumRedeemed(ONE);
-    statementCreditOffers.setPotentialSavings(ONE);
-    statementCreditOffers.setEarnedPoints(POINTS_EARNED);
-    statementCreditOffers.setPotentialPoints(POINTS_EARNED);
-    return statementCreditOffers;
+  private static Savings getSavingsData() {
+    final Savings savings = new Savings();
+    savings.setOffersAvailable(Integer.valueOf(ONE));
+    savings.setPotentialCash(new BigDecimal(CASH_BACK));
+    savings.setOffersRedeemed(Integer.valueOf(ONE));
+    savings.setPotentialPoints(new BigDecimal(POINTS_EARNED));
+    savings.setAdjustmentsPointsTotal(new BigDecimal(POINTS_EARNED));
+    savings.setAdjustmentsCashTotal(new BigDecimal(CASH_BACK));
+    return savings;
   }
 }

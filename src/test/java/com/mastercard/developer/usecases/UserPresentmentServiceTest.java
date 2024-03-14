@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mastercard.ApiException;
 import com.mastercard.api.model.OfferDetails;
+import com.mastercard.api.model.OfferFilter;
 import com.mastercard.api.model.OfferRating;
 import com.mastercard.api.model.RequestedAccessToken;
 import com.mastercard.api.model.RequestedActivation;
@@ -87,12 +88,14 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-                  Constant.Offers.EN_HYPEN_US,
-                  Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
-                  Constant.Offers.CATEGORY_SHOP,
-                  Constant.Offers.COUNTRY_USA,
-                  Constant.OFFSET, Constant.LIMIT_FIVE,
-                  accessToken);
+              Constant.Offers.EN_HYPEN_US,
+              Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
+              Constant.Offers.CATEGORY_SHOP,
+              Constant.Offers.COUNTRY_USA,
+              Constant.Offers.ACTIVE,
+              Constant.OFFSET,
+              Constant.LIMIT_FIVE,
+              accessToken);
 
       assertNotNull(userOffers);
       assertNotNull(userOffers.getOffers());
@@ -241,6 +244,36 @@ class UserPresentmentServiceTest {
     }
   }
 
+  /** Use case 9. Filter Personalized Offers */
+  @Test
+  @DisplayName("Filter Personalized Offers")
+  @Order(9)
+  void filterOffers() {
+    OfferFilter offerFilter = new OfferFilter();
+    offerFilter.setOfferType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT);
+    offerFilter.setOfferCountry(Constant.Offers.COUNTRY_USA);
+    offerFilter.setActive(Constant.Offers.ACTIVE);
+    offerFilter.setOffset(Constant.OFFSET);
+    offerFilter.setOffset(Constant.LIMIT_FIVE);
+
+    try {
+      UserOffers userOffers =
+          personalizedOffersService.filterOffers(
+              accessToken,
+              offerFilter,
+              Constant.Offers.EN_US,
+              Constant.CLIENT_ID
+          );
+
+      assertNotNull(userOffers);
+      assertNotNull(userOffers.getOffers());
+      LOGGER.info("Filtered user offers : {}", userOffers);
+    } catch (ApiException e) {
+      LOGGER.info(API_CALL_FAILED_WITH_ERROR_MSG, e.getMessage());
+      Assertions.fail(e.getMessage());
+    }
+  }
+
   /**
    * Use case - Retrieve Matched, Liked and Active offers
    *
@@ -249,7 +282,7 @@ class UserPresentmentServiceTest {
    */
   @Test
   @DisplayName("Retrieve matched, liked and current offers")
-  @Order(9)
+  @Order(10)
   void getMatchedLikedCurrentOffers() {
 
     try {
@@ -259,6 +292,7 @@ class UserPresentmentServiceTest {
                   Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
                   Constant.Offers.CATEGORY_SHOP,
                   Constant.Offers.COUNTRY_USA,
+                  Constant.Offers.ACTIVE,
                   Constant.OFFSET,
                   Constant.LIMIT_FIVE,
                   accessToken);

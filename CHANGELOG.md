@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 23.4
+
+Released: March 11, 2024
+
+Changes:
+
+* Introduce User Presentment Filter User Offers
+* Change versioning to CalVer
+
 ## Version 2.3.0
 
 Released: March 15, 2021

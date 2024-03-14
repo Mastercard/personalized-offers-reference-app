@@ -21,7 +21,7 @@ public class GenericOffersCriterion {
   String bankProductCode;
   String offerType;
   String category;
-  String offerCountry;
+  List<String> offerCountry;
   List<String> languages;
   Integer offset;
   Integer limit;
