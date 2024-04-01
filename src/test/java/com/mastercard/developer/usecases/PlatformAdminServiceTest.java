@@ -50,7 +50,7 @@ class PlatformAdminServiceTest {
             .bankProductCode(bankProductCode)
             .offerType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT)
             .category(Constant.Offers.CATEGORY_DEPARTMENTSTORE)
-            .offerCountry(List.of(Constant.Offers.COUNTRY_USA))
+            .offerCountry(Constant.Offers.COUNTRY_USA)
             .lang(Constant.Offers.EN_US)
             .offset(Constant.OFFSET)
             .limit(Constant.LIMIT_TEN)

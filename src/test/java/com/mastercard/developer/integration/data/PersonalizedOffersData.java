@@ -90,6 +90,7 @@ public class PersonalizedOffersData {
   public static final Integer CAMPAIGN_ID = 123;
   public static final Integer COUNT = 30;
   public static final Integer LIMIT = 25;
+  public static final Integer EXPIRY_DAYS = 7;
   public static final Integer OFFSET = 0;
   public static final Integer TOTAL = 100;
   public static final Integer TRANSACTION_ISSUER_ICA = 12345;
@@ -132,6 +133,7 @@ public class PersonalizedOffersData {
   public static final String MERCHANT = "Test-Merchant";
   public static final String OFFER_CATEGORY = "Test-Offer-Category";
   public static final String OFFER_COUNTRY = "USA";
+  public static final List<String> OFFER_COUNTRIES = Collections.singletonList("USA");
   public static final String OFFER_ID = "Test-Offer-Id";
   public static final String OFFER_ID2 = "Test-Offer-Id2";
   public static final Integer OFFER_RATING = 1;

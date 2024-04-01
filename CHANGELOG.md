@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 24.1
+
+Released: April 19, 2024
+
+Changes:
+
+* Allow multiple country values in GET /offers
+* Add filter for expiring offers to GET /offers (within X Days)
+
 ## Version 23.4
 
 Released: March 11, 2024

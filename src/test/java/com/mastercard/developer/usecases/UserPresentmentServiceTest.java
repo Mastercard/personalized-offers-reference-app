@@ -93,6 +93,7 @@ class UserPresentmentServiceTest {
               Constant.Offers.CATEGORY_SHOP,
               Constant.Offers.COUNTRY_USA,
               Constant.Offers.ACTIVE,
+              Constant.Offers.EXPIRY_DAYS,
               Constant.OFFSET,
               Constant.LIMIT_FIVE,
               accessToken);
@@ -251,7 +252,7 @@ class UserPresentmentServiceTest {
   void filterOffers() {
     OfferFilter offerFilter = new OfferFilter();
     offerFilter.setOfferType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT);
-    offerFilter.setOfferCountry(Constant.Offers.COUNTRY_USA);
+    offerFilter.offerCountries(Constant.Offers.COUNTRY_USA);
     offerFilter.setActive(Constant.Offers.ACTIVE);
     offerFilter.setOffset(Constant.OFFSET);
     offerFilter.setOffset(Constant.LIMIT_FIVE);
@@ -293,6 +294,7 @@ class UserPresentmentServiceTest {
                   Constant.Offers.CATEGORY_SHOP,
                   Constant.Offers.COUNTRY_USA,
                   Constant.Offers.ACTIVE,
+                  Constant.Offers.EXPIRY_DAYS,
                   Constant.OFFSET,
                   Constant.LIMIT_FIVE,
                   accessToken);
