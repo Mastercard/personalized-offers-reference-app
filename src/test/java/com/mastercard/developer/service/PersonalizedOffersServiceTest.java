@@ -169,7 +169,7 @@ public class PersonalizedOffersServiceTest {
     @Test
     public void testGetMatchedOffersForNotNull() throws ApiException {
         doReturn(PersonalizedOffersData.getUserToken()).when(personalizedOffersService).getUserToken(anyString());
-        doReturn(PersonalizedOffersData.getMatchedOffers()).when(matchedOffersApi).matchedOffers(any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+        doReturn(PersonalizedOffersData.getMatchedOffers()).when(matchedOffersApi).matchedOffers(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
         ResponseWrapperMatchedOfferDetailsResponseMatchedOffers matchedOffers = personalizedOffersService.getMatchedOffers(PersonalizedOffersData.FID);
         Assert.assertNotNull(matchedOffers);
         Assert.assertEquals(PersonalizedOffersData.getMatchedOffers(), matchedOffers);
@@ -282,20 +282,20 @@ public class PersonalizedOffersServiceTest {
 
     @Test(expected = Exception.class)
     public void testGetUserPresentmentOffersForException() throws ApiException {
-        personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRIES, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.EXPIRY_DAYS, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
     }
 
     @Test
     public void testGetUserPresentmentOffersForNull() throws ApiException {
-        doReturn(null).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), anyInt(), anyString());
-        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        doReturn(null).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyList(), anyBoolean(), anyInt(), anyInt(), anyInt(), anyString());
+        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRIES, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.EXPIRY_DAYS, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNull(userOffers);
     }
 
     @Test
     public void testGetUserPresentmentOffersForNotNull() throws ApiException {
-        doReturn(PersonalizedOffersData.getUserPresentmentOffers()).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), anyInt(), anyString());
-        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRY, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
+        doReturn(PersonalizedOffersData.getUserPresentmentOffers()).when(personalizedOffersService).getOffers(anyString(), anyString(), anyString(), anyList(), anyBoolean(), anyInt(), anyInt(), anyInt(), anyString());
+        UserOffers userOffers = personalizedOffersService.getOffers(PersonalizedOffersData.FID, PersonalizedOffersData.OFFER_TYPE, PersonalizedOffersData.OFFER_CATEGORY, PersonalizedOffersData.OFFER_COUNTRIES, PersonalizedOffersData.ACTIVE, PersonalizedOffersData.EXPIRY_DAYS, PersonalizedOffersData.OFFSET, PersonalizedOffersData.LIMIT, PersonalizedOffersData.ACCESS_TOKEN);
         Assert.assertNotNull(userOffers);
         Assert.assertEquals(PersonalizedOffersData.getUserPresentmentOffers(), userOffers);
     }

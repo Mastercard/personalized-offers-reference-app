@@ -151,14 +151,15 @@ public class PersonalizedOffersController {
           final String language,
       @RequestParam(value = "offer_type", required = false) final String offerType,
       @RequestParam(value = "category", required = false) final String category,
-      @RequestParam(value = "offer_country", required = false) final String offerCountry,
+      @RequestParam(value = "offer_country", required = false) final List<String> offerCountries,
       @RequestParam(value = "active", required = false) final Boolean active,
+      @RequestParam(value = "expiry_days", required = false) final Integer expiryDays,
       @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
       @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit,
       @RequestHeader(name = "x-auth-token") final String xAuthToken)
       throws ApiException {
     return referenceApplicationGateway.getOffers(
-        language, offerType, category, offerCountry, active, offset, limit, xAuthToken);
+        language, offerType, category, offerCountries, active, expiryDays, offset, limit, xAuthToken);
   }
 
   @PostMapping("/user-presentment/offers/filters")

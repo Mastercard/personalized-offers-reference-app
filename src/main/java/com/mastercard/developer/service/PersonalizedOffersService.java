@@ -48,6 +48,8 @@ import com.mastercard.developer.service.domain.MatchedOffersCriterion;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PersonalizedOffersService {
 
@@ -284,6 +286,9 @@ public class PersonalizedOffersService {
         matchedOffersCriterion.getMerchantName(),
         matchedOffersCriterion.getCategory(),
         matchedOffersCriterion.getOfferType(),
+        matchedOffersCriterion.getLatitude(),
+        matchedOffersCriterion.getLongitude(),
+        matchedOffersCriterion.getRadius(),
         matchedOffersCriterion.getPageNumber(),
         matchedOffersCriterion.getItemsPerPage(),
         matchedOffersCriterion.getLang(),
@@ -345,8 +350,9 @@ public class PersonalizedOffersService {
       String acceptLanguage,
       String offerType,
       String category,
-      String offerCountry,
+      List<String> offerCountries,
       Boolean active,
+      Integer expiryDays,
       Integer offset,
       Integer limit,
       String xAuthToken)
@@ -354,7 +360,7 @@ public class PersonalizedOffersService {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
 
     return userOffersApi.getOffers(
-        xAuthToken, acceptLanguage, offerType, category, offerCountry, active, offset, limit);
+        xAuthToken, acceptLanguage, offerType, category, offerCountries, active, expiryDays, offset, limit);
   }
 
   public UserOffers filterOffers(String xAuthToken, OfferFilter offerFilter, String language, String clientId)
