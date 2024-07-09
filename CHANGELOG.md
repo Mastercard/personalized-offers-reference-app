@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 24.2
+
+Released: July 19, 2024
+
+Changes:
+
+* Add propensityScore to offer response
+* Add channels and merchants filters for POST /offers/filters
+
 ## Version 24.1
 
 Released: April 19, 2024

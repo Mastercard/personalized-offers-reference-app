@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
 class PlatformAdminServiceTest {
 
@@ -57,7 +55,9 @@ class PlatformAdminServiceTest {
             .build();
 
     try {
-      BrowseOffers offers = personalizedOffersService.getOffers(genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
+      BrowseOffers offers =
+          personalizedOffersService.getOffers(
+              genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
 
       assertNotNull(offers);
 
@@ -84,7 +84,9 @@ class PlatformAdminServiceTest {
             .build();
 
     try {
-      UserAdjustment adjustment = personalizedOffersService.getAdjustments(genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
+      UserAdjustment adjustment =
+          personalizedOffersService.getAdjustments(
+              genericOffersCriterion, PersonalizedOffersData.CLIENT_ID);
 
       assertNotNull(adjustment);
 

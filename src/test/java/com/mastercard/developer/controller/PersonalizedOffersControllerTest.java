@@ -502,7 +502,8 @@ class PersonalizedOffersControllerTest {
   @Test
   @DisplayName("GET /adjustments")
   void adjustments() throws Exception {
-    when(referenceApplicationGateway.getAdjustments(any(), any(), any(), any(), any(), any(), any()))
+    when(referenceApplicationGateway.getAdjustments(
+            any(), any(), any(), any(), any(), any(), any()))
         .thenReturn(PersonalizedOffersData.getAdjustments());
 
     mockMvc
@@ -703,7 +704,8 @@ class PersonalizedOffersControllerTest {
   @Test
   @DisplayName("GET /user-presentment/offers")
   void userPresentmentOffers() throws Exception {
-    when(referenceApplicationGateway.getOffers(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+    when(referenceApplicationGateway.getOffers(
+            any(), any(), any(), any(), any(), any(), any(), any(), any()))
         .thenReturn(PersonalizedOffersData.getUserPresentmentOffers());
 
     mockMvc
@@ -924,8 +926,24 @@ class PersonalizedOffersControllerTest {
             jsonPath(
                 "$.offers[0].redemptionClassifiers.primaryValue", is(PersonalizedOffersData.VALUE)))
         .andExpect(
+            jsonPath("$.offers[0].assignments[0].id", is(PersonalizedOffersData.ASSIGNMENT_ID)))
+        .andExpect(
             jsonPath(
-                "$.offers[0].redemptionClassifiers.values[0]", is(PersonalizedOffersData.VALUE)));
+                "$.offers[0].assignments[0].redemptionStartDate",
+                is(PersonalizedOffersData.REDEMPTION_START_DATE)))
+        .andExpect(
+            jsonPath(
+                "$.offers[0].assignments[0].redemptionEndDate",
+                is(PersonalizedOffersData.REDEMPTION_END_DATE)))
+        .andExpect(
+            jsonPath(
+                "$.offers[0].assignments[0].activationDateTime",
+                is(PersonalizedOffersData.ACTIVATION_DATE_TIME)))
+        .andExpect(jsonPath("$.offers[0].assignments[0].status", is(PersonalizedOffersData.STATUS)))
+        .andExpect(jsonPath("$.offers[0].assignments[0].active", is(PersonalizedOffersData.ACTIVE)))
+        .andExpect(
+            jsonPath("$.offers[0].assignments[0].propensityScore")
+                .value(PersonalizedOffersData.PROPENSITY_SCORE));
   }
 
   @Test
@@ -1385,8 +1403,7 @@ class PersonalizedOffersControllerTest {
                 .param("offer_country", PersonalizedOffersData.OFFER_COUNTRY)
                 .param("lang", PersonalizedOffersData.LANGUAGE)
                 .param("offset", String.valueOf(PersonalizedOffersData.OFFSET))
-                .param("limit", String.valueOf(PersonalizedOffersData.LIMIT))
-        )
+                .param("limit", String.valueOf(PersonalizedOffersData.LIMIT)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.offset", is(PersonalizedOffersData.FIVE)))
         .andExpect(jsonPath("$.limit", is(PersonalizedOffersData.FIVE)))
