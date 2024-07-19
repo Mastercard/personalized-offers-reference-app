@@ -219,7 +219,8 @@ public class PersonalizedOffersService {
             .startDate(startDate)
             .endDate(endDate)
             .dateFilter(dateFilter)
-            .build(), clientId);
+            .build(),
+        clientId);
   }
 
   public UserAdjustment getAdjustments(GenericOffersCriterion adjustmentsCriterion, String clientId)
@@ -228,7 +229,6 @@ public class PersonalizedOffersService {
 
     return adjustmentsApi.getAdjustments(
         adjustmentsCriterion.getFid(),
-        clientId,
         adjustmentsCriterion.getOffset(),
         adjustmentsCriterion.getLimit(),
         adjustmentsCriterion.getStartDate(),
@@ -322,12 +322,12 @@ public class PersonalizedOffersService {
         offerDetailsCriterion.getLang());
   }
 
-  public BrowseOffers getOffers(GenericOffersCriterion offersCriterion, String clientId) throws ApiException {
+  public BrowseOffers getOffers(GenericOffersCriterion offersCriterion, String clientId)
+      throws ApiException {
     requireNonNull(offersCriterion.getFid(), FID_IS_REQUIRED);
 
     return offersApi.browseOffers(
         offersCriterion.getFid(),
-        clientId,
         offersCriterion.getIssuerIca(),
         offersCriterion.getBankProductCode(),
         offersCriterion.getOfferType(),
@@ -360,12 +360,21 @@ public class PersonalizedOffersService {
     requireNonNull(xAuthToken, AUTH_TOKEN_IS_REQUIRED);
 
     return userOffersApi.getOffers(
-        xAuthToken, acceptLanguage, offerType, category, offerCountries, active, expiryDays, offset, limit);
+        xAuthToken,
+        acceptLanguage,
+        offerType,
+        category,
+        offerCountries,
+        active,
+        expiryDays,
+        offset,
+        limit);
   }
 
-  public UserOffers filterOffers(String xAuthToken, OfferFilter offerFilter, String language, String clientId)
+  public UserOffers filterOffers(
+      String xAuthToken, OfferFilter offerFilter, String language, String clientId)
       throws ApiException {
-    return filterUserOffersApi.searchOffers(xAuthToken, offerFilter, language, clientId);
+    return filterUserOffersApi.searchOffers(xAuthToken, offerFilter, language);
   }
 
   public OfferDetails getOfferDetails(String offerId, String xAuthToken, String acceptLanguage)

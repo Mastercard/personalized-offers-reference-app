@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.mastercard.developer</groupId>
   <artifactId>pclo-offers-api-client</artifactId>
-  <version>24.1.0-RELEASE</version>
+  <version>24.2.0-RELEASE</version>
   <name>offers-pclo-api-client</name>
   <description>Offers PCLO API Reference Implementation</description>
 
@@ -26,6 +26,7 @@
     <openapitools.version>5.3.0</openapitools.version>
     <swagger-annotations.version>1.6.2</swagger-annotations.version>
     <code-findbugs.version>3.0.2</code-findbugs.version>
+    <google-format-version>2.9</google-format-version>
     <sonar.coverage.exclusions>
       **/com/mastercard/developer/configuration/*Configuration.java,
       **/com/mastercard/developer/service/domain/*.java,
@@ -152,6 +153,28 @@
                 <developerOrganizationUrl>http://mastercard.com</developerOrganizationUrl>
               </configOptions>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>${google-format-version}</version>
+        <configuration>
+          <sourceDirectory>src/main/java</sourceDirectory>
+          <testSourceDirectory>src/test/java</testSourceDirectory>
+          <verbose>true</verbose>
+          <filesNamePattern>.*\.java</filesNamePattern>
+          <skip>false</skip>
+          <skipSortingImports>true</skipSortingImports>
+          <style>google</style>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

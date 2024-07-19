@@ -98,6 +98,7 @@ public class PersonalizedOffersData {
 
   public static final String ACTIVATED_DATE_TIME = "2019-09-25T09:43:11.000+0000";
   public static final String ACTIVATION_DATE = "2020-08-10";
+  public static final String ACTIVATION_DATE_TIME = "2024-07-09T09:33:02-05:00";
   public static final String ACTIVATION_ID = "Test-Activation-Id";
   public static final String ACTIVATION_TYPE = "Test-Activation-Type";
   public static final String ACTIVE_SC = "Test-Active-Statement-Credit";
@@ -144,10 +145,13 @@ public class PersonalizedOffersData {
   public static final String POINTS_EARNED = "2";
   public static final String PRESENTMENT_DATE = "2020-09-10";
   public static final String PRICE = "0.0";
+  public static final BigDecimal PROPENSITY_SCORE = BigDecimal.ZERO;
   public static final String REDEMPTION_CHANNEL = "Test-Redemption-Channel";
   public static final String REDEMPTION_DATE = "2020-08-09";
   public static final String REDEMPTION_DATETIME = "2019-09-25T09:43:11.000+0000";
   public static final String REDEMPTION_MODE = "CASH";
+  public static final String REDEMPTION_START_DATE = "2024-07-09";
+  public static final String REDEMPTION_END_DATE = "2024-07-20";
   public static final String REDEMPTION_STATUS_COMPLETED = "COMPLETED";
   public static final String REDEMPTION_TYPE = "ONLINE";
   public static final String SLOGAN = "Test-Slogan";
@@ -182,6 +186,7 @@ public class PersonalizedOffersData {
   public static final String USER_TOKEN = "Test-User-Token";
   public static final String UTC_OFFSET = "-04:30";
   public static final String VALUE = "Test-Value";
+  public static final String ASSIGNMENT_ID = "Test-Assignment-Id";
 
   public static ResponseWrapperDetailedRedeemedOfferListResponseRedeemedOffers redeemedOffers() {
     final DetailedRedeemedOfferListResponseRedeemedOffers redeemedOffers =
@@ -580,7 +585,7 @@ public class PersonalizedOffersData {
     offer.setLocalizations(Collections.singletonList(getLocalization()));
     offer.setRedemptionClassifiers(getRedemptionClassifiers());
     offer.setAdjustmentBankProductCodes(Collections.emptyList());
-
+    offer.setAssignments(Collections.singletonList(getUserAssignment()));
     offersResponse.setOffers(Collections.singletonList(offer));
     return offersResponse;
   }
@@ -670,6 +675,18 @@ public class PersonalizedOffersData {
     return status;
   }
 
+  private static UserAssignment getUserAssignment() {
+    UserAssignment userAssignment = new UserAssignment();
+    userAssignment.setId(ASSIGNMENT_ID);
+    userAssignment.setRedemptionStartDate(REDEMPTION_START_DATE);
+    userAssignment.setRedemptionEndDate(REDEMPTION_END_DATE);
+    userAssignment.setActivationDateTime(ACTIVATION_DATE_TIME);
+    userAssignment.setStatus(STATUS);
+    userAssignment.setActive(ACTIVE);
+    userAssignment.setPropensityScore(PROPENSITY_SCORE);
+    return userAssignment;
+  }
+
   public static UserSavings getUserPresentmentSavings() {
     final UserSavings userPresentmentSavingsResponse = new UserSavings();
 
@@ -682,8 +699,7 @@ public class PersonalizedOffersData {
 
   @NotNull
   private static UserSavings getUserSavingsData() {
-    final Savings savings =
-        new Savings();
+    final Savings savings = new Savings();
     savings.setOffersRedeemed(Integer.valueOf(ONE));
     savings.setAdjustmentsCashTotal(new BigDecimal(CASH_BACK));
     savings.setOffersAvailable(Integer.valueOf(ONE));

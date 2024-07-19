@@ -140,7 +140,8 @@ class UserPresentmentServiceTest {
   @Order(4)
   void offerRating() {
 
-    RequestedOfferRating requestedOfferRating = new RequestedOfferRating().like(Constant.OfferRating.LIKE);
+    RequestedOfferRating requestedOfferRating =
+        new RequestedOfferRating().like(Constant.OfferRating.LIKE);
 
     try {
       UserOfferRating userOfferRating =
@@ -168,10 +169,7 @@ class UserPresentmentServiceTest {
     try {
       UserOfferRatings userOfferRatings =
           personalizedOffersService.getOfferRatings(
-                  Constant.OfferRating.CURRENT_FALSE,
-                  Constant.OFFSET,
-                  Constant.LIMIT_TEN,
-                  accessToken);
+              Constant.OfferRating.CURRENT_FALSE, Constant.OFFSET, Constant.LIMIT_TEN, accessToken);
 
       assertNotNull(userOfferRatings);
 
@@ -210,12 +208,12 @@ class UserPresentmentServiceTest {
     try {
       UserAdjustments userAdjustments =
           personalizedOffersService.getUserPresentmentAdjustments(
-                  Constant.UserAdjustments.START_DATE,
-                  Constant.UserAdjustments.END_DATE,
-                  Constant.UserAdjustments.DATE_FILTER,
-                  Constant.OFFSET,
-                  Constant.LIMIT_FIVE,
-                  accessToken);
+              Constant.UserAdjustments.START_DATE,
+              Constant.UserAdjustments.END_DATE,
+              Constant.UserAdjustments.DATE_FILTER,
+              Constant.OFFSET,
+              Constant.LIMIT_FIVE,
+              accessToken);
 
       assertNotNull(userAdjustments);
 
@@ -260,11 +258,7 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.filterOffers(
-              accessToken,
-              offerFilter,
-              Constant.Offers.EN_US,
-              Constant.CLIENT_ID
-          );
+              accessToken, offerFilter, Constant.Offers.EN_US, Constant.CLIENT_ID);
 
       assertNotNull(userOffers);
       assertNotNull(userOffers.getOffers());
@@ -289,23 +283,20 @@ class UserPresentmentServiceTest {
     try {
       UserOffers userOffers =
           personalizedOffersService.getOffers(
-                  Constant.Offers.EN_HYPEN_US,
-                  Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
-                  Constant.Offers.CATEGORY_SHOP,
-                  Constant.Offers.COUNTRY_USA,
-                  Constant.Offers.ACTIVE,
-                  Constant.Offers.EXPIRY_DAYS,
-                  Constant.OFFSET,
-                  Constant.LIMIT_FIVE,
-                  accessToken);
+              Constant.Offers.EN_HYPEN_US,
+              Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
+              Constant.Offers.CATEGORY_SHOP,
+              Constant.Offers.COUNTRY_USA,
+              Constant.Offers.ACTIVE,
+              Constant.Offers.EXPIRY_DAYS,
+              Constant.OFFSET,
+              Constant.LIMIT_FIVE,
+              accessToken);
       assertNotNull(userOffers.getOffers());
 
       UserOfferRatings userOfferRatings =
           personalizedOffersService.getOfferRatings(
-                  Constant.OfferRating.CURRENT_TRUE,
-                  Constant.OFFSET,
-                  Constant.LIMIT_TEN,
-                  accessToken);
+              Constant.OfferRating.CURRENT_TRUE, Constant.OFFSET, Constant.LIMIT_TEN, accessToken);
       assertNotNull(userOfferRatings.getOfferRatings());
 
       Set<String> likedOffers = getLikedOffers(userOfferRatings.getOfferRatings());

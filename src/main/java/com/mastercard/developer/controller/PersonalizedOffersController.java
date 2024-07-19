@@ -41,7 +41,8 @@ import com.mastercard.developer.service.PersonalizedOffersService;
 import java.util.List;
 
 /**
- * This controller is used to execute use-cases by REST API based Client such as Insomnia or Postman.
+ * This controller is used to execute use-cases by REST API based Client such as Insomnia or
+ * Postman.
  */
 @RestController
 public class PersonalizedOffersController {
@@ -135,8 +136,8 @@ public class PersonalizedOffersController {
       @RequestParam(required = false, name = "date_filter") final String dateFilter)
       throws ApiException {
     return ResponseEntity.ok(
-        referenceApplicationGateway.getAdjustments(clientId,
-            fId, offset, limit, startDate, endDate, dateFilter));
+        referenceApplicationGateway.getAdjustments(
+            clientId, fId, offset, limit, startDate, endDate, dateFilter));
   }
 
   @PostMapping("/user-presentment/access-tokens")
@@ -159,12 +160,21 @@ public class PersonalizedOffersController {
       @RequestHeader(name = "x-auth-token") final String xAuthToken)
       throws ApiException {
     return referenceApplicationGateway.getOffers(
-        language, offerType, category, offerCountries, active, expiryDays, offset, limit, xAuthToken);
+        language,
+        offerType,
+        category,
+        offerCountries,
+        active,
+        expiryDays,
+        offset,
+        limit,
+        xAuthToken);
   }
 
   @PostMapping("/user-presentment/offers/filters")
   public UserOffers filterUserOffers(
-      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false) final String language,
+      @RequestHeader(name = "Accept-Language", defaultValue = "", required = false)
+          final String language,
       @RequestBody OfferFilter offerFilter,
       @RequestHeader(name = "x-auth-token") final String xAuthToken,
       @RequestHeader(name = "X-Openapi-Clientid", defaultValue = "") final String clientId)
@@ -250,17 +260,18 @@ public class PersonalizedOffersController {
       @RequestParam(value = "offset", defaultValue = "0", required = false) final Integer offset,
       @RequestParam(value = "limit", defaultValue = "10", required = false) final Integer limit)
       throws ApiException {
-    GenericOffersCriterion genericOffersCriterion = GenericOffersCriterion.builder()
-        .issuerIca(issuerIca)
-        .bankProductCode(bankProductCode)
-        .offerType(offerType)
-        .category(category)
-        .offerCountry(offerCountries)
-        .offset(offset)
-        .limit(limit)
-        .languages(languages)
-        .fid(fiName)
-        .build();
+    GenericOffersCriterion genericOffersCriterion =
+        GenericOffersCriterion.builder()
+            .issuerIca(issuerIca)
+            .bankProductCode(bankProductCode)
+            .offerType(offerType)
+            .category(category)
+            .offerCountry(offerCountries)
+            .offset(offset)
+            .limit(limit)
+            .languages(languages)
+            .fid(fiName)
+            .build();
     return referenceApplicationGateway.getOffers(genericOffersCriterion, clientId);
   }
 
@@ -269,17 +280,18 @@ public class PersonalizedOffersController {
       @RequestHeader(name = "X-Openapi-Clientid", defaultValue = "") final String clientId,
       @RequestBody AdminOfferFilter offerFilter)
       throws ApiException {
-    GenericOffersCriterion genericOffersCriterion = GenericOffersCriterion.builder()
-        .issuerIca(offerFilter.getIssuerIca())
-        .bankProductCode(offerFilter.getBankProductCode())
-        .offerType(offerFilter.getOfferType())
-        .category(offerFilter.getCategory())
-        .offerCountry(offerFilter.getOfferCountries())
-        .offset(offerFilter.getOffset())
-        .limit(offerFilter.getLimit())
-        .languages(offerFilter.getLanguages())
-        .fid(offerFilter.getFid())
-        .build();
+    GenericOffersCriterion genericOffersCriterion =
+        GenericOffersCriterion.builder()
+            .issuerIca(offerFilter.getIssuerIca())
+            .bankProductCode(offerFilter.getBankProductCode())
+            .offerType(offerFilter.getOfferType())
+            .category(offerFilter.getCategory())
+            .offerCountry(offerFilter.getOfferCountries())
+            .offset(offerFilter.getOffset())
+            .limit(offerFilter.getLimit())
+            .languages(offerFilter.getLanguages())
+            .fid(offerFilter.getfId())
+            .build();
     return referenceApplicationGateway.getOffers(genericOffersCriterion, clientId);
   }
 
@@ -291,16 +303,17 @@ public class PersonalizedOffersController {
       @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
       @RequestParam(value = "start_date", required = false) final String startDate,
       @RequestParam(value = "end_date", required = false) final String endDate,
-      @RequestParam(value = "date_filter", required = false) String dateFilter
-  ) throws ApiException {
-    GenericOffersCriterion genericOffersCriterion = GenericOffersCriterion.builder()
-        .fid(fid)
-        .offset(offset)
-        .limit(limit)
-        .startDate(startDate)
-        .endDate(endDate)
-        .dateFilter(dateFilter)
-        .build();
+      @RequestParam(value = "date_filter", required = false) String dateFilter)
+      throws ApiException {
+    GenericOffersCriterion genericOffersCriterion =
+        GenericOffersCriterion.builder()
+            .fid(fid)
+            .offset(offset)
+            .limit(limit)
+            .startDate(startDate)
+            .endDate(endDate)
+            .dateFilter(dateFilter)
+            .build();
     return referenceApplicationGateway.getAdjustments(genericOffersCriterion, clientId);
   }
 }
