@@ -2866,7 +2866,7 @@ components:
           type: integer
           description: The number of items to offset the start of the list from.
           format: int32
-          example: 1
+          example: 0
         limit:
           type: integer
           description: The number of items you want the list to be limited to.
@@ -2876,17 +2876,17 @@ components:
           type: number
           description: Latitude of the point you want to query, in decimal degrees
           format: double
-          example: 37.669282
+          example: 33.916776
         longitude:
           type: number
           description: Longitude of the point you want to query, in decimal degrees
           format: double
-          example: -122.419243
+          example: -118.085642
         radius:
           type: string
           description: Integer value for the approximate distance to query. Supports
             km and mi. Default in km
-          example: 1mi
+          example: 5mi
         active:
           type: boolean
           description: If true, only activated offers are returned. If false, return
@@ -2896,18 +2896,18 @@ components:
         superCategory:
           type: string
           description: Super category for the targeting category.
-          example: SPORTS
+          example: HOMEFURNISHINGANDDECOR
         targetingCategory:
           type: string
           description: Category used for targeting purposes.
-          example: GOLF
+          example: MATTRESSANDBEDDING
         expiryDays:
           minimum: 1
           type: integer
           description: Filter to get offers which will expire within the given calendar
             day(s).
           format: int32
-          example: 7
+          example: 440
         channels:
           type: array
           description: Where a purchase may be made to qualify for the offer. Supported
@@ -2925,11 +2925,11 @@ components:
           type: array
           description: List of merchants to be used for filtering offers.
           example:
-            - starbucks
+            - koalla
           items:
             type: string
             description: List of merchants to be used for filtering offers.
-            example: '["starbucks"]'
+            example: '["koalla"]'
     Coordinate:
       type: object
       properties:
@@ -2937,12 +2937,12 @@ components:
           type: number
           description: Latitude of the point you want to query, in decimal degrees.
           format: double
-          example: 37.669282
+          example: 33.916776
         longitude:
           type: number
           description: Longitude of the point you want to query, in decimal degrees.
           format: double
-          example: -122.419243
+          example: -118.085642
     Localization:
       type: object
       properties:
@@ -3081,11 +3081,11 @@ components:
         superCategory:
           type: string
           description: Super category for the targeting category.
-          example: SPORTS
+          example: HOMEFURNISHINGANDDECOR
         targetingCategory:
           type: string
           description: Category used for targeting purposes.
-          example: GOLF
+          example: MATTRESSANDBEDDING
         currency:
           type: string
           description: ISO 4217 code in which the redeeming transaction must be made
@@ -3545,11 +3545,11 @@ components:
         superCategory:
           type: string
           description: Super category for the targeting category.
-          example: SPORTS
+          example: HOMEFURNISHINGANDDECOR
         targetingCategory:
           type: string
           description: Category used for targeting purposes.
-          example: GOLF
+          example: MATTRESSANDBEDDING
         currency:
           type: string
           description: ISO 4217 code in which the redeeming transaction must be made
@@ -4001,11 +4001,11 @@ components:
         superCategory:
           type: string
           description: Super category for the targeting category.
-          example: SPORTS
+          example: HOMEFURNISHINGANDDECOR
         targetingCategory:
           type: string
           description: Category used for targeting purposes.
-          example: GOLF
+          example: MATTRESSANDBEDDING
         currency:
           type: string
           description: ISO 4217 code in which the redeeming transaction must be made
