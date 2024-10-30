@@ -1,5 +1,6 @@
 package com.mastercard.developer.usecases;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -91,15 +92,16 @@ class UserPresentmentServiceTest {
               Constant.Offers.EN_HYPEN_US,
               Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT,
               Constant.Offers.CATEGORY_SHOP,
-              Constant.Offers.COUNTRY_USA,
+              Constant.Offers.COUNTRY_USA_AUS,
               Constant.Offers.ACTIVE,
-              Constant.Offers.EXPIRY_DAYS,
+              Constant.Offers.EXPIRY_DAYS_450,
               Constant.OFFSET,
               Constant.LIMIT_FIVE,
               accessToken);
 
       assertNotNull(userOffers);
       assertNotNull(userOffers.getOffers());
+      assertFalse(userOffers.getOffers().isEmpty());
       LOGGER.info("Retrieve user offers : {}", userOffers);
 
       // Using the first user matched offer in subsequent use cases
@@ -250,7 +252,7 @@ class UserPresentmentServiceTest {
   void filterOffers() {
     OfferFilter offerFilter = new OfferFilter();
     offerFilter.setOfferType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT);
-    offerFilter.offerCountries(Constant.Offers.COUNTRY_USA);
+    offerFilter.offerCountries(Constant.Offers.COUNTRY_USA_AUS);
     offerFilter.setActive(Constant.Offers.ACTIVE);
     offerFilter.setOffset(Constant.OFFSET);
     offerFilter.setOffset(Constant.LIMIT_FIVE);

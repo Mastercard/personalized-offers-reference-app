@@ -1,5 +1,6 @@
 package com.mastercard.developer.constant;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,11 +24,14 @@ public final class Constant {
     }
 
     public static final Boolean ACTIVE = true;
+    public static final List<String> COUNTRY_USA_AUS = Arrays.asList("AUS", "USA");
     public static final List<String> COUNTRY_USA = Collections.singletonList("USA");
     public static final String EN_HYPEN_US = "en-US";
     public static final String EN_US = "en_US";
     public static final Integer EXPIRY_DAYS = 7;
-    public static final String CATEGORY_SHOP = null;
+    public static final Integer EXPIRY_DAYS_450 = 450;
+    public static final String CATEGORY_NULL = null;
+    public static final String CATEGORY_SHOP = "SHOP";
     public static final String CATEGORY_DEPARTMENTSTORE = "DEPARTMENTSTORE";
     public static final String OFFER_TYPE_POSTPAIDCREDIT = "POSTPAIDCREDIT";
     public static final String MERCHANT_NAME = "Koalla";

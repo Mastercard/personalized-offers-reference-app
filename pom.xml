@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.mastercard.developer</groupId>
   <artifactId>pclo-offers-api-client</artifactId>
-  <version>24.2.0-RELEASE</version>
+  <version>24.3.0-RELEASE</version>
   <name>offers-pclo-api-client</name>
   <description>Offers PCLO API Reference Implementation</description>
 

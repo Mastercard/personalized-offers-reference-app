@@ -1,5 +1,13 @@
 # Change Log
 
+## Version 24.3
+
+Released: October 30, 2024
+
+Changes:
+
+* Improve the API documentation
+
 ## Version 24.2
 
 Released: July 19, 2024
@@ -25,7 +33,7 @@ Released: March 11, 2024
 Changes:
 
 * Introduce User Presentment Filter User Offers
-* Change versioning to CalVer
+* Changes versioning to CalVer
 
 ## Version 2.3.0
 

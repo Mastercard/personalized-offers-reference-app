@@ -85,7 +85,7 @@ class LegacyUserPresentmentServiceTest {
         MatchedOffersCriterion.builder()
             .fid(fId)
             .merchantName(Constant.Offers.MERCHANT_NAME)
-            .category(Constant.Offers.CATEGORY_SHOP)
+            .category(Constant.Offers.CATEGORY_NULL)
             .offerType(Constant.Offers.OFFER_TYPE_POSTPAIDCREDIT)
             .pageNumber(Constant.PAGE_NUMBER)
             .itemsPerPage(Constant.LIMIT_FIVE)
